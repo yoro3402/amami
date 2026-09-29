@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奥田義仁 / Yoshihito Okuda - Amami Strategy v2026</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            background-color: #f0fdfa;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0; padding: 20px 0; color: #2d3748;
+        }
+        .container {
+            background-color: #ffffff; padding: 30px 20px; border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            text-align: center; max-width: 550px; width: 92%; position: relative; min-height: 500px;
+            margin-bottom: 80px;
+        }
+        .lang-switch {
+            position: absolute; top: 15px; right: 15px;
+            background: #e2e8f0; border-radius: 12px; padding: 4px; display: flex; gap: 4px;
+        }
+        .lang-btn {
+            border: none; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.3s;
+        }
+        .lang-btn.active { background: #0d9488; color: white; }
+
+        .menu-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+        .btn {
+            display: inline-block; color: white; border: none; padding: 12px 18px; 
+            font-size: 15px; border-radius: 14px; cursor: pointer; transition: 0.2s; 
+            font-weight: bold; box-shadow: 0 3px 5px rgba(0,0,0,0.1); text-decoration: none;
+            touch-action: manipulation;
+        }
+        .btn-green { background-color: #0d9488; }
+        .btn-blue { background-color: #0284c7; }
+        .btn-orange { background-color: #f59e0b; }
+        .btn-purple { background-color: #8b5cf6; }
+        .btn-dark { background-color: #1e293b; }
+        .btn:hover { opacity: 0.9; transform: scale(1.03); }
+
+        .btn-fixed-bottom { 
+            position: fixed; bottom: 20px; right: 20px; 
+            font-size: 13px; padding: 10px 16px; z-index: 1000;
+            display: none; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .page-section { display: none; }
+        .active-section { display: block; }
+        
+        .guide-list { text-align: left; background: #fffbeb; padding: 15px; border-radius: 15px; border: 2px solid #fef3c7; margin: 15px 0; font-size: 14px; }
+        .guide-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #fcd34d; }
+        .contact-box { margin-top: 15px; padding: 15px; background: #f0fdf4; border-radius: 15px; border: 1px solid #bbf7d0; }
+        .status-box { background: #f8fafc; border-radius: 15px; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
+        
+        .dice-area { font-size: 70px; min-height: 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 5px 0; }
+        .result-summary { font-size: 16px; font-weight: bold; color: #475569; margin-bottom: 5px; line-height: 1.2; }
+        .win-msg { color: #0d9488; font-size: 28px; font-weight: 900; animation: bounce 0.5s infinite alternate; }
+        .lose-msg { color: #e11d48; font-size: 28px; font-weight: 900; }
+        @keyframes bounce { from { transform: scale(1); } to { transform: scale(1.08); } }
+        
+        .money { color: #b45309; font-weight: bold; font-size: 18px; }
+        .log { font-size: 12px; color: #64748b; height: 100px; overflow-y: auto; margin-top: 10px; border-top: 2px solid #e2e8f0; padding-top: 8px; text-align: left; background: #fdfdfd; padding: 10px; border-radius: 10px; }
+        
+        .guess-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            max-width: 320px;
+            margin: 10px auto;
+        }
+        .guess-btn { 
+            width: 100%; height: 45px; font-size: 16px; padding: 0; 
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+        }
+        .photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 10px; }
+        .nature-photo { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 5px; }
+        .photo-caption { font-size: 11px; font-weight: bold; color: #4b5563; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="lang-switch">
+        <button class="lang-btn active" id="btn-ja" onclick="setLang('ja')">JP</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+
+    <!-- メイン -->
+    <div id="main-screen" class="page-section active-section">
+        <div style="font-size: 50px;">🐕🐾</div>
+        <div style="font-size: 26px; font-weight: bold; color: #0d9488;" data-ja="奥田義仁" data-en="Yoshihito Okuda">奥田義仁</div>
+        <p data-ja="趣味は<strong>犬の散歩</strong>です。" data-en="My hobby is <strong>walking my dog</strong>.">趣味は<strong>犬の散歩</strong>です。</p>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        <div class="menu-grid">
+            <button class="btn btn-blue" onclick="showPage('nature-screen')" data-ja="🌿 奄美の自然" data-en="🌿 Nature">🌿 奄美の自然</button>
+            <button class="btn btn-green" onclick="showPage('quiz-screen'); startQuiz();" data-ja="🔍 奄美クイズ" data-en="🔍 Quiz">🔍 奄美クイズ</button>
+            <button class="btn btn-orange" onclick="showPage('guide-screen')" data-ja="🛶 ガイド料金" data-en="🛶 Guide Fees">🛶 ガイド料金</button>
+            <button class="btn btn-purple" onclick="showPage('game-screen'); resetGame();" data-ja="🎲 ダイスゲーム" data-en="🎲 Dice Game">🎲 ダイスゲーム</button>
+        </div>
+    </div>
+
+    <!-- 自然 -->
+    <div id="nature-screen" class="page-section">
+        <h2 style="color: #0284c7;" data-ja="🌿 奄美の自然" data-en="🌿 Nature">🌿 奄美の自然</h2>
+        <div class="photo-grid">
+            <div>
+                <img src="photo1.jpg" class="nature-photo" alt="Photo 1">
+                <div class="photo-caption" data-ja="絶景スポット1" data-en="View 1">絶景スポット1</div>
+            </div>
+            <div>
+                <img src="photo2.jpg" class="nature-photo" alt="Photo 2">
+                <div class="photo-caption" data-ja="絶景スポット2" data-en="View 2">絶景スポット2</div>
+            </div>
+            <div>
+                <img src="photo3.jpg" class="nature-photo" alt="Photo 3">
+                <div class="photo-caption" data-ja="絶景スポット3" data-en="View 3">絶景スポット3</div>
+            </div>
+            <div>
+                <img src="photo4.jpg" class="nature-photo" alt="Photo 4">
+                <div class="photo-caption" data-ja="絶景スポット4" data-en="View 4">絶景スポット4</div>
+            </div>
+        </div>
+        <div style="margin-top: 10px; font-size: 13px; text-align: left; padding: 15px; background: #f0f9ff; border-radius: 10px; line-height: 1.5;" data-ja="奄美大島の自然は、刻一刻とその表情を変えます。私が撮影したお気に入りの風景をご紹介します。" data-en="Amami's nature changes every moment. Here are my favorite scenes.">
+            奄美大島の自然は、刻一刻とその表情を変えます。私が撮影したお気に入りの風景をご紹介します。
+        </div>
+    </div>
+
+    <!-- クイズ -->
+    <div id="quiz-screen" class="page-section">
+        <h2 style="color: #0d9488;" data-ja="奄美大島クイズ" data-en="Amami Quiz">奄美大島クイズ</h2>
+        <div class="status-box">
+            <div id="quiz-progress" style="font-size: 12px; color: #64748b; margin-bottom: 5px;"></div>
+            <div id="question" style="font-size: 16px; font-weight: bold; margin-bottom: 15px; min-height: 3em; display: flex; align-items: center; justify-content: center;"></div>
+            <div id="quiz-result" style="font-size: 35px; min-height: 45px;"></div>
+            <div class="menu-grid" id="quiz-btns">
+                <button class="btn btn-blue" onclick="checkAnswer(true)" data-ja="〇 (はい)" data-en="Yes">〇 (はい)</button>
+                <button class="btn btn-orange" onclick="checkAnswer(false)" data-ja="× (いいえ)" data-en="No">× (いいえ)</button>
+            </div>
+            <div id="quiz-final-msg" style="display:none; margin-top:10px;">
+                <button class="btn btn-dark" onclick="startQuiz()" data-ja="もう一度挑戦" data-en="Try Again">もう一度挑戦</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 料金略 -->
+    <div id="guide-screen" class="page-section">
+        <h2 style="color: #f59e0b;" data-ja="🛶 ガイド料金表" data-en="🛶 Guide Fees">🛶 ガイド料金表</h2>
+        <div class="guide-list">
+            <div class="guide-item"><span>カヌー</span><strong>8,000 JPY</strong></div>
+            <div class="guide-item"><span>ナイトツアー</span><strong>8,000 JPY</strong></div>
+            <div class="guide-item"><span>金作原</span><strong>8,000 JPY</strong></div>
+            <div class="guide-item"><span>周遊ガイド</span><strong>10,000 JPY</strong></div>
+        </div>
+        <div class="contact-box">
+            <p style="margin:0 0 10px 0; font-weight:bold;">ご予約・ご相談</p>
+            <div class="menu-grid">
+                <a href="mailto:example@gmail.com" class="btn btn-green">📧 メール</a>
+                <a href="tel:0000000000" class="btn btn-dark">📞 電話</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ゲーム略 -->
+    <div id="game-screen" class="page-section">
+        <h2 style="color: #8b5cf6;" data-ja="🎲 サイコロ心理戦" data-en="🎲 Strategy Game">🎲 サイコロ心理戦</h2>
+        <div class="status-box">
+            <div>所持金: <span class="money" id="player-money">1000</span> / Pot: <span id="current-pot">0</span></div>
+            <div class="dice-area" id="my-dice">?</div>
+            <div id="game-msg" style="font-weight:bold; min-height: 1.4em; font-size: 14px;">勝負開始！</div>
+            <div class="log" id="game-log"></div>
+        </div>
+        <div id="game-controls">
+            <button id="btn-start" class="btn btn-purple" onclick="initRound()">勝負開始 (100円)</button>
+            <div id="guess-selector" style="display:none;">
+                <p style="font-size:13px; margin:5px;">合計を予想：</p>
+                <div id="guess-buttons" class="guess-grid"></div>
+            </div>
+            <div id="action-controls" class="menu-grid" style="display:none;">
+                <button class="btn btn-orange" onclick="playerAction('call')">勝負 (Call)</button>
+                <button class="btn btn-green" onclick="playerAction('raise')">上乗せ (Raise)</button>
+                <button class="btn btn-blue" onclick="playerAction('fold')">降りる (Fold)</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="home-back-btn" class="btn btn-dark btn-fixed-bottom" onclick="showPage('main-screen')" data-ja="🏠 ホームへ戻る" data-en="🏠 Back">🏠 ホームへ戻る</button>
+
+<script>
+    let currentLang = 'ja';
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.querySelectorAll('[data-ja]').forEach(el => {
+            const val = el.getAttribute('data-' + lang);
+            if(val !== null) el.innerHTML = val;
+        });
+        document.getElementById('btn-ja').classList.toggle('active', lang === 'ja');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        if (document.getElementById('quiz-screen').classList.contains('active-section')) showQuestion();
+    }
+
+    function showPage(pageId) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
+        document.getElementById(pageId).classList.add('active-section');
+        document.getElementById('home-back-btn').style.display = (pageId === 'main-screen') ? 'none' : 'block';
+        window.scrollTo(0, 0);
+    }
+
+    // --- ゲームロジック ---
+    let myMoney = 1000, pot = 0, myDie = 0, cpuDie = 0, myGuess = 0, cpuGuess = 0, cpuKnows = false;
+    const diceIcons = ["", "⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+    function resetGame() { myMoney = 1000; updateStatus(); document.getElementById('game-log').innerHTML = ""; document.getElementById('my-dice').innerText = "?"; document.getElementById('btn-start').style.display = 'inline-block'; document.getElementById('action-controls').style.display = 'none'; }
+    function log(ja, en) { const box = document.getElementById('game-log'); box.innerHTML = "<div>▶ " + (currentLang==='ja'?ja:en) + "</div>" + box.innerHTML; }
+    function updateStatus() { document.getElementById('player-money').innerText = myMoney; document.getElementById('current-pot').innerText = pot; }
+    function initRound() { myMoney -= 100; pot = 200; myDie = Math.floor(Math.random()*6)+1; cpuDie = Math.floor(Math.random()*6)+1; document.getElementById('my-dice').innerText = diceIcons[myDie]; showGuessSelector(false); }
+    function showGuessSelector(isR) { const div = document.getElementById('guess-buttons'); div.innerHTML = ""; document.getElementById('guess-selector').style.display='block'; document.getElementById('action-controls').style.display='none'; document.getElementById('btn-start').style.display='none'; for(let i=2; i<=12; i++){ let b=document.createElement('button'); b.className="btn btn-purple guess-btn"; b.innerText=i; b.onclick=()=>selectGuess(i,isR); div.appendChild(b); } }
+    function selectGuess(n, isR) { myGuess = n; document.getElementById('guess-selector').style.display='none'; cpuDecision(); }
+    function cpuDecision() { setTimeout(()=>{ cpuGuess = cpuDie + 3; if(cpuGuess>12) cpuGuess=12; document.getElementById('game-msg').innerText = `You:${myGuess} | CPU:${cpuGuess}`; document.getElementById('action-controls').style.display='flex'; }, 600); }
+    function playerAction(t) { if(t==='call') showdown(); else if(t==='fold') showResult('lose',0,0); }
+    function showdown() { const tot=myDie+cpuDie; const mD=Math.abs(tot-myGuess), cD=Math.abs(tot-cpuGuess); if(mD<cD){myMoney+=pot; showResult('win',pot,tot);} else showResult('lose',pot,tot); updateStatus(); }
+    function showResult(s, a, t) { document.getElementById('my-dice').innerText = t===0?"F":t; document.getElementById('action-controls').style.display='none'; document.getElementById('btn-start').style.display='inline-block'; }
+
+    // --- クイズロジック (30問) ---
+    let qIdx = 0, qScore = 0;
+    const qData = [
+        { ja: "奄美大島は2021年に世界自然遺産に登録された？", en: "Amami Oshima was registered as a World Natural Heritage site in 2021?", a: true },
+        { ja: "登録されたのは、奄美大島、徳之島、沖縄島北部及び西表島である？", en: "The registered sites include Amami, Tokunoshima, Northern Okinawa, and Iriomote?", a: true },
+        { ja: "世界遺産登録の基準は「景観の美しさ」である？", en: "The criteria for registration was 'scenic beauty'?", a: false },
+        { ja: "奄美大島の最高峰は「湯湾岳」である？", en: "The highest peak in Amami Oshima is Mt. Yuwan?", a: true },
+        { ja: "アマミノクロウサギは奄美大島と徳之島だけに生息している？", en: "The Amami rabbit lives only in Amami Oshima and Tokunoshima?", a: true },
+        { ja: "アマミノクロウサギは夜行性である？", en: "The Amami rabbit is nocturnal?", a: true },
+        { ja: "アマミイシカワガエルは日本で最も美しいカエルと言われている？", en: "The Amami Ishikawa frog is said to be the most beautiful frog in Japan?", a: true },
+        { ja: "奄美大島に生息するハブは毒を持っていない？", en: "The Habu snakes in Amami Oshima are non-venomous?", a: false },
+        { ja: "金作原（きんさくばる）原生林は、巨大なヒカゲヘゴが見られる場所である？", en: "Kinsakubaru forest is a place where giant flying spider ferns can be seen?", a: true },
+        { ja: "奄美大島は日本で2番目に大きな離島である？（沖縄本島を除く）", en: "Amami Oshima is the second largest remote island in Japan? (excluding Okinawa main island)", a: false },
+        { ja: "奄美大島の伝統的な織物は「結城紬」である？", en: "The traditional textile of Amami Oshima is Yuki Tsumugi?", a: false },
+        { ja: "大島紬（おおしまつむぎ）の泥染めは、車輪梅（テーチ木）と泥を使って行われる？", en: "Oshima Tsumugi mud dyeing is done using Techi-gi and mud?", a: true },
+        { ja: "奄美大島の郷土料理「鶏飯」は、もともと殿様への献上品だった？", en: "The local dish 'Keihan' was originally an offering to lords?", a: true },
+        { ja: "マングローブ原生林のカヌー体験ができるのは住用（すみよう）町である？", en: "Sumiyo-cho is the place where you can experience canoeing in the mangrove forest?", a: true },
+        { ja: "奄美大島には「アマミマリア」という固有の蝶がいる？", en: "There is an endemic butterfly called 'Amami Maria' in Amami Oshima?", a: false },
+        { ja: "アマミセイシカは、春に白い花を咲かせるツツジの仲間である？", en: "Amami Seishika is a type of azalea that blooms white flowers in spring?", a: true },
+        { ja: "奄美大島には冬に雪が降った記録が一度もない？", en: "There is no record of snow ever falling in Amami Oshima in winter?", a: false },
+        { ja: "「黒糖焼酎」は税法上、奄美群島だけで製造が認められている？", en: "Kokuto Shochu is legally only allowed to be produced in the Amami Islands?", a: true },
+        { ja: "奄美大島では「いもーれ」という言葉が「ようこそ」という意味で使われる？", en: "In Amami, the word 'Imoore' means 'Welcome'?", a: true },
+        { ja: "奄美大島の海は「アマミブルー」と称されることがある？", en: "The sea of Amami Oshima is sometimes called 'Amami Blue'?", a: true },
+        { ja: "「ルリカケス」は鹿児島県の県鳥に指定されている？", en: "The Lidth's Jay is designated as the prefectural bird of Kagoshima?", a: true },
+        { ja: "奄美大島には、日本最大級の蝶「オオゴマダラ」が野生で生息している？", en: "The Great Tree Nymph butterfly, one of Japan's largest, lives wild in Amami?", a: true },
+        { ja: "奄美大島は、かつて大陸と地続きだったことがある？", en: "Was Amami Oshima once connected to the continent?", a: true },
+        { ja: "マングローブは、海水と淡水が混ざり合う場所に育つ？", en: "Do mangroves grow in places where seawater and freshwater mix?", a: true },
+        { ja: "奄美大島には、国の天然記念物に指定されている生き物は1つしかない？", en: "Is there only one species designated as a national monument in Amami?", a: false },
+        { ja: "アマミノクロウサギの耳は、普通のウサギより長い？", en: "Are the Amami rabbit's ears longer than normal rabbits?", a: false },
+        { ja: "奄美大島では1年中泳ぐことができる？", en: "Can you swim all year round in Amami Oshima?", a: false },
+        { ja: "「ハートロック」は干潮の時にしか見られない？", en: "Can the 'Heart Rock' only be seen at low tide?", a: true },
+        { ja: "奄美大島には電車が走っている？", en: "Are there trains running in Amami Oshima?", a: false },
+        { ja: "世界遺産センターは住用町に位置している？", en: "Is the World Heritage Center located in Sumiyo-cho?", a: true }
+    ];
+
+    function startQuiz() {
+        qIdx = 0; qScore = 0;
+        document.getElementById('quiz-btns').style.display = "flex";
+        document.getElementById('quiz-final-msg').style.display = "none";
+        showQuestion();
+    }
+
+    function showQuestion() {
+        if (qIdx < qData.length) {
+            document.getElementById('quiz-progress').innerText = `Q ${qIdx + 1} / 30`;
+            document.getElementById('question').innerText = currentLang === 'ja' ? qData[qIdx].ja : qData[qIdx].en;
+        } else {
+            const finalMsg = currentLang === 'ja' ? `クイズ終了！ 30問中 ${qScore}問正解！` : `Finished! ${qScore} / 30 correct!`;
+            document.getElementById('question').innerText = finalMsg;
+            document.getElementById('quiz-btns').style.display = "none";
+            document.getElementById('quiz-final-msg').style.display = "block";
+            document.getElementById('quiz-progress').innerText = "";
+        }
+    }
+
+    function checkAnswer(ans) {
+        if (ans === qData[qIdx].a) { qScore++; document.getElementById('quiz-result').innerText = "⭕"; }
+        else { document.getElementById('quiz-result').innerText = "❌"; }
+        qIdx++;
+        setTimeout(() => {
+            document.getElementById('quiz-result').innerText = "";
+            showQuestion();
+        }, 800);
+    }
+</script>
+</body>
+</html>

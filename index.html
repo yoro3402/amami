@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMAMI NATURE CLUB - 奥田義仁</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <!-- 言語切り替え -->
+    <div class="lang-switch">
+        <button class="lang-btn active" id="btn-ja" onclick="setLang('ja')">JP</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+
+    <!-- ================= ① メイン画面（HOME） ================= -->
+   
+
+  
+
+    <!-- ================= ① メイン画面（HOME） ================= -->
+    <div id="main-screen" class="page-section active-section">
+        <div class="club-title">AMAMI NATURE CLUB</div>
+        <div class="slideshow-container">
+            <div class="mySlides fade"><img src="photo1.jpg" alt="Amami 1"></div>
+            <div class="mySlides fade"><img src="photo2.jpg" alt="Amami 2"></div>
+            <div class="mySlides fade"><img src="photo3.jpg" alt="Amami 3"></div>
+            <div class="mySlides fade"><img src="photo4.jpg" alt="Amami 4"></div>
+        </div>
+        <div style="font-size: 50px; margin-top: 10px;">🐕🐾</div>
+        
+        <!-- 名前をクリックすると自己紹介へ移動 -->
+        <div style="font-size: 26px; font-weight: bold; color: #0d9488;" 
+             onclick="showPage('profile-screen')" 
+             style="cursor: pointer; text-decoration: underline; touch-action: manipulation;"
+             data-ja="<span style='text-decoration: underline; cursor: pointer;'>奥田義仁</span>" 
+             data-en="<span style='text-decoration: underline; cursor: pointer;'>Yoshihito Okuda</span>">
+             <span style="text-decoration: underline; cursor: pointer;">奥田義仁</span>
+        </div>
+        
+        <!-- 「犬の散歩」をクリックするとハッピー＆ラッキーの画面に移動 -->
+        <p data-ja="趣味は<strong onclick='showPage(&quot;dog-screen&quot;)' style='color: #0d9488; text-decoration: underline; cursor: pointer; touch-action: manipulation;'>犬の散歩</strong>です。" 
+           data-en="My hobby is <strong onclick='showPage(&quot;dog-screen&quot;)' style='color: #0d9488; text-decoration: underline; cursor: pointer; touch-action: manipulation;'>walking my dogs</strong>.">
+            趣味は<strong onclick="showPage('dog-screen')" style="color: #0d9488; text-decoration: underline; cursor: pointer; touch-action: manipulation;">犬の散歩</strong>です。
+        </p>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        
+        <!-- ★他のアイコンボタンと綺麗にサイズや並び順を統一した、合計5つのメニューボタンです -->
+        <div class="menu-grid">
+            <button class="btn btn-blue" onclick="showPage('nature-screen')" data-ja="🌿 奄美の自然" data-en="🌿 Nature">🌿 奄美の自然</button>
+            <button class="btn btn-green" onclick="showPage('quiz-screen'); startQuiz();" data-ja="🔍 奄美クイズ" data-en="🔍 Quiz">🔍 奄美クイズ</button>
+            <button class="btn btn-orange" onclick="showPage('guide-screen')" data-ja="🛶 ガイド料金" data-en="🛶 Tour Fees">🛶 ガイド料金</button>
+            <button class="btn btn-purple" onclick="showPage('game-screen'); resetGame();" data-ja="🎲 ダイスゲーム" data-en="🎲 Dice Game">🎲 ダイスゲーム</button>
+            
+            <!-- ★【新設】正しいアドレスと、シンプルな「📖 ブログ」表示に統一しました -->
+            <a href="http://yoro3402.synapse-blog.jp" target="_blank" class="btn btn-dark" style="background-color: #475569;" data-ja="📖 ブログ" data-en="📖 Blog">📖 ブログ</a>
+        </div>
+    </div> <!-- ① メイン画面の終わり -->
+
+
+    <!-- ★【新設】名前をクリックした時に開く、奥田さんのプロフィール画面です -->
+    <div id="profile-screen" class="page-section">
+        <h2 style="color: #0d9488;" data-ja="🛶 ガイドプロフィール" data-en="🛶 Guide Profile">🛶 ガイドプロフィール</h2>
+        <div style="background: #f0fdf4; border-radius: 16px; padding: 20px; text-align: left; font-size: 14px; line-height: 1.6; color: #334155; margin: 15px 0; border: 1px solid #bbf7d0;">
+            
+            <!-- カぬーの写真（kanu.jpg）を中央に美しく表示します -->
+            <div style="text-align: center; margin-bottom: 15px;">
+                <img src="kanu.jpg" alt="カヌーガイド奥田" style="max-width: 240px; width: 100%; height: auto; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            </div>
+            
+            <!-- プロフィール文章（日本語・英語自動切り替え） -->
+            <div data-ja="33年間、中学校の数学の先生をしていました。現在は、奄美大島自然保護パトロール員をしており、奄美大島の豊かな自然と希少種の保護に努めています。島の大切な宝物である動植物のこと、美しい風景のことを、元先生ならではの分かりやすさで楽しく丁寧にご案内いたします！" 
+                 data-en="I worked as a junior high school mathematics teacher for 33 years. Currently, I serve as an Amami Oshima Nature Conservation Patrol Officer, working to protect the rich environment and endangered species of the island. Leveraging my teaching background, I will guide you through the island's precious flora, fauna, and beautiful scenery in a fun and easy-to-understand way!">
+                33年間、中学校の数学の先生をしていました。現在は、奄美大島自然保護パトロール員をしており、奄美大島の豊かな自然と希少種の保護に努めています。島の大切な宝物である動植物のこと、美しい風景のことを、元先生ならではの分かりやすさで楽しく丁寧にご案内いたします！
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 🐕 犬の散歩（隠し自己紹介画面） ================= -->
+    <div id="dog-screen" class="page-section">
+        <h2 style="color: #0d9488;" data-ja="🐕 愛犬との思い出" data-en="🐕 My Beloved Dogs">🐕 愛犬との思い出</h2>
+        <div style="background: #f0fdf4; border-radius: 16px; padding: 20px; text-align: left; font-size: 14px; line-height: 1.6; color: #334155; margin: 15px 0; border: 1px solid #bbf7d0;">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <img src="inu.jpg" alt="愛犬ハッピーとラッキー" style="max-width: 240px; width: 100%; height: auto; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            </div>
+            <div data-ja="愛犬の<strong>ハッピー</strong>と<strong>ラッキー</strong>は、15年前に私が中学校の担任をしていた頃、校門に置かれていた保護犬です。生徒たちが教室へ連れてきてくれた縁で、我が家で迎えることになりました。毎日の朝と夕方の散歩が欠かせない日課で、そのおかげで今もみんなで元気いっぱいに過ごしています！" 
+                 data-en="My dogs, <strong>Happy</strong> and <strong>Lucky</strong>, were rescued 15 years ago. When I was a junior high school teacher, they were left at the school gate, and my students brought them to the classroom. That's how they became part of my family! Walking them every morning and evening is our essential routine, and thanks to that, we are all doing great and stay healthy.">
+                愛犬の<strong>ハッピー</strong>と<strong>ラッキー</strong>は、15年前に私が中学校の担任をしていた頃、校門に置かれていた保護犬です。生徒たちが教室へ連れてきてくれた縁で、我が家で迎えることになりました。毎日の朝と夕方の散歩が欠かせない日課で、そのおかげで今もみんなで元気いっぱいに過ごしています！
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= 🐕 犬の散歩（隠し自己紹介画面） ================= -->
+ 
+    <div id="dog-screen" class="page-section">
+        <h2 style="color: #0d9488;" data-ja="🐕 愛犬との思い出" data-en="🐕 My Beloved Dogs">🐕 愛犬との思い出</h2>
+        <div style="background: #f0fdf4; border-radius: 16px; padding: 20px; text-align: left; font-size: 14px; line-height: 1.6; color: #334155; margin: 15px 0; border: 1px solid #bbf7d0;">
+            
+            <!-- ★奥田さんの「inu.jpg」ファイルを中央に1枚だけ上品に表示する設定に変えました -->
+            <div style="text-align: center; margin-bottom: 15px;">
+                <img src="inu.jpg" alt="愛犬ハッピーとラッキー" style="max-width: 240px; width: 100%; height: auto; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+            </div>
+            
+            <div data-ja="愛犬の<strong>ハッピー</strong>と<strong>ラッキー</strong>は、15年前に私が中学校の担任をしていた頃、校門に置かれていた保護犬です。生徒たちが教室へ連れてきてくれた縁で、我が家で迎えることになりました。毎日の朝と夕方の散歩が欠かせない日課で、そのおかげで今もみんな元気いっぱいに過ごしています！" 
+                 data-en="My dogs, <strong>Happy</strong> and <strong>Lucky</strong>, were rescued 15 years ago. When I was a junior high school teacher, they were left at the school gate, and my students brought them to the classroom. That's how they became part of my family! Walking them every morning and evening is our essential routine, and thanks to that, we are all doing great and stay healthy.">
+                愛犬の<strong>ハッピー</strong>と<strong>ラッキー</strong>は、15年前に私が中学校の担任をしていた頃、校門に置かれていた保護犬です。生徒たちが教室へ連れてきてくれた縁で、我が家で迎えることになりました。毎日の朝と夕方の散歩が欠かせない日課で、そのおかげで今もみんなで元気いっぱいに過ごしています！
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= ② 自然（ギャラリー） ================= -->
+    <div id="nature-screen" class="page-section">
+        <h2 style="color: #0284c7;" data-ja="🌿 奄美の自然" data-en="🌿 Nature Gallery">🌿 奄美の自然</h2>
+        <div class="photo-grid">
+            <div><img src="photo1.jpg" class="nature-photo"><div class="photo-caption">Amami 1</div></div>
+            <div><img src="photo2.jpg" class="nature-photo"><div class="photo-caption">Amami 2</div></div>
+            <div><img src="photo3.jpg" class="nature-photo"><div class="photo-caption">Amami 3</div></div>
+            <div><img src="photo4.jpg" class="nature-photo"><div class="photo-caption">Amami 4</div></div>
+        </div>
+        <div style="margin-top: 10px; font-size: 13px; text-align: left; padding: 15px; background: #f0f9ff; border-radius: 10px; line-height: 1.5;" data-ja="奄美大島の自然は、刻一刻とその表情を変えます。私が撮影した風景をご紹介します。" data-en="Nature of Amami Oshima. These are the scenes I captured.">
+            奄美大島の自然は、刻一刻とその表情を変えます。私が撮影した風景をご紹介します。
+        </div>
+    </div>
+    <!-- ================= ③ クイズ ================= -->
+    <div id="quiz-screen" class="page-section">
+        <h2 style="color: #0d9488;" data-ja="奄美大島クイズ" data-en="Amami Quiz">奄美大島クイズ</h2>
+        <div class="status-box">
+            <div id="quiz-progress" style="font-size: 12px; color: #64748b; margin-bottom: 5px;"></div>
+            <div id="question" style="font-size: 16px; font-weight: bold; margin-bottom: 15px; min-height: 3em; display: flex; align-items: center; justify-content: center;"></div>
+            <div id="quiz-result" style="font-size: 35px; min-height: 45px;"></div>
+            <div class="menu-grid" id="quiz-btns">
+                <button class="btn btn-blue" onclick="checkAnswer(true)" data-ja="〇 (はい)" data-en="Yes">〇 (はい)</button>
+                <button class="btn btn-orange" onclick="checkAnswer(false)" data-ja="× (いいえ)" data-en="No">× (いいえ)</button>
+            </div>
+            <div id="quiz-final-msg" style="display:none; margin-top:10px;">
+                <button class="btn btn-dark" onclick="startQuiz()" data-ja="もう一度挑戦" data-en="Try Again">もう一度挑戦</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ④ ガイド料金表 ================= -->
+    <div id="guide-screen" class="page-section">
+        <h2 style="color: #f59e0b;" data-ja="🛶 ガイド料金表" data-en="🛶 Tour Fees (International)">🛶 ガイド料金表</h2>
+        <div class="guide-list">
+            <div class="guide-item">
+                <div>
+                    <span data-ja="マングローブカヌー" data-en="Canoe Tour">マングローブカヌー</span>
+                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下: 6,000 JPY" data-en="※Under 15: $80 USD">※中学生以下: 6,000 JPY</div>
+                </div>
+                <strong class="price-tag" data-price-ja="8,000 JPY" data-price-en="$100 USD">8,000 JPY</strong>
+            </div>
+            <div class="guide-item">
+                <div>
+                    <span data-ja="ナイトツアー" data-en="Night Tour">ナイトツアー</span>
+                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($50 USD)">※中学生以下は半額</div>
+                </div>
+                <strong class="price-tag" data-price-ja="8,000 JPY" data-price-en="$100 USD">8,000 JPY</strong>
+            </div>
+            <div class="guide-item">
+                <span data-ja="金作原体験ツアー" data-en="Kinsakubaru Trekking">金作原体験ツアー</span>
+                <strong class="price-tag" data-price-ja="7,000 JPY" data-price-en="$90 USD">7,000 JPY</strong>
+            </div>
+            <div class="guide-item">
+                <div>
+                    <span data-ja="島内周遊ガイド (1日)" data-en="Island Day Tour (Full Day)">島内周遊ガイド (1日)</span>
+                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($100 USD)">※中学生以下は半額</div>
+                </div>
+                <strong class="price-tag" data-price-ja="15,000 JPY" data-price-en="$200 USD">15,000 JPY</strong>
+            </div>
+            <div class="guide-item">
+                <div>
+                    <span data-ja="島内周遊ガイド (半日)" data-en="Island Day Tour (Half Day)">島内周遊ガイド (半日)</span>
+                    <div style="font-size: 11px; color: #64748b; margin-top: 2px; font-weight: normal; text-align: left; line-height: 1.3;">
+                        <span data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($70 USD)">※中学生以下は半額</span><br>
+                        <span style="color: #0d9488; font-weight: bold;" data-ja="★料金・プランのご相談に応じます！" data-en="★Prices & plans negotiable!">★料金・プランのご相談に応じます！</span>
+                    </div>
+                </div>
+                <strong class="price-tag" data-price-ja="10,000 JPY" data-price-en="$140 USD">10,000 JPY</strong>
+            </div>
+        </div>
+        
+        <div style="margin: -5px 0 15px 0; font-size: 12px; color: #475569; text-align: left; line-height: 1.4; padding: 10px; background: #f8fafc; border-radius: 10px; border-left: 4px solid #94a3b8;" data-ja="" data-en="⚠️ Please note: I do not speak fluent English. I will guide you using a pocket translator device. Thank you for your understanding!"></div>
+
+        <div class="contact-box">
+            <p style="margin:0 0 10px 0; font-weight:bold;" data-ja="ご予約・ご相談" data-en="Booking & Inquiry">ご予約・ご相談</p>
+            <div class="menu-grid">
+                <a href="mailto:yoro3402@gmail.com" class="btn btn-green" data-ja="📧 メール" data-en="📧 Email">📧 メール</a>
+                <a href="tel:08052619833" class="btn btn-dark" data-ja="📞 電話" data-en="📞 Call">📞 電話</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= ⑤ ダイスゲーム ================= -->
+    <div id="game-screen" class="page-section">
+        <h2 style="color: #8b5cf6;" data-ja="🎲 ダイスゲーム" data-en="🎲 Dice Game">🎲 ダイスゲーム</h2>
+        <p style="font-size: 14px; font-weight: bold; color: #6d28d9; margin-bottom: 10px;">君とぼくのサイコロの合計をあててね</p>
+        <div class="status-box">
+            <div><span data-ja="所持金" data-en="Money">所持金</span>: <span class="money" id="player-money">1000</span> / Pot: <span id="current-pot">0</span></div>
+            <p style="font-size: 11px; color: #64748b; margin: 4px 0 0 0;">これはきみのサイコロの数だよ。ぼくのサイコロは見えないよ</p>
+            <div class="dice-area" id="my-dice">?</div>
+            <div id="guess-display-area" style="font-size: 14px; font-weight: bold; margin-bottom: 10px; display: none;">
+                <div>きみの予想: <span id="display-my-guess" style="color: #8b5cf6; font-size: 16px;">-</span></div>
+                <div>ぼくの予想: <span id="display-cpu-guess" style="color: #0d9488; font-size: 16px;">-</span></div>
+            </div>
+            <div id="game-msg" style="font-weight:bold; font-size: 14px; border-top: 1px dashed #e2e8f0; padding-top: 10px;">勝負開始！</div>
+        </div>
+        <div id="game-controls">
+            <button id="btn-start" class="btn btn-purple" onclick="initRound()">勝負開始 (100円)</button>
+            <div id="guess-selector" style="display:none;"><div id="guess-buttons" class="guess-grid"></div></div>
+            <div id="action-controls" class="menu-grid" style="display:none;">
+                <button class="btn btn-orange" onclick="playerAction('call')">勝負</button>
+                <button class="btn btn-blue" onclick="playerAction('fold')">降りる</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button id="home-back-btn" class="btn btn-dark btn-fixed-bottom" style="display: none;" onclick="showPage('main-screen')" data-ja="🏠 ホームへ戻る" data-en="🏠 Home">🏠 ホームへ戻る</button>
+
+<script src="script1.js"></script>
+<script src="script2.js"></script>
+</body>
+</html>
