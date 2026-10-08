@@ -127,3 +127,25 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     border: 1px solid #cbd5e1;
 }
+/* ★奥田さんのアイデア：スマホの1画面にすっぽり収めるための親切設計 */
+.quiz-image-area {
+    margin-bottom: 8px; /* 写真の下のすき間を半分に縮めました */
+}
+
+.quiz-image-area img {
+    max-width: 140px; /* 写真の大きさをノートの付箋サイズ（140幅）に少しコンパクトにしました */
+}
+
+.question-text {
+    min-height: auto; /* 問題文の箱の高さが必要以上に広がらないようにしました */
+    margin-bottom: 12px; /* 問題文とボタンの間のすき間をギュッと詰めました */
+    padding: 10px;       /* 内側の余白もスッキリさせました */
+}
+
+.choice-list {
+    gap: 8px; /* 3つのボタン同士のすき間もピタッと詰めました */
+}
+
+.btn-choice {
+    padding: 10px 14px; /* ボタンの縦幅をスマートにして、押しやすさはそのままに縮めました */
+}
