@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>宝さがしゲーム (クリック対応版)</title>
+    <style>
+        body { font-family: "Helvetica Neue", Arial, sans-serif; text-align: center; background-color: #f0f4f8; padding-top: 30px; padding-bottom: 60px; }
+        h1 { color: #2c3e50; font-size: 2.5rem; margin-bottom: 5px; }
+        p { color: #7f8c8d; font-size: 1.2rem; margin-bottom: 20px; line-height: 1.6; }
+        .highlight { color: #e74c3c; font-weight: bold; }
+        .controls { margin-bottom: 30px; }
+        button { padding: 12px 25px; font-size: 18px; cursor: pointer; background-color: #e67e22; color: white; border: none; border-radius: 8px; transition: 0.3s; font-weight: bold; }
+        button:hover { background-color: #d35400; }
+
+        /* ホームへ戻る固定ボタンのスタイル */
+        .btn-back-home {
+            display: inline-block; margin-top: 30px; padding: 10px 20px; font-size: 15px;
+            background-color: #475569; color: white; border: none; border-radius: 12px;
+            cursor: pointer; text-decoration: none; font-weight: bold; transition: 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-back-home:hover { background-color: #1e293b; transform: scale(1.03); }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(9, 45px);
+            grid-template-rows: repeat(9, 45px);
+            gap: 3px;
+            background-color: #7f8c8d;
+            width: fit-content;
+            margin: 0 auto;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cell {
+            width: 45px; height: 45px;
+            background-color: #d7ccc8;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: bold; color: #8d6e63;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s ease, transform 0.1s;
+            border-radius: 3px;
+        }
+        .cell:hover {
+            transform: scale(1.05);
+            background-color: #bcaaa4;
+        }
+
+        .treasure {
+            background-color: #ffeb3b !important;
+            color: #d32f2f !important;
+            font-size: 24px;
+            animation: found 1s infinite alternate;
+        }
+        @keyframes found {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>宝さがしゲーム</h1>
+    <p>
+        気になるマスを直接クリック（タップ）して、宝を見つけてね！<br>
+        外れても、<span class="highlight">宝に近いほど赤くなるよ！</span>
+    </p>
+
+    <div class="controls">
+        <button onclick="resetGame()">もう一度遊ぶ</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <!-- いつでもメインのホームページへ戻れるボタンを設置しました -->
+    <div style="margin-top: 10px;">
+        <a href="index.html" class="btn-back-home">🏠 ホームページへ戻る</a>
+    </div>
+
+    <script>
+        const grid = document.getElementById('grid');
+        let treasureLocation;
+        let gameOver = false;
+        const maxDistance = calculateDistance(1, 81); // 最大距離の基準
+
+        // ゲームの初期化・リセット関数
+        function initGame() {
+            grid.innerHTML = ""; // 画面をクリア
+            gameOver = false;
+            // 宝物の場所をランダムに決める (1から81まで)
+            treasureLocation = Math.floor(Math.random() * 81) + 1;
+
+            // マス目の生成
+            for (let i = 1; i <= 81; i++) {
+                const cell = document.createElement('div');
+                cell.classList.add('cell');
+                cell.id = 'cell-' + i;
+                cell.textContent = i;
+                
+                // クリックイベントを追加
+                cell.addEventListener('click', () => digCell(i));
+
+                grid.appendChild(cell);
+            }
+        }
+
+        // マスをクリックした時の処理
+        function digCell(val) {
+            if (gameOver) return;
+
+            const targetCell = document.getElementById('cell-' + val);
+            
+            // すでに掘られているマスは何もしない
+            if (targetCell.style.backgroundColor && targetCell.id !== 'cell-' + treasureLocation) {
+                return;
+            }
+
+            if (val === treasureLocation) {
+                // 当たり！
+                targetCell.textContent = "👑";
+                targetCell.classList.add('treasure');
+                alert("🎉おめでとう！宝ものを見つけました！🎉");
+                gameOver = true;
+                return;
+            }
+            
+            // 外れの場合、宝までの距離を計算してヒント色をつける
+            const distance = calculateDistance(val, treasureLocation);
+            const colorIntensity = 1 - (distance / maxDistance); // 近いほど1に近づく
+            
+            // ヒント機能：宝に近いほど「赤く（熱く）」、遠いほど「青く（冷たく）」なる
+            const hue = 240 - (colorIntensity * 240);
+            targetCell.style.backgroundColor = `hsl(${hue}, 80%, 60%)`;
+            targetCell.style.color = "#ffffff"; // 文字を白にして見やすく
+            targetCell.textContent = "×"; // 掘った印
+        }
+
+        // 2つのマス番号間の距離を計算する関数
+        function calculateDistance(p1, p2) {
+            const x1 = (p1 - 1) % 9;
+            const y1 = Math.floor((p1 - 1) / 9);
+            const x2 = (p2 - 1) % 9;
+            const y2 = Math.floor((p2 - 1) / 9);
+            return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+        }
+
+        // リセットボタン用
+        function resetGame() {
+            initGame();
+        }
+
+        // 最初にゲームを起動
+        initGame();
+    </script>
+</body>
+</html>

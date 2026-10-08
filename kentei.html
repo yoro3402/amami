@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瀬戸内検定 - AMAMI NATURE CLUB</title>
+    <style>
+        /* 瀬戸内検定専用の深みのあるネイビーと爽やかな白のデザイン */
+        body { font-family: "Helvetica Neue", Arial, sans-serif; text-align: center; background-color: #f0f4f8; padding: 20px; color: #1e293b; }
+        .kentei-box { max-width: 500px; margin: 0 auto; background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 2px solid #1e3a8a; }
+        h1 { color: #1e3a8a; font-size: 24px; margin-bottom: 5px; }
+        .subtitle { font-size: 13px; color: #64748b; margin-bottom: 20px; }
+        .progress-text { font-size: 14px; font-weight: bold; color: #1e3a8a; margin-bottom: 10px; }
+        .question-text { font-size: 16px; font-weight: bold; line-height: 1.6; min-height: 4.5em; display: flex; align-items: center; justify-content: center; background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed #cbd5e1; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .btn { padding: 15px; font-size: 18px; font-weight: bold; border: none; border-radius: 12px; cursor: pointer; transition: transform 0.1s, opacity 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .btn:active { transform: scale(0.98); }
+        .btn-maru { background-color: #0284c7; color: white; }
+        .btn-batsu { background-color: #ea580c; color: white; }
+        .btn-action { background-color: #475569; color: white; grid-column: span 2; font-size: 15px; padding: 12px; }
+        .result-mark { font-size: 60px; font-weight: bold; min-height: 70px; margin-bottom: 10px; }
+        .result-good { color: #059669; animation: bounce 0.5s; }
+        .result-bad { color: #dc2626; animation: shake 0.3s; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+    </style>
+</head>
+<body>
+
+<div class="kentei-box">
+    <h1>🧭 瀬戸内検定</h1>
+    <div class="subtitle">〜 郷土の自然・文化・歴史を学ぼう 〜</div>
+    
+    <!-- クイズ進行中の画面 -->
+    <div id="quiz-area">
+        <div class="progress-text" id="kentei-progress">第 1 問 / 全 10 問</div>
+        <div class="question-text" id="kentei-question">問題がここに表示されます。</div>
+        <div class="result-mark" id="kentei-result"></div>
+        
+        <div class="btn-grid">
+            <button class="btn btn-maru" onclick="answerKentei(true)">〇 (はい)</button>
+            <button class="btn btn-batsu" onclick="answerKentei(false)">× (いいえ)</button>
+        </div>
+    </div>
+
+    <!-- 10問終わった後の結果発表画面 -->
+    <div id="score-area" style="display: none;">
+        <h2 style="color: #1e3a8a;">🎉 検定結果発表 🎉</h2>
+        <div style="font-size: 24px; font-weight: bold; margin: 20px 0; color: #ea580c;" id="kentei-score">0問正解 / 10問中</div>
+        <div style="font-size: 15px; line-height: 1.6; color: #475569; margin-bottom: 25px;" id="kentei-comment">がんばったね！</div>
+        <button class="btn btn-maru" style="width: 100%; margin-bottom: 15px;" onclick="startKentei()">もう一度挑戦する</button>
+    </div>
+
+    <!-- ホームページへ戻るボタン -->
+    <button class="btn btn-action" onclick="location.href='index.html'">🏠 ホームページへ戻る</button>
+</div>
+<script>
+    // 🧭 瀬戸内検定 クイズ貯蔵庫（前半15問）
+    const kenteiDatabase = [
+        { q: "アマミノクロウサギは土に巣穴を掘って子どもを産む。", a: true },
+        { q: "アマミノクロウサギは子どもが大きくなってくると攻撃して遠くに追い出す。", a: true },
+        { q: "アマミトゲネズミはハブの攻撃をジャンプしてかわすことができる。", a: true },
+        { q: "与路島には平成中頃までイノシシはいなかった。", a: true },
+        { q: "オットンガエルは加計呂麻島にも生息する。", a: true },
+        { q: "アマミイシカワガエルは川の浅瀬に産卵する。", a: true },
+        { q: "アマミハナサキガエルは天然記念物ではない。", a: false },
+        { q: "シリケンイモリは奄美群島のどの島にも生息する。", a: false },
+        { q: "イボイモリは水たまりの中に産卵する。", a: false },
+        { q: "ハブの毒は筋肉を分解することができる。", a: false },
+        { q: "銀ハブより金ハブの方の毒が強い。", a: false },
+        { q: "冬に古仁屋の町の中でも盛んにケロロとないているカエルはアマミアオガエルである。", a: false },
+        { q: "ヒメハブは本土のマムシと同じ種類である。", a: true },
+        { q: "ヒャンのしっぽには毒針があるので危険だ。", a: false },
+        { q: "ガラスヒバアは強い毒を持っているので危険だ。", a: false }
+    ];
+    // 🧭 瀬戸内検定 クイズ貯蔵庫（後半14問を追加）
+    kenteiDatabase.push(
+        { q: "ヒメハブの卵の殻は透明で，中の赤ちゃんが透けて見える。", a: true },
+        { q: "キノボリトカゲは体の色を変えることができる。", a: true },
+        { q: "ルリカケスは奄美大島に生息する鳥の中で一年の最初に子育てをする鳥である。", a: true },
+        { q: "オオトラツグミは奄美大島本島だけに生息する。", a: true },
+        { q: "瀬戸内町古仁屋の平均降水量（雨量）は3000mmを超える。", a: false },
+        { q: "与路島の東にある無人島ハミヤ島で繁殖しているオオミズナギドリは，地面から飛び立つことができない。", a: true },
+        { q: "沖縄のリュウキュウアユは奄美大島原産のアユである。", a: true },
+        { q: "奄美大島の８月の最高気温の平均値は,鹿児島市より高い。", a: false },
+        { q: "ヤドリ浜の砂は軽い石が細かく砕かれたものである。", a: false },
+        { q: "ハブは隆起サンゴ礁でできた喜界島，沖永良部島，与論島には生息しない。", a: true },
+        { q: "リュウキュウアユは海を渡って別の川に行くことができる。", a: true },
+        { q: "ハミヤ島は水鳥の繁殖地として有名だ。", a: true },
+        { q: "湯湾岳の岩よりもホノホシ海岸の岩の方が古い。", a: false },
+        { q: "ハブはイオウが嫌いだから火山島には住んでいない。", a: false }
+    );
+    // クイズを動かすための重要な変数
+    let currentQuestions = []; // 今回選ばれた10問が入る箱
+    let currentIndex = 0;      // 今、何問目か (0からスタート)
+    let score = 0;             // 正解数
+
+    // 🧭 検定をスタート（またはリセット）する関数
+    function startKentei() {
+        score = 0;
+        currentIndex = 0;
+        document.getElementById('quiz-area').style.display = 'block';
+        document.getElementById('score-area').style.display = 'none';
+        document.getElementById('kentei-result').textContent = '';
+
+        // 355問のデータベースから、ランダムに並び替えて10問だけを選び出す仕組み
+        let shuffled = [...kenteiDatabase].sort(() => 0.5 - Math.random());
+        currentQuestions = shuffled.slice(0, 10); // 10問だけを切り取る
+
+        showKenteiQuestion();
+    }
+
+    // 📝 画面に問題を表示する関数
+    function showKenteiQuestion() {
+        document.getElementById('kentei-result').textContent = '';
+        document.getElementById('kentei-progress').textContent = `第 ${currentIndex + 1} 問 / 全 10 問`;
+        document.getElementById('kentei-question').textContent = currentQuestions[currentIndex].q;
+    }
+    // ⭕❌ボタンを押したときに正解・不正解を判定する関数
+    function answerKentei(playerAnswer) {
+        const quizResult = document.getElementById('kentei-result');
+        const correctAnswer = currentQuestions[currentIndex].a;
+
+        if (playerAnswer === correctAnswer) {
+            // 正解の場合
+            score++;
+            quizResult.textContent = "⭕";
+            quizResult.className = "result-mark result-good";
+        } else {
+            // 不正解の場合
+            quizResult.textContent = "❌";
+            quizResult.className = "result-mark result-bad";
+        }
+
+        // 1秒待ってから、自動的に次の問題へ進む（元数学の先生の親切設計です）
+        setTimeout(() => {
+            currentIndex++;
+            if (currentIndex < 10) {
+                showKenteiQuestion();
+            } else {
+                showKenteiScore();
+            }
+        }, 1200);
+    }
+
+    // 🎉 10問終わった後に点数とコメントを発表する関数
+    function showKenteiScore() {
+        document.getElementById('quiz-area').style.display = 'none';
+        document.getElementById('score-area').style.display = 'block';
+
+        const scoreText = document.getElementById('kentei-score');
+        const commentText = document.getElementById('kentei-comment');
+        
+        scoreText.textContent = `${score} 問正解 / 10問中`;
+
+        // 点数に応じて、中学生たちが嬉しくなるようなコメントに自動で切り替えます
+        if (score === 10) {
+            commentText.textContent = "🎊もの凄い！全問正解！きみは完璧な瀬戸内博士だね！🎊";
+        } else if (score >= 7) {
+            commentText.textContent = "✨素晴らしい成績！瀬戸内の自然についてとっても詳しいね！✨";
+        } else if (score >= 4) {
+            commentText.textContent = "👍ナイスチャレンジ！この調子で何度も挑戦して覚えていこう！";
+        } else {
+            commentText.textContent = "🐾がんばったね！もう一度挑戦して、瀬戸内の宝物を見つけてみよう！";
+        }
+    }
+
+    // 🚀 画面が開いた瞬間に、一番最初のクイズを起動させます
+    startKentei();
+</script>
+</body>
+</html>
