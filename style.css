@@ -50,3 +50,80 @@ body {
 .photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 10px; }
 .nature-photo { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 5px; }
 .photo-caption { font-size: 11px; font-weight: bold; color: #4b5563; margin-bottom: 10px; }
+
+/* 新しい選択画面を綺麗に整えるためのデザイン */
+#quiz-select-screen .menu-grid,
+#game-select-screen .menu-grid {
+    margin-top: 15px;
+    gap: 12px;
+}
+
+#quiz-select-screen p,
+#game-select-screen p {
+    font-size: 14px;
+    color: #475569;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* ボタンのホバー（マウスをのせたとき）の動きを滑らかにする設定 */
+.menu-grid .btn, .menu-grid a.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 10px 15px;
+    font-size: 15px;
+    border-radius: 12px;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.menu-grid .btn:hover, .menu-grid a.btn:hover {
+    transform: scale(1.02);
+}
+
+/* 3択・画像入りクイズの選択肢ボタンを綺麗に整えるデザイン */
+.choice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0 auto 20px auto;
+    max-width: 400px;
+}
+
+.btn-choice {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: left;
+    background-color: #f1f5f9;
+    color: #1e293b;
+    border: 2px solid #cbd5e1;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+/* ボタンの上にマウスを乗せたときの滑らかな動き */
+.btn-choice:hover {
+    background-color: #e2e8f0;
+    border-color: #94a3b8;
+    transform: scale(1.01);
+}
+
+/* クイズの写真エリアのデザイン */
+.quiz-image-area {
+    margin-bottom: 15px;
+    display: none;
+    text-align: center;
+}
+
+.quiz-image-area img {
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    border: 1px solid #cbd5e1;
+}

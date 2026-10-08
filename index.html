@@ -1,8 +1,15 @@
 <!DOCTYPE html>
-
-<!DOCTYPE html>
 <html lang="ja">
 <head>
+    <!-- Google tag (gtag.js) メーターセンサー -->
+    <script async src="https://googletagmanager.com"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-16041489621');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMAMI NATURE CLUB - 奥田義仁</title>
@@ -17,10 +24,6 @@
         <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
     </div>
 
-    <!-- ================= ① メイン画面（HOME） ================= -->
-   
-
-  
 
     <!-- ================= ① メイン画面（HOME） ================= -->
     <div id="main-screen" class="page-section active-section">
@@ -36,9 +39,7 @@
         <!-- 名前をクリックすると自己紹介へ移動 -->
         <div style="font-size: 26px; font-weight: bold; color: #0d9488;" 
              onclick="showPage('profile-screen')" 
-             style="cursor: pointer; text-decoration: underline; touch-action: manipulation;"
-             data-ja="<span style='text-decoration: underline; cursor: pointer;'>奥田義仁</span>" 
-             data-en="<span style='text-decoration: underline; cursor: pointer;'>Yoshihito Okuda</span>">
+             style="cursor: pointer; text-decoration: underline; touch-action: manipulation;">
              <span style="text-decoration: underline; cursor: pointer;">奥田義仁</span>
         </div>
         
@@ -49,37 +50,67 @@
         </p>
         <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
         
-        <!-- ★他のアイコンボタンと綺麗にサイズや並び順を統一した、合計5つのメニューボタンです -->
+        <!-- 厳選された5つのメニュー扉（ブログボタンのジャンプ命令を最強の形に強化しました） -->
         <div class="menu-grid">
             <button class="btn btn-blue" onclick="showPage('nature-screen')" data-ja="🌿 奄美の自然" data-en="🌿 Nature">🌿 奄美の自然</button>
-            <button class="btn btn-green" onclick="showPage('quiz-screen'); startQuiz();" data-ja="🔍 奄美クイズ" data-en="🔍 Quiz">🔍 奄美クイズ</button>
-            <button class="btn btn-orange" onclick="showPage('guide-screen')" data-ja="🛶 ガイド料金" data-en="🛶 Tour Fees">🛶 ガイド料金</button>
-            <button class="btn btn-purple" onclick="showPage('game-screen'); resetGame();" data-ja="🎲 ダイスゲーム" data-en="🎲 Dice Game">🎲 ダイスゲーム</button>
+            <button class="btn btn-orange" onclick="showPage('guide-screen')" data-ja="🛶 ツアーガイド" data-en="🛶 Tour Guide">🛶 ツアーガイド</button>
+            <button class="btn btn-green" onclick="showPage('quiz-select-screen')" data-ja="🔍 クイズに挑戦" data-en="🔍 Quiz Challenges">🔍 クイズに挑戦</button>
+            <button class="btn btn-purple" onclick="showPage('game-select-screen')" data-ja="🎲 ゲームで遊ぶ" data-en="🎲 Play Games">🎲 ゲームで遊ぶ</button>
             
-            <!-- ★【新設】正しいアドレスと、シンプルな「📖 ブログ」表示に統一しました -->
-            <a href="http://yoro3402.synapse-blog.jp" target="_blank" class="btn btn-dark" style="background-color: #475569;" data-ja="📖 ブログ" data-en="📖 Blog">📖 ブログ</a>
+            <!-- ★【バグ完全修正】スマホの安全装置をすり抜けて、新しいタブで確実に奥田さんのブログを1秒で開きます -->
+            <button class="btn btn-dark" style="background-color: #475569;" onclick="window.open('https://yoro3402.synapse-blog.jp', '_blank')" data-ja="📖 ブログ" data-en="📖 Blog">📖 ブログ</button>
         </div>
     </div> <!-- ① メイン画面の終わり -->
 
+      <!-- ================= 🔍 クイズえらび画面（新設） ================= -->
+    <div id="quiz-select-screen" class="page-section">
+        <h2 style="color: #0d9488;" data-ja="🔍 クイズに挑戦" data-en="🔍 Quiz Challenges">🔍 クイズに挑戦</h2>
+        <p style="font-size: 14px; color: #475569; margin-bottom: 20px;" data-ja="挑戦したいクイズを選んでね！" data-en="Choose a quiz to challenge!">挑戦したいクイズを選んでね！</p>
+        
+        <!-- 看板ボタンが4つ綺麗に縦に並ぶメニューに進化しました！ -->
+        <div class="choice-list" style="display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 0 auto 20px auto;">
+            <!-- ① 既存の世界自然遺産クイズ -->
+            <button class="btn-choice" style="background-color: #f0fdf4; border-color: #bbf7d0; color: #166534;" onclick="showPage('quiz-screen'); startQuiz();" data-ja="🌿 世界自然遺産クイズ (30問)" data-en="🌿 Amami Nature Quiz">🌿 世界自然遺産クイズ (30問)</button>
+            
+            <!-- ② 瀬戸内検定（〇×問題） -->
+            <button class="btn-choice" style="background-color: #f0f9ff; border-color: #bae6fd; color: #075985;" onclick="location.href='kentei.html'" data-ja="🧭 瀬戸内検定 (〇×問題)" data-en="🧭 Setouchi Test (True/False)">🧭 瀬戸内検定 (〇×問題)</button>
+            
+            <!-- ③ 瀬戸内検定（3択問題） -->
+            <button class="btn-choice" style="background-color: #fff7ed; border-color: #fed7aa; color: #9a3412;" onclick="location.href='kentei3.html'" data-ja="🍱 瀬戸内検定 (3択問題)" data-en="🍱 Setouchi Test (3 Choices)">🍱 瀬戸内検定 (3択問題)</button>
 
-    <!-- ★【新設】名前をクリックした時に開く、奥田さんのプロフィール画面です -->
+            <!-- ④ ★【新設】今日作った「画像入り3択問題」へジャンプする特製ボタンです！ -->
+            <button class="btn-choice" style="background-color: #fdf2f8; border-color: #fbcfe8; color: #9d174d;" onclick="location.href='kentei4.html'" data-ja="📸 瀬戸内検定 (画像入り3択)" data-en="📸 Setouchi Test (with Images)">📸 瀬戸内検定 (画像入り3択)</button>
+        </div>
+    </div> <!-- クイズえらび画面の終わり -->
+
+
+
+    <!-- ================= 🎲 ゲームで遊ぶ画面（新設） ================= -->
+    <div id="game-select-screen" class="page-section">
+        <h2 style="color: #8b5cf6;" data-ja="🎲 ゲームで遊ぶ" data-en="🎲 Play Games">🎲 ゲームで遊ぶ</h2>
+        <p style="font-size: 14px; color: #475569; margin-bottom: 20px;" data-ja="遊びたいゲームを選んでね！" data-en="Choose a game to play!">遊びたいゲームを選んでね！</p>
+        
+        <div class="menu-grid">
+            <!-- 既存のダイスゲーム -->
+            <button class="btn btn-purple" onclick="showPage('game-screen'); resetGame();" data-ja="🎲 ダイスゲーム" data-en="🎲 Dice Game">🎲 ダイスゲーム</button>
+            <!-- 独立ファイルの宝さがしゲーム -->
+            <a href="treasure.html" class="btn btn-purple" style="background-color: #ec4899;" data-ja="💎 宝さがし" data-en="💎 Treasure Hunt">💎 宝さがし</a>
+        </div>
+    </div>
+    <!-- ================= 🛶 奥田の自己紹介画面 ================= -->
     <div id="profile-screen" class="page-section">
         <h2 style="color: #0d9488;" data-ja="🛶 ガイドプロフィール" data-en="🛶 Guide Profile">🛶 ガイドプロフィール</h2>
         <div style="background: #f0fdf4; border-radius: 16px; padding: 20px; text-align: left; font-size: 14px; line-height: 1.6; color: #334155; margin: 15px 0; border: 1px solid #bbf7d0;">
-            
-            <!-- カぬーの写真（kanu.jpg）を中央に美しく表示します -->
             <div style="text-align: center; margin-bottom: 15px;">
                 <img src="kanu.jpg" alt="カヌーガイド奥田" style="max-width: 240px; width: 100%; height: auto; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
             </div>
-            
-            <!-- プロフィール文章（日本語・英語自動切り替え） -->
             <div data-ja="33年間、中学校の数学の先生をしていました。現在は、奄美大島自然保護パトロール員をしており、奄美大島の豊かな自然と希少種の保護に努めています。島の大切な宝物である動植物のこと、美しい風景のことを、元先生ならではの分かりやすさで楽しく丁寧にご案内いたします！" 
                  data-en="I worked as a junior high school mathematics teacher for 33 years. Currently, I serve as an Amami Oshima Nature Conservation Patrol Officer, working to protect the rich environment and endangered species of the island. Leveraging my teaching background, I will guide you through the island's precious flora, fauna, and beautiful scenery in a fun and easy-to-understand way!">
                 33年間、中学校の数学の先生をしていました。現在は、奄美大島自然保護パトロール員をしており、奄美大島の豊かな自然と希少種の保護に努めています。島の大切な宝物である動植物のこと、美しい風景のことを、元先生ならではの分かりやすさで楽しく丁寧にご案内いたします！
             </div>
         </div>
     </div>
-
+    
     <!-- ================= 🐕 犬の散歩（隠し自己紹介画面） ================= -->
     <div id="dog-screen" class="page-section">
         <h2 style="color: #0d9488;" data-ja="🐕 愛犬との思い出" data-en="🐕 My Beloved Dogs">🐕 愛犬との思い出</h2>
@@ -92,29 +123,11 @@
                 愛犬の<strong>ハッピー</strong>と<strong>ラッキー</strong>は、15年前に私が中学校の担任をしていた頃、校門に置かれていた保護犬です。生徒たちが教室へ連れてきてくれた縁で、我が家で迎えることになりました。毎日の朝と夕方の散歩が欠かせない日課で、そのおかげで今もみんなで元気いっぱいに過ごしています！
             </div>
         </div>
-    </div>
+    </div> <!-- 犬の画面の終わり -->
 
 
-    <!-- ================= 🐕 犬の散歩（隠し自己紹介画面） ================= -->
- 
-    <div id="dog-screen" class="page-section">
-        <h2 style="color: #0d9488;" data-ja="🐕 愛犬との思い出" data-en="🐕 My Beloved Dogs">🐕 愛犬との思い出</h2>
-        <div style="background: #f0fdf4; border-radius: 16px; padding: 20px; text-align: left; font-size: 14px; line-height: 1.6; color: #334155; margin: 15px 0; border: 1px solid #bbf7d0;">
-            
-            <!-- ★奥田さんの「inu.jpg」ファイルを中央に1枚だけ上品に表示する設定に変えました -->
-            <div style="text-align: center; margin-bottom: 15px;">
-                <img src="inu.jpg" alt="愛犬ハッピーとラッキー" style="max-width: 240px; width: 100%; height: auto; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-            </div>
-            
-            <div data-ja="愛犬の<strong>ハッピー</strong>と<strong>ラッキー</strong>は、15年前に私が中学校の担任をしていた頃、校門に置かれていた保護犬です。生徒たちが教室へ連れてきてくれた縁で、我が家で迎えることになりました。毎日の朝と夕方の散歩が欠かせない日課で、そのおかげで今もみんな元気いっぱいに過ごしています！" 
-                 data-en="My dogs, <strong>Happy</strong> and <strong>Lucky</strong>, were rescued 15 years ago. When I was a junior high school teacher, they were left at the school gate, and my students brought them to the classroom. That's how they became part of my family! Walking them every morning and evening is our essential routine, and thanks to that, we are all doing great and stay healthy.">
-                愛犬の<strong>ハッピー</strong>と<strong>ラッキー</strong>は、15年前に私が中学校の担任をしていた頃、校門に置かれていた保護犬です。生徒たちが教室へ連れてきてくれた縁で、我が家で迎えることになりました。毎日の朝と夕方の散歩が欠かせない日課で、そのおかげで今もみんなで元気いっぱいに過ごしています！
-            </div>
-        </div>
-    </div>
 
-
-    <!-- ================= ② 自然（ギャラリー） ================= -->
+   <!-- ================= ② 自然（ギャラリー） ================= -->
     <div id="nature-screen" class="page-section">
         <h2 style="color: #0284c7;" data-ja="🌿 奄美の自然" data-en="🌿 Nature Gallery">🌿 奄美の自然</h2>
         <div class="photo-grid">
@@ -129,7 +142,7 @@
     </div>
     <!-- ================= ③ クイズ ================= -->
     <div id="quiz-screen" class="page-section">
-        <h2 style="color: #0d9488;" data-ja="奄美大島クイズ" data-en="Amami Quiz">奄美大島クイズ</h2>
+        <h2 style="color: #0d9488;" data-ja="世界自然遺産クイズ" data-en="Nature Quiz">世界自然遺産クイズ</h2>
         <div class="status-box">
             <div id="quiz-progress" style="font-size: 12px; color: #64748b; margin-bottom: 5px;"></div>
             <div id="question" style="font-size: 16px; font-weight: bold; margin-bottom: 15px; min-height: 3em; display: flex; align-items: center; justify-content: center;"></div>
@@ -143,11 +156,11 @@
             </div>
         </div>
     </div>
-
-    <!-- ================= ④ ガイド料金表 ================= -->
+    <!-- ================= ④ ツアーガイド料金表（前半） ================= -->
     <div id="guide-screen" class="page-section">
-        <h2 style="color: #f59e0b;" data-ja="🛶 ガイド料金表" data-en="🛶 Tour Fees (International)">🛶 ガイド料金表</h2>
+        <h2 style="color: #f59e0b;" data-ja="🛶 ツアーガイド料金" data-en="🛶 Tour Fees">🛶 ツアーガイド料金</h2>
         <div class="guide-list">
+            <!-- マングローブカヌー -->
             <div class="guide-item">
                 <div>
                     <span data-ja="マングローブカヌー" data-en="Canoe Tour">マングローブカヌー</span>
@@ -155,6 +168,8 @@
                 </div>
                 <strong class="price-tag" data-price-ja="8,000 JPY" data-price-en="$100 USD">8,000 JPY</strong>
             </div>
+
+            <!-- ナイトツアー -->
             <div class="guide-item">
                 <div>
                     <span data-ja="ナイトツアー" data-en="Night Tour">ナイトツアー</span>
@@ -162,10 +177,13 @@
                 </div>
                 <strong class="price-tag" data-price-ja="8,000 JPY" data-price-en="$100 USD">8,000 JPY</strong>
             </div>
+
+            <!-- 金作原体験ツアー -->
             <div class="guide-item">
                 <span data-ja="金作原体験ツアー" data-en="Kinsakubaru Trekking">金作原体験ツアー</span>
                 <strong class="price-tag" data-price-ja="7,000 JPY" data-price-en="$90 USD">7,000 JPY</strong>
             </div>
+            <!-- 島内周遊ガイド (1日) -->
             <div class="guide-item">
                 <div>
                     <span data-ja="島内周遊ガイド (1日)" data-en="Island Day Tour (Full Day)">島内周遊ガイド (1日)</span>
@@ -173,6 +191,8 @@
                 </div>
                 <strong class="price-tag" data-price-ja="15,000 JPY" data-price-en="$200 USD">15,000 JPY</strong>
             </div>
+
+            <!-- 島内周遊ガイド (半日) -->
             <div class="guide-item">
                 <div>
                     <span data-ja="島内周遊ガイド (半日)" data-en="Island Day Tour (Half Day)">島内周遊ガイド (半日)</span>
@@ -185,8 +205,23 @@
             </div>
         </div>
         
+        <!-- 翻訳機のご案内 -->
         <div style="margin: -5px 0 15px 0; font-size: 12px; color: #475569; text-align: left; line-height: 1.4; padding: 10px; background: #f8fafc; border-radius: 10px; border-left: 4px solid #94a3b8;" data-ja="" data-en="⚠️ Please note: I do not speak fluent English. I will guide you using a pocket translator device. Thank you for your understanding!"></div>
+        <!-- 💻 ホームページ作成のご相談窓口 -->
+        <div style="margin: 25px 0 15px 0; text-align: left; background: #f0fdf4; padding: 18px; border-radius: 18px; border: 2px solid #99f6e4;">
+            <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 15px; color: #0d9488;" data-ja="💻 ホームページ作成のご相談 (地域応援プラン)" data-en="💻 Web Creation Service (Local Support)">💻 ホームページ作成のご相談 (地域応援プラン)</p>
+            <p style="margin: 0 0 12px 0; font-size: 13px; color: #475569; line-height: 1.5;" data-ja="地元の民宿、農園、個人商店の皆様へ。お茶を飲みながら、皆様の魅力が伝わる温かいホームページを一緒に作成します。パソコンが苦手な方も安心してお任せください。" data-en="For local guest houses, farms, and shops. I will create a warm and welcoming website that showcases your unique charm. Perfect for beginners!">地元の民宿、農園、個人商店の皆様へ。お茶を飲みながら、皆様の魅力が伝わる温かいホームページを一緒に作成します。パソコンが苦手な方も安心してお任せください。</p>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed #ccfbf1;">
+                <span data-ja="ホームページ作成 (初期費用)" data-en="Website Creation Fee">ホームページ作成 (初期費用)</span>
+                <strong style="color: #0d9488;">50,000 JPY</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0;">
+                <span data-ja="毎月の管理・修正サポート費" data-en="Monthly Maintenance Fee">毎月の管理・修正サポート費</span>
+                <strong style="color: #b45309;">3,000 JPY / 月</strong>
+            </div>
+        </div>
 
+        <!-- 連絡先ボタン -->
         <div class="contact-box">
             <p style="margin:0 0 10px 0; font-weight:bold;" data-ja="ご予約・ご相談" data-en="Booking & Inquiry">ご予約・ご相談</p>
             <div class="menu-grid">
@@ -195,7 +230,6 @@
             </div>
         </div>
     </div>
-
     <!-- ================= ⑤ ダイスゲーム ================= -->
     <div id="game-screen" class="page-section">
         <h2 style="color: #8b5cf6;" data-ja="🎲 ダイスゲーム" data-en="🎲 Dice Game">🎲 ダイスゲーム</h2>
