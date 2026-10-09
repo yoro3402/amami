@@ -157,7 +157,19 @@
                 <button class="btn btn-dark" onclick="startQuiz()" data-ja="もう一度挑戦" data-en="Try Again">もう一度挑戦</button>
             </div>
         </div>
-    </div> <!-- ③ クイズの終わり -->
+  
+            <!-- ★ジョッキーちゃん改造：ホームではなく、直接クイズ選択画面（quiz-select-screen）へ戻るようにしました -->
+            <div id="quiz-final-msg" style="display:none; margin-top:10px;">
+                <button class="btn btn-dark" style="margin-bottom: 10px;" onclick="startQuiz()" data-ja="もう一度挑戦" data-en="Try Again">もう一度挑戦</button>
+                <button class="btn btn-blue" style="background-color: #0d9488; width: 100%;" onclick="showPage('quiz-select-screen')" data-ja="🏠 クイズえらびに戻る" data-en="🏠 Back to Quiz List">🏠 クイズえらびに戻る</button>
+            </div>
+
+
+
+
+
+
+  </div> <!-- ③ クイズの終わり -->
 
 
 
@@ -329,8 +341,30 @@
         }, 1200);
     }
 </script>
-</body>
-</html>
+<script>
+    // 🧭 ジョッキーちゃん新設：クイズ部屋から戻ってきたときに、自動でクイズ選択画面を開く頭脳
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get('page');
+        if (page === 'quiz-select-screen') {
+            showPage('quiz-select-screen');
+            // アドレスバーの見た目をすっきり元に戻すオマケ命令
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    });
+</script>
+<script>
+    // 🧭 ジョッキーちゃん新設：クイズ部屋から戻ってきたときに、自動でクイズ選択画面を開く頭脳
+    window.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get('page');
+        if (page === 'quiz-select-screen') {
+            showPage('quiz-select-screen');
+            // アドレスバーの見た目をすっきり元に戻すオマケ命令
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    });
+</script>
 
 </body>
 </html>

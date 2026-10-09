@@ -11,10 +11,10 @@
         .subtitle { font-size: 13px; color: #64748b; margin-bottom: 20px; }
         .progress-text { font-size: 14px; font-weight: bold; color: #1e3a8a; margin-bottom: 10px; }
         .question-text { font-size: 16px; font-weight: bold; line-height: 1.6; min-height: 3em; display: flex; align-items: center; justify-content: center; background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px dashed #cbd5e1; text-align: left; }
-        .quiz-image-area { margin-bottom: 15px; display: none; text-align: center; }
-        .quiz-image-area img { max-width: 200px; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 1px solid #cbd5e1; }
-        .choice-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-        .btn-choice { width: 100%; padding: 14px; font-size: 15px; font-weight: bold; text-align: left; background-color: #f1f5f9; color: #1e293b; border: 2px solid #cbd5e1; border-radius: 12px; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .quiz-image-area { margin-bottom: 8px; display: none; text-align: center; }
+        .quiz-image-area img { max-width: 140px; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 1px solid #cbd5e1; }
+        .choice-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .btn-choice { width: 100%; padding: 10px 14px; font-size: 15px; font-weight: bold; text-align: left; background-color: #f1f5f9; color: #1e293b; border: 2px solid #cbd5e1; border-radius: 12px; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .btn-choice:hover { background-color: #e2e8f0; border-color: #94a3b8; transform: scale(1.01); }
         .btn-action { background-color: #475569; color: white; width: 100%; font-size: 15px; padding: 12px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .result-mark { font-size: 60px; font-weight: bold; min-height: 70px; margin-bottom: 10px; }
@@ -50,19 +50,19 @@
         <button class="btn-choice" style="text-align: center; background-color: #0284c7; color: white; border: none; margin-bottom: 15px;" onclick="startKentei()">もう一度挑戦する</button>
     </div>
 
-    <button class="btn-action" onclick="location.href='index.html'">🏠 ホームページへ戻る</button>
+    <button class="btn-action" style="background-color: #0d9488;" onclick="location.href='index.html?page=quiz-select-screen'">🏠 クイズえらびに戻る</button>
 </div>
 
 <script>
-    // 🧭 39問のクイズ貯蔵庫（前半20問）
+    // 🧭 クイズデータ貯蔵庫（前半・第30問〜第49問）
     const kenteiDatabase = [
         { q: "これは何の糞でしょうか？", img: "images/amaminokurousagi.webp", c: ["アマミノクロウサギ", "リュウキュウイノシシ", "ノヤギ"], a: 1 },
         { q: "このネズミの名は？", img: "images/kenaganezumi.webp", c: ["ケナガネズミ", "トゲネズミ", "クマネズミ"], a: 1 },
         { q: "このコウモリは何？", img: "images/oriikokikugasirakoumori.webp", c: ["エラブオオコウモリ", "オリイコキクガシラコウモリ", "イエコウモリ"], a: 2 },
-        { q: "この動物は何？", img: "images/amaminokurousagi1.webp", c: ["クマネズミ", "リュウキュウイノシシ", "アマミノクロウサギ"], a: 3 },
+        { q: "この動物は何？", img: "images/amaminokurousagi.webp", c: ["クマネズミ", "リュウキュウイノシシ", "アマミノクロウサギ"], a: 3 },
         { q: "この緑色のカエルは何?", img: "images/amamiisikwagaeru.webp", c: ["アマミイシカワガエル", "リュウキュウカジカガエル", "アマミオアガエル"], a: 1 },
         { q: "このカエルは何？", img: "images/ottonngaeru.webp", c: ["リュウキュウカジカガエル", "ハロウエルアマガエル", "オットンガエル"], a: 3 },
-        { q: "この動物は何？", img: "images/ryuukyuuaohebi.webp", c: ["ミミズヘビ", "ガラスヒバア", "リュウキュウアオヘビ"], a: 3 },
+        { q: "この動物は何？", img: "images/yuukyuuaohebi.webp", c: ["ミミズヘビ", "ガラスヒバア", "リュウキュウアオヘビ"], a: 3 },
         { q: "このヘビは何？", img: "images/hyann.webp", c: ["アカマタ", "ヒメハブ", "ヒャン"], a: 3 },
         { q: "この動物は何？", img: "images/ba-batokage.webp", c: ["オキナワトカゲ", "アオカナヘビ", "バーバートカゲ"], a: 3 },
         { q: "このトカゲは何？", img: "images/ba-batokage.webp", c: ["アオスジトカゲ", "バーバートカゲ", "オオシマトカゲ"], a: 2 },
@@ -81,7 +81,7 @@
     kenteiDatabase.push(
         { q: "これ貝は何？", img: "images/mabegai.webp", c: ["マベガイ", "シロチョウガイ", "アコヤガイ"], a: 1 },
         { q: "これは何？", img: "images/kobusime.webp", c: ["スルメイカ", "ダイオウイカ", "コブシメ"], a: 3 },
-        { q: "干潟に住むこのカニは何？", img: "images/okinawahakusennsiomaneki.webp", c: ["ズワイガニ", "コメツキガニ", "オキナワハクセンシオマネキ"], a: 3 },
+        { q: "干潟に住むこのカニは何？", img: "images/okinawahakusennsiomaneki.webp", c: ["ズワイガニ", "コ米ツキガニ", "オキナワハクセンシオマネキ"], a: 3 },
         { q: "このクモの名前は？", img: "images/oojorougumo.webp", c: ["オオジョロウグモ", "アシダカグモ", "ハエトリグモ"], a: 1 },
         { q: "このクワガタの名前は？", img: "images/amamimarubanekuwagata.webp", c: ["アマミビラタクワガタ", "アマミマルバネクワガタ", "アマミノコギリクワガタ"], a: 2 },
         { q: "このクワガタの名前は？", img: "images/amaminokogirikuwagata.webp", c: ["アマミミヤマクワガタ", "アマミノコギリクワガタ", "シカクワガタ"], a: 2 },
@@ -96,10 +96,9 @@
         { q: "これは何の根？", img: "images/gajumaru.webp", c: ["オキナワジイ", "サキシマスオウノキ", "ガジュマル"], a: 3 },
         { q: "秋にとれるこのキノコの名は？", img: "images/siitake.webp", c: ["シイタケ", "マツタケ", "バカマツタケ"], a: 1 },
         { q: "このキノコの名は？", img: "images/kikurage.webp", c: ["コフキサルノコシカケ", "カワラタケ", "キクラゲ"], a: 3 },
-        { q: "マングローブ林で見かけるこの土の山は何？", img: "images/okinawananajakonosu.webp", c: ["ベンケイガニの巣", "ネズミの巣", "オキナワアナジャコの巣"], a: 3 },
+        { q: "マングローブ林で見かけるこの土の山は何？", img: "images/oriikokikugasirakoumori.webp", c: ["ベンケイガニの巣", "ネズミの巣", "オキナワアナジャコの巣"], a: 3 },
         { q: "ヤドリ浜にあるこれは何？", img: "images/bi-tirokku.webp", c: ["捨てられたコンクリート", "ビーチロック", "岩"], a: 2 }
     );
-
     let currentQuestions = [];
     let currentIndex = 0;
     let score = 0;
