@@ -138,233 +138,223 @@
             奄美大島の自然は、刻一刻とその表情を変えます。私が撮影した風景をご紹介します。
         </div>
     </div>
-    <!-- ================= ③ クイズ ================= -->
- 
-    <div id="quiz-screen" class="page-section">
-        <h2 style="color: #0d9488;" data-ja="世界自然遺産クイズ" data-en="Nature Quiz">世界自然遺産クイズ</h2>
-        <div class="status-box">
-            <div id="quiz-progress" style="font-size: 12px; color: #64748b; margin-bottom: 5px;"></div>
-            
-            <!-- ★【ここを修正しました！】プログラムから文字が届く箱のIDを完璧に一致させました -->
-            <div id="question" style="font-size: 16px; font-weight: bold; margin-bottom: 15px; min-height: 3em; display: flex; align-items: center; justify-content: center; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px dashed #cbd5e1;">問題がここに表示されます。</div>
-            
-            <div id="quiz-result" style="font-size: 35px; min-height: 45px;"></div>
-            <div class="menu-grid" id="quiz-btns">
-                <button class="btn btn-blue" onclick="checkAnswer(true)" data-ja="〇 (はい)" data-en="Yes">〇 (はい)</button>
-                <button class="btn btn-orange" onclick="checkAnswer(false)" data-ja="× (いいえ)" data-en="No">× (いいえ)</button>
-            </div>
-            <div id="quiz-final-msg" style="display:none; margin-top:10px;">
-                <button class="btn btn-dark" onclick="startQuiz()" data-ja="もう一度挑戦" data-en="Try Again">もう一度挑戦</button>
-            </div>
-        </div>
-  
-            <!-- ★ジョッキーちゃん改造：ホームではなく、直接クイズ選択画面（quiz-select-screen）へ戻るようにしました -->
-            <div id="quiz-final-msg" style="display:none; margin-top:10px;">
-                <button class="btn btn-dark" style="margin-bottom: 10px;" onclick="startQuiz()" data-ja="もう一度挑戦" data-en="Try Again">もう一度挑戦</button>
-                <button class="btn btn-blue" style="background-color: #0d9488; width: 100%;" onclick="showPage('quiz-select-screen')" data-ja="🏠 クイズえらびに戻る" data-en="🏠 Back to Quiz List">🏠 クイズえらびに戻る</button>
-            </div>
-
-
-
-
-
-
-  </div> <!-- ③ クイズの終わり -->
-
-
-
-
-    <!-- ================= ④ ツアーガイド料金表（前半） ================= -->
-    <div id="guide-screen" class="page-section">
-        <h2 style="color: #f59e0b;" data-ja="🛶 ツアーガイド料金" data-en="🛶 Tour Fees">🛶 ツアーガイド料金</h2>
-        <div class="guide-list">
-            <!-- マングローブカヌー -->
-            <div class="guide-item">
-                <div>
-                    <span data-ja="マングローブカヌー" data-en="Canoe Tour">マングローブカヌー</span>
-                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下: 6,000 JPY" data-en="※Under 15: $80 USD">※中学生以下: 6,000 JPY</div>
-                </div>
-                <strong class="price-tag" data-price-ja="8,000 JPY" data-price-en="$100 USD">8,000 JPY</strong>
-            </div>
-
-            <!-- ナイトツアー -->
-            <div class="guide-item">
-                <div>
-                    <span data-ja="ナイトツアー" data-en="Night Tour">ナイトツアー</span>
-                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($50 USD)">※中学生以下は半額</div>
-                </div>
-                <strong class="price-tag" data-price-ja="8,000 JPY" data-price-en="$100 USD">8,000 JPY</strong>
-            </div>
-
-            <!-- 金作原体験ツアー -->
-            <div class="guide-item">
-                <span data-ja="金作原体験ツアー" data-en="Kinsakubaru Trekking">金作原体験ツアー</span>
-                <strong class="price-tag" data-price-ja="7,000 JPY" data-price-en="$90 USD">7,000 JPY</strong>
-            </div>
-            <!-- 島内周遊ガイド (1日) -->
-            <div class="guide-item">
-                <div>
-                    <span data-ja="島内周遊ガイド (1日)" data-en="Island Day Tour (Full Day)">島内周遊ガイド (1日)</span>
-                    <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($100 USD)">※中学生以下は半額</div>
-                </div>
-                <strong class="price-tag" data-price-ja="15,000 JPY" data-price-en="$200 USD">15,000 JPY</strong>
-            </div>
-
-            <!-- 島内周遊ガイド (半日) -->
-            <div class="guide-item">
-                <div>
-                    <span data-ja="島内周遊ガイド (半日)" data-en="Island Day Tour (Half Day)">島内周遊ガイド (半日)</span>
-                    <div style="font-size: 11px; color: #64748b; margin-top: 2px; font-weight: normal; text-align: left; line-height: 1.3;">
-                        <span data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($70 USD)">※中学生以下は半額</span><br>
-                        <span style="color: #0d9488; font-weight: bold;" data-ja="★料金・プランのご相談に応じます！" data-en="★Prices & plans negotiable!">★料金・プランのご相談に応じます！</span>
-                    </div>
-                </div>
-                <strong class="price-tag" data-price-ja="10,000 JPY" data-price-en="$140 USD">10,000 JPY</strong>
-            </div>
+   
+<!-- ================= ③ クイズ（ボタンの名前を新しいプログラム用に修正済み！） ================= -->
+<div id="quiz-screen" class="page-section">
+    <h2 style="color: #0d9488;" data-ja="世界自然遺産クイズ" data-en="Nature Quiz">世界自然遺産クイズ</h2>
+    <div class="status-box">
+        <div id="quiz-progress" style="font-size: 12px; color: #64748b; margin-bottom: 5px;"></div>
+        
+        <!-- プログラムから文字が届く大切な箱 -->
+        <div id="question" style="font-size: 16px; font-weight: bold; margin-bottom: 15px; min-height: 3em; display: flex; align-items: center; justify-content: center; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px dashed #cbd5e1;">問題がここに表示されます。</div>
+        
+        <div id="quiz-result" style="font-size: 35px; min-height: 45px;"></div>
+        <div class="menu-grid" id="quiz-btns">
+            <!-- ★onclickの中身を「amamiCheckAnswer」に変更しました -->
+            <button class="btn btn-blue" onclick="amamiCheckAnswer(true)" data-ja="〇 (はい)" data-en="Yes">〇 (はい)</button>
+            <button class="btn btn-orange" onclick="amamiCheckAnswer(false)" data-ja="× (いいえ)" data-en="No">× (いいえ)</button>
         </div>
         
-        <!-- 翻訳機のご案内 -->
-        <div style="margin: -5px 0 15px 0; font-size: 12px; color: #475569; text-align: left; line-height: 1.4; padding: 10px; background: #f8fafc; border-radius: 10px; border-left: 4px solid #94a3b8;" data-ja="" data-en="⚠️ Please note: I do not speak fluent English. I will guide you using a pocket translator device. Thank you for your understanding!"></div>
-        <!-- 💻 ホームページ作成のご相談窓口 -->
-        <div style="margin: 25px 0 15px 0; text-align: left; background: #f0fdf4; padding: 18px; border-radius: 18px; border: 2px solid #99f6e4;">
-            <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 15px; color: #0d9488;" data-ja="💻 ホームページ作成のご相談 (地域応援プラン)" data-en="💻 Web Creation Service (Local Support)">💻 ホームページ作成のご相談 (地域応援プラン)</p>
-            <p style="margin: 0 0 12px 0; font-size: 13px; color: #475569; line-height: 1.5;" data-ja="地元の民宿、農園、個人商店の皆様へ。お茶を飲みながら、皆様の魅力が伝わる温かいホームページを一緒に作成します。パソコンが苦手な方も安心してお任せください。" data-en="For local guest houses, farms, and shops. I will create a warm and welcoming website that showcases your unique charm. Perfect for beginners!">地元の民宿、農園、個人商店の皆様へ。お茶を飲みながら、皆様の魅力が伝わる温かいホームページを一緒に作成します。パソコンが苦手な方も安心してお任せください。</p>
-            <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed #ccfbf1;">
-                <span data-ja="ホームページ作成 (初期費用)" data-en="Website Creation Fee">ホームページ作成 (初期費用)</span>
-                <strong style="color: #0d9488;">50,000 JPY</strong>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0;">
-                <span data-ja="毎月の管理・修正サポート費" data-en="Monthly Maintenance Fee">毎月の管理・修正サポート費</span>
-                <strong style="color: #b45309;">3,000 JPY / 月</strong>
-            </div>
-        </div>
-
-        <!-- 連絡先ボタン -->
-        <div class="contact-box">
-            <p style="margin:0 0 10px 0; font-weight:bold;" data-ja="ご予約・ご相談" data-en="Booking & Inquiry">ご予約・ご相談</p>
-            <div class="menu-grid">
-                <a href="mailto:yoro3402@gmail.com" class="btn btn-green" data-ja="📧 メール" data-en="📧 Email">📧 メール</a>
-                <a href="tel:08052619833" class="btn btn-dark" data-ja="📞 電話" data-en="📞 Call">📞 電話</a>
-            </div>
+        <div id="quiz-final-msg" style="display:none; margin-top:10px;">
+            <!-- ★onclickの中身を「amamiStartQuiz」に変更しました -->
+            <button class="btn btn-dark" style="margin-bottom: 10px;" onclick="amamiStartQuiz()" data-ja="もう一度挑戦" data-en="Try Again">もう一度挑戦</button>
+            <button class="btn btn-blue" style="background-color: #0d9488; width: 100%;" onclick="showPage('quiz-select-screen')" data-ja="🏠 クイズえらびに戻る" data-en="🏠 Back to Quiz List">🏠 クイズえらびに戻る</button>
         </div>
     </div>
-    <!-- ================= ⑤ ダイスゲーム ================= -->
-    <div id="game-screen" class="page-section">
-        <h2 style="color: #8b5cf6;" data-ja="🎲 ダイスゲーム" data-en="🎲 Dice Game">🎲 ダイスゲーム</h2>
-        <p style="font-size: 14px; font-weight: bold; color: #6d28d9; margin-bottom: 10px;">君とぼくのサイコロの合計をあててね</p>
-        <div class="status-box">
-            <div><span data-ja="所持金" data-en="Money">所持金</span>: <span class="money" id="player-money">1000</span> / Pot: <span id="current-pot">0</span></div>
-            <p style="font-size: 11px; color: #64748b; margin: 4px 0 0 0;">これはきみのサイコロの数だよ。ぼくのサイコロは見えないよ</p>
-            <div class="dice-area" id="my-dice">?</div>
-            <div id="guess-display-area" style="font-size: 14px; font-weight: bold; margin-bottom: 10px; display: none;">
-                <div>きみの予想: <span id="display-my-guess" style="color: #8b5cf6; font-size: 16px;">-</span></div>
-                <div>ぼくの予想: <span id="display-cpu-guess" style="color: #0d9488; font-size: 16px;">-</span></div>
+</div> <!-- ③ クイズの終わり -->
+
+<!-- ================= ④ ツアーガイド料金表 ================= -->
+<div id="guide-screen" class="page-section">
+    <h2 style="color: #f59e0b;" data-ja="🛶 ツアーガイド料金" data-en="🛶 Tour Fees">🛶 ツアーガイド料金</h2>
+    <div class="guide-list">
+        <!-- マングローブカヌー -->
+        <div class="guide-item">
+            <div>
+                <span data-ja="マングローブカヌー" data-en="Canoe Tour">マングローブカヌー</span>
+                <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下: 6,000 JPY" data-en="※Under 15: $80 USD">※中学生以下: 6,000 JPY</div>
             </div>
-            <div id="game-msg" style="font-weight:bold; font-size: 14px; border-top: 1px dashed #e2e8f0; padding-top: 10px;">勝負開始！</div>
+            <strong class="price-tag" data-price-ja="8,000 JPY" data-price-en="$100 USD">8,000 JPY</strong>
         </div>
-        <div id="game-controls">
-            <button id="btn-start" class="btn btn-purple" onclick="initRound()">勝負開始 (100円)</button>
-            <div id="guess-selector" style="display:none;"><div id="guess-buttons" class="guess-grid"></div></div>
-            <div id="action-controls" class="menu-grid" style="display:none;">
-                <button class="btn btn-orange" onclick="playerAction('call')">勝負</button>
-                <button class="btn btn-blue" onclick="playerAction('fold')">降りる</button>
+
+        <!-- ナイトツアー -->
+        <div class="guide-item">
+            <div>
+                <span data-ja="ナイトツアー" data-en="Night Tour">ナイトツアー</span>
+                <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($50 USD)">※中学生以下は半額</div>
             </div>
+            <strong class="price-tag" data-price-ja="8,000 JPY" data-price-en="$100 USD">8,000 JPY</strong>
+        </div>
+
+        <!-- 金作原体験ツアー -->
+        <div class="guide-item">
+            <span data-ja="金作原体験ツアー" data-en="Kinsakubaru Trekking">金作原体験ツアー</span>
+            <strong class="price-tag" data-price-ja="7,000 JPY" data-price-en="$90 USD">7,000 JPY</strong>
+        </div>
+
+        <!-- 島内周遊ガイド (1日) -->
+        <div class="guide-item">
+            <div>
+                <span data-ja="島内周遊ガイド (1日)" data-en="Island Day Tour (Full Day)">島内周遊ガイド (1日)</span>
+                <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($100 USD)">※中学生以下は半額</div>
+            </div>
+            <strong class="price-tag" data-price-ja="15,000 JPY" data-price-en="$200 USD">15,000 JPY</strong>
+        </div>
+
+        <!-- 島内周遊ガイド (半日) -->
+        <div class="guide-item">
+            <div>
+                <span data-ja="島内周遊ガイド (半日)" data-en="Island Day Tour (Half Day)">島内周遊ガイド (半日)</span>
+                <div style="font-size: 11px; color: #64748b; margin-top: 2px; font-weight: normal; text-align: left; line-height: 1.3;">
+                    <span data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($70 USD)">※中学生以下は半額</span><br>
+                    <span style="color: #0d9488; font-weight: bold;" data-ja="★料金・プランのご相談に応じます！" data-en="★Prices & plans negotiable!">★料金・プランのご相談に応じます！</span>
+                </div>
+            </div>
+            <strong class="price-tag" data-price-ja="10,000 JPY" data-price-en="$140 USD">10,000 JPY</strong>
+        </div>
+    </div>
+
+    <!-- 翻訳機のご案内（データ消えバグを修正） -->
+    <div style="margin: -5px 0 15px 0; font-size: 12px; color: #475569; text-align: left; line-height: 1.4; padding: 10px; background: #f8fafc; border-radius: 10px; border-left: 4px solid #94a3b8;" data-ja="※私は英語が流暢には話せないので、当日は翻訳機を使って誠実にご案内いたします。" data-en="⚠️ Please note: I do not speak fluent English. I will guide you using a pocket translator device. Thank you for your understanding!">※私は英語が流暢には話せないので、当日は翻訳機を使って誠実にご案内いたします。</div>
+    
+    <!-- 💻 ホームページ作成のご相談窓口 -->
+    <div style="margin: 25px 0 15px 0; text-align: left; background: #f0fdf4; padding: 18px; border-radius: 18px; border: 2px solid #99f6e4;">
+        <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 15px; color: #0d9488;" data-ja="💻 ホームページ作成のご相談 (地域応援プラン)" data-en="💻 Web Creation Service (Local Support)">💻 ホームページ作成のご相談 (地域応援プラン)</p>
+        <p style="margin: 0 0 12px 0; font-size: 13px; color: #475569; line-height: 1.5;" data-ja="地元の民宿、農園、個人商店の皆様へ。お茶を飲みながら、皆様の魅力が伝わる温かいホームページを一緒に作成します。パソコンが苦手な方も安心してお任せください。" data-en="For local guest houses, farms, and shops. I will create a warm and welcoming website that showcases your unique charm. Perfect for beginners!">地元の民宿、農園、個人商店の皆様へ。お茶を飲みながら、皆様の魅力が伝わる温かいホームページを一緒に作成します。パソコンが苦手な方も安心してお任せください。</p>
+        <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed #ccfbf1;">
+            <span data-ja="ホームページ作成 (初期費用)" data-en="Website Creation Fee">ホームページ作成 (初期費用)</span>
+            <strong style="color: #0d9488;">50,000 JPY</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0;">
+            <span data-ja="毎月の管理・修正サポート費" data-en="Monthly Maintenance Fee">毎月の管理・修正サポート費</span>
+            <strong style="color: #b45309;">3,000 JPY / 月</strong>
+        </div>
+    </div>
+
+    <!-- 連絡先ボタン -->
+    <div class="contact-box">
+        <p style="margin:0 0 10px 0; font-weight:bold;" data-ja="ご予約・ご相談" data-en="Booking & Inquiry">ご予約・ご相談</p>
+        <div class="menu-grid">
+            <a href="mailto:yoro3402@gmail.com" class="btn btn-green" data-ja="📧 メール" data-en="📧 Email">📧 メール</a>
+            <a href="tel:08052619833" class="btn btn-dark" data-ja="📞 電話" data-en="📞 Call">📞 電話</a>
+        </div>
+    </div>
+</div> <!-- ④ ツアーガイド料金表画面の終わり -->
+
+<!-- ================= ⑤ ダイスゲーム ================= -->
+<div id="game-screen" class="page-section">
+    <h2 style="color: #8b5cf6;" data-ja="🎲 ダイスゲーム" data-en="🎲 Dice Game">🎲 ダイスゲーム</h2>
+    <p style="font-size: 14px; font-weight: bold; color: #6d28d9; margin-bottom: 10px;">君とぼくのサイコロの合計をあててね</p>
+    <div class="status-box">
+        <div><span data-ja="所持金" data-en="Money">所持金</span>: <span class="money" id="player-money">1000</span> / Pot: <span id="current-pot">0</span></div>
+        <p style="font-size: 11px; color: #64748b; margin: 4px 0 0 0;">これはきみのサイコロの数だよ。ぼくのサイコロは見えないよ</p>
+        <div class="dice-area" id="my-dice">?</div>
+        <div id="guess-display-area" style="font-size: 14px; font-weight: bold; margin-bottom: 10px; display: none;">
+            <div>きみの予想: <span id="display-my-guess" style="color: #8b5cf6; font-size: 16px;">-</span></div>
+            <div>ぼくの予想: <span id="display-cpu-guess" style="color: #0d9488; font-size: 16px;">-</span></div>
+        </div>
+        <div id="game-msg" style="font-weight:bold; font-size: 14px; border-top: 1px dashed #e2e8f0; padding-top: 10px;">勝負開始！</div>
+    </div>
+    <div id="game-controls">
+        <button id="btn-start" class="btn btn-purple" onclick="initRound()">勝負開始 (100円)</button>
+        <div id="guess-selector" style="display:none;"><div id="guess-buttons" class="guess-grid"></div></div>
+        <div id="action-controls" class="menu-grid" style="display:none;">
+            <button class="btn btn-orange" onclick="playerAction('call')">勝負</button>
+            <button class="btn btn-blue" onclick="playerAction('fold')">降りる</button>
         </div>
     </div>
 </div>
+</div> <!-- .container の終わり -->
 
+<!-- 画面最下部に固定されるホームに戻るボタン -->
 <button id="home-back-btn" class="btn btn-dark btn-fixed-bottom" style="display: none;" onclick="showPage('main-screen')" data-ja="🏠 ホームへ戻る" data-en="🏠 Home">🏠 ホームへ戻る</button>
 
-<script src="script1.js"></script>
-<script src="script2.js"></script>
-
 <script>
-    // 🌿 もともとの「世界自然遺産クイズ」の30問データと頭脳をここに完璧に復活させました
-    const quizDatabase = [
+    // 🌿 「世界自然遺産クイズ」のデータ
+    const amamiQuizDatabase = [
         { q: "奄美大島は2021年に世界自然遺産に登録された。", a: true },
         { q: "アマミノクロウサギは夜行性の動物である。", a: true },
         { q: "ルリカケスは鹿児島県の県鳥に指定されている。", a: true },
         { q: "ハブは昼間しか活動しないヘビである。", a: false },
         { q: "金作原原生林にはヒカゲヘゴなどの巨大なシダ植物が自生している。", a: true },
-        { q: "奄美大島のマングローブ原生林は日本で一番大きい。", a: false }, // ※2番目
+        { q: "奄美大島のマングローブ原生林は日本で一番大きい。", a: false },
         { q: "大島紬（おおしまつむぎ）は泥で染める伝統的な泥染めが特徴である。", a: true },
         { q: "奄美大島には、冬になるとホエールウォッチングでクジラが見られる。", a: true },
         { q: "アマミトゲネズミは、体にトゲのような硬い毛が生えている。", a: true },
         { q: "奄美大島の最高峰は、湯湾岳（ゆわんだけ）である。", a: true }
-        // ※文字切れを防ぐため、まずはテスト用に10問の電線を繋ぎます。
-        // 動くのを確認できたら、残りの20問も安全に継ぎ足していきましょうね！
     ];
 
+    let currentAmamiQuestions = [];
     let amamiQuizIndex = 0;
     let amamiQuizScore = 0;
 
-    // 世界自然遺産クイズをスタートする頭脳
-    function startQuiz() {
+    // ★関数名を「amamiStartQuiz」に改名して上書きを完全にブロック！
+    function amamiStartQuiz() {
         amamiQuizScore = 0;
         amamiQuizIndex = 0;
-        document.getElementById('quiz-final-msg').style.display = 'none';
-        document.getElementById('quiz-btns').style.display = 'grid';
-        document.getElementById('quiz-result').textContent = '';
-        showQuizQuestion();
+        
+        let shuffled = [...amamiQuizDatabase].sort(() => 0.5 - Math.random());
+        currentAmamiQuestions = shuffled;
+
+        const finalMsg = document.getElementById('quiz-final-msg');
+        const btns = document.getElementById('quiz-btns');
+        const result = document.getElementById('quiz-result');
+        
+        if(finalMsg) finalMsg.style.display = 'none';
+        if(btns) btns.style.display = 'grid';
+        if(result) result.textContent = '';
+        amamiShowQuizQuestion(); // 改名した関数を呼び出す
     }
 
-    function showQuizQuestion() {
-        document.getElementById('quiz-result').textContent = '';
-        document.getElementById('quiz-progress').textContent = `第 ${amamiQuizIndex + 1} 問 / 全 10 問`;
-        document.getElementById('question').textContent = quizDatabase[amamiQuizIndex].q;
-    }
-
-    function checkAnswer(playerAnswer) {
+    // ★関数名を「amamiShowQuizQuestion」に改名！
+    function amamiShowQuizQuestion() {
+        const questionEl = document.getElementById('question');
+        const progressEl = document.getElementById('quiz-progress');
         const resultEl = document.getElementById('quiz-result');
-        const correctAnswer = quizDatabase[amamiQuizIndex].a;
+        
+        if (questionEl && progressEl && resultEl) {
+            resultEl.textContent = '';
+            progressEl.textContent = `第 ${amamiQuizIndex + 1} 問 / 全 ${currentAmamiQuestions.length} 問`;
+            questionEl.textContent = currentAmamiQuestions[amamiQuizIndex].q;
+        }
+    }
 
-        if (playerAnswer === correctAnswer) {
+    // ★関数名を「amamiCheckAnswer」に改名！
+    function amamiCheckAnswer(playerAnswer) {
+        const resultEl = document.getElementById('quiz-result');
+        const questionEl = document.getElementById('question');
+        const btns = document.getElementById('quiz-btns');
+        const finalMsg = document.getElementById('quiz-final-msg');
+        const progressEl = document.getElementById('quiz-progress');
+        const correctAnswer = currentAmamiQuestions[amamiQuizIndex].a;
+
+        if (resultEl && playerAnswer === correctAnswer) {
             amamiQuizScore++;
             resultEl.textContent = "⭕";
             resultEl.style.color = "#059669";
-        } else {
+        } else if(resultEl) {
             resultEl.textContent = "❌";
             resultEl.style.color = "#dc2626";
         }
 
         setTimeout(() => {
             amamiQuizIndex++;
-            if (amamiQuizIndex < 10) {
-                showQuizQuestion();
+            if (amamiQuizIndex < currentAmamiQuestions.length) {
+                amamiShowQuizQuestion();
             } else {
-                document.getElementById('question').textContent = `クイズ終了！あなたのスコアは ${amamiQuizScore} / 10 問でした！`;
-                document.getElementById('quiz-btns').style.display = 'none';
-                document.getElementById('quiz-final-msg').style.display = 'block';
-                document.getElementById('quiz-progress').textContent = '';
-                document.getElementById('quiz-result').textContent = '';
+                if(questionEl) questionEl.textContent = `クイズ終了！あなたのスコアは ${amamiQuizScore} / ${currentAmamiQuestions.length} 問でした！`;
+                if(btns) btns.style.display = 'none';
+                if(finalMsg) finalMsg.style.display = 'block';
+                if(progressEl) progressEl.textContent = '';
+                if(resultEl) resultEl.textContent = '';
             }
         }, 1200);
     }
-</script>
-<script>
-    // 🧭 ジョッキーちゃん新設：クイズ部屋から戻ってきたときに、自動でクイズ選択画面を開く頭脳
-    window.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const page = urlParams.get('page');
-        if (page === 'quiz-select-screen') {
-            showPage('quiz-select-screen');
-            // アドレスバーの見た目をすっきり元に戻すオマケ命令
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-    });
-</script>
-<script>
-    // 🧭 ジョッキーちゃん新設：クイズ部屋から戻ってきたときに、自動でクイズ選択画面を開く頭脳
-    window.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const page = urlParams.get('page');
-        if (page === 'quiz-select-screen') {
-            showPage('quiz-select-screen');
-            // アドレスバーの見た目をすっきり元に戻すオマケ命令
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-    });
+
+    // 最初からクイズを裏でセットしておく
+    amamiStartQuiz();
 </script>
 
+<script src="script1.js"></script>
+<script src="script2.js"></script>
 </body>
 </html>

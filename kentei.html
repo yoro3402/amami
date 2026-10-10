@@ -17,7 +17,7 @@
         .btn:active { transform: scale(0.98); }
         .btn-maru { background-color: #0284c7; color: white; }
         .btn-batsu { background-color: #ea580c; color: white; }
-        .btn-action { background-color: #475569; color: white; grid-column: span 2; font-size: 15px; padding: 12px; }
+        .btn-action { background-color: #475569; color: white; width: 100%; font-size: 15px; padding: 12px; border: none; border-radius: 12px; cursor: pointer; margin-top: 10px; }
         .result-mark { font-size: 60px; font-weight: bold; min-height: 70px; margin-bottom: 10px; }
         .result-good { color: #059669; animation: bounce 0.5s; }
         .result-bad { color: #dc2626; animation: shake 0.3s; }
@@ -51,9 +51,10 @@
         <button class="btn btn-maru" style="width: 100%; margin-bottom: 15px;" onclick="startKentei()">もう一度挑戦する</button>
     </div>
 
-    <!-- ホームページへ戻るボタン -->
-    <button class="btn btn-action" onclick="location.href='index.html'">🏠 ホームページへ戻る</button>
+    <!-- ★改造用ボタン：HTMLの正しい配置（kentei-boxの箱の中の一番下）に移動しました -->
+    <button class="btn-action" style="background-color: #0d9488;" onclick="location.href='index.html?page=quiz-select-screen'">🏠 クイズえらびに戻る</button>
 </div>
+
 <script>
     // 🧭 瀬戸内検定 クイズ貯蔵庫（前半15問）
     const kenteiDatabase = [
@@ -62,7 +63,7 @@
         { q: "アマミトゲネズミはハブの攻撃をジャンプしてかわすことができる。", a: true },
         { q: "与路島には平成中頃までイノシシはいなかった。", a: true },
         { q: "オットンガエルは加計呂麻島にも生息する。", a: true },
-        { q: "アマミイシカワガエルは川の浅瀬に産卵する。", a: true },
+        { q: "アマミイシカワガエルは川の浅瀬に産狼する。", a: true },
         { q: "アマミハナサキガエルは天然記念物ではない。", a: false },
         { q: "シリケンイモリは奄美群島のどの島にも生息する。", a: false },
         { q: "イボイモリは水たまりの中に産卵する。", a: false },
@@ -73,6 +74,7 @@
         { q: "ヒャンのしっぽには毒針があるので危険だ。", a: false },
         { q: "ガラスヒバアは強い毒を持っているので危険だ。", a: false }
     ];
+
     // 🧭 瀬戸内検定 クイズ貯蔵庫（後半14問を追加）
     kenteiDatabase.push(
         { q: "ヒメハブの卵の殻は透明で，中の赤ちゃんが透けて見える。", a: true },
@@ -90,6 +92,7 @@
         { q: "湯湾岳の岩よりもホノホシ海岸の岩の方が古い。", a: false },
         { q: "ハブはイオウが嫌いだから火山島には住んでいない。", a: false }
     );
+
     // クイズを動かすための重要な変数
     let currentQuestions = []; // 今回選ばれた10問が入る箱
     let currentIndex = 0;      // 今、何問目か (0からスタート)
@@ -103,7 +106,7 @@
         document.getElementById('score-area').style.display = 'none';
         document.getElementById('kentei-result').textContent = '';
 
-        // 355問のデータベースから、ランダムに並び替えて10問だけを選び出す仕組み
+        // データベースから、ランダムに並び替えて10問だけを選び出す仕組み
         let shuffled = [...kenteiDatabase].sort(() => 0.5 - Math.random());
         currentQuestions = shuffled.slice(0, 10); // 10問だけを切り取る
 
@@ -116,23 +119,21 @@
         document.getElementById('kentei-progress').textContent = `第 ${currentIndex + 1} 問 / 全 10 問`;
         document.getElementById('kentei-question').textContent = currentQuestions[currentIndex].q;
     }
+
     // ⭕❌ボタンを押したときに正解・不正解を判定する関数
     function answerKentei(playerAnswer) {
         const quizResult = document.getElementById('kentei-result');
         const correctAnswer = currentQuestions[currentIndex].a;
 
         if (playerAnswer === correctAnswer) {
-            // 正解の場合
             score++;
             quizResult.textContent = "⭕";
             quizResult.className = "result-mark result-good";
         } else {
-            // 不正解の場合
             quizResult.textContent = "❌";
             quizResult.className = "result-mark result-bad";
         }
 
-        // 1秒待ってから、自動的に次の問題へ進む（元数学の先生の親切設計です）
         setTimeout(() => {
             currentIndex++;
             if (currentIndex < 10) {
@@ -143,7 +144,7 @@
         }, 1200);
     }
 
-    // 🎉 10問終わった後に点数とコメントを発表する関数
+    // 🎉 点数とコメントを発表する関数
     function showKenteiScore() {
         document.getElementById('quiz-area').style.display = 'none';
         document.getElementById('score-area').style.display = 'block';
@@ -153,7 +154,6 @@
         
         scoreText.textContent = `${score} 問正解 / 10問中`;
 
-        // 点数に応じて、中学生たちが嬉しくなるようなコメントに自動で切り替えます
         if (score === 10) {
             commentText.textContent = "🎊もの凄い！全問正解！きみは完璧な瀬戸内博士だね！🎊";
         } else if (score >= 7) {
@@ -165,19 +165,7 @@
         }
     }
 
-    <!-- ★ジョッキーちゃん修正：ここを「クイズえらびに戻る」ボタンに新しく着せ替えました -->
-    <button class="btn-action" style="background-color: #0d9488;" onclick="location.href='index.html?page=quiz-select-screen'">🏠 クイズえらびに戻る</button>
-</div>
-
-<script>
     // 🚀 画面が開いた瞬間に、一番最初のクイズを起動させます
-    startKentei();
-</script>
-</body>
-</html>
-
-
-
     startKentei();
 </script>
 </body>
