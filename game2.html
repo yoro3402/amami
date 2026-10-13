@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サイコロ自然ダイス - AMAMI WEB CREATIVE</title>
+    <link rel="stylesheet" href="style.css?v=2026">
+    <style>
+        body {
+            background: linear-gradient(135deg, #060b14 0%, #0a1120 100%) !important;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .game-container {
+            max-width: 400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin: 0 0 5px 0;
+            font-weight: 700;
+        }
+
+        .game-intro {
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.5;
+            margin: 0 0 15px 0;
+        }
+
+        /* サイコロのデザイン */
+        .dice-area {
+            margin: 20px 0;
+            perspective: 400px;
+        }
+
+        .dice {
+            width: 70px;
+            height: 70px;
+            background: #ffffff;
+            color: #1e293b;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            box-shadow: 0 6px 16px rgba(255,255,255,0.1), inset 0 -4px 8px rgba(0,0,0,0.2);
+            user-select: none;
+        }
+
+        /* アニメーション用のクラス（JavaScriptから付与） */
+        .rolling-animation {
+            animation: rollAnimation 0.1s linear infinite;
+        }
+
+        @keyframes rollAnimation {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(10deg); }
+            100% { transform: scale(1) rotate(-10deg); }
+        }
+
+        /* スコア情報 */
+        .status-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .status-val {
+            font-weight: bold;
+            color: #38bdf8;
+            font-size: 16px;
+        }
+
+        /* イベント実況掲示板 */
+        .log-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 70px;
+            max-height: 70px;
+            overflow-y: auto;
+            font-size: 12px;
+            color: #e2e8f0;
+            text-align: left;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .btn-roll {
+            padding: 10px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: 0.2s;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-roll:disabled {
+            background: #475569;
+            box-shadow: none;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .btn-footer-nav {
+            display: inline-flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 14px;
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-back:active {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>🎲 サイコロ自然ダイス</h1>
+        <p class="game-intro">
+            サイコロを振って奄美の自然を探検しよう！<br>
+            レアな生き物に出会うとポイントアップ！🐾
+        </p>
+
+        <div class="status-panel">
+            <div>ターン: <span id="turnVal" class="status-val">0</span> / 10</div>
+            <div>自然ポイント: <span id="scoreVal" class="status-val">0</span> pt</div>
+        </div>
+
+        <div class="dice-area">
+            <div id="diceCube" class="dice">⚀</div>
+        </div>
+
+        <div class="game-controls">
+            <button id="rollBtn" class="btn-roll" onclick="rollDice()">サイコロを振る</button>
+        </div>
+
+        <!-- 実況ログ窓 -->
+        <div id="logBox" class="log-box">探検をはじめよう！「サイコロを振る」を押してね。</div>
+
+        <!-- 下部ナビゲーションボタン -->
+        <div class="btn-footer-nav">
+            <a href="game.html" class="btn-back">⬅ ゲｰム選択へ戻る</a>
+            <a href="index.html" class="btn-back">🏠 ﾎｰ姆へ戻る</a>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let turn = 0;
+        const maxTurns = 10;
+        const diceFaces = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"];
+        
+        // 奄美のサイコロイベントデータ
+        const events = {
+            1: { name: "🌿 金作原（きんさくばる）の原生林を探検！ヒカゲヘゴの巨大な葉っぱを見つけた。", pts: 10 },
+            2: { name: "🐦 湯湾岳の森から綺麗な鳴き声！国指定天然記念物のルリカケスを発見！", pts: 30 },
+            3: { name: "🛶 住用（すみよう）のマングローブ原生林をカヌーで進み、珍しいカニを観察した。", pts: 15 },
+            4: { name: "🌊 大島海峡の透明な海へ！美しいサンゴ礁とカラフルな熱帯魚たちに癒やされた。", pts: 20 },
+            5: { name: "🐾 夜の山道で奇跡！絶滅危惧種のアマミノクロウサギが目の前を横切った！", pts: 50 },
+            6: { name: "🐶 相棒のジョッキー君とお散歩！新しいホームページのアイデアをバキバキに思いついた！", pts: 25 }
+        };
+
+        function rollDice() {
+            // もしすでに10回終了していたら、再開リセット処理を行う
+            if (turn >= maxTurns) {
+                score = 0;
+                turn = 0;
+                document.getElementById('turnVal').innerText = turn;
+                document.getElementById('scoreVal').innerText = score;
+                document.getElementById('rollBtn').innerText = "サイコロを振る";
+                document.getElementById('logBox').innerText = "新しい探検をはじめよう！";
+                return;
+            }
+
+            const diceCube = document.getElementById('diceCube');
+            const rollBtn = document.getElementById('rollBtn');
+            const logBox = document.getElementById('logBox');
+
+            // 連打防止のためボタンを無効化し、サイコロを躍動させる
+            rollBtn.disabled = true;
+            diceCube.classList.add('rolling-animation');
+            logBox.innerText = "ジョッキー君がサイコロを厳重に審査中... 🐾";
+
+            let rollCount = 0;
+            const rollInterval = setInterval(() => {
+                // シャッフル中の出目をランダム表示
+                diceCube.innerText = diceFaces[Math.floor(Math.random() * 6)];
+                rollCount++;
+
+                // 10回シャッフルしたら確定処理へ
+                if (rollCount > 10) {
+                    clearInterval(rollInterval);
+                    
+                    // 1から6のランダムな出目を確定
+                    const result = Math.floor(Math.random() * 6) + 1;
+                    
+                    // アニメーションを止め、出目を反映
+                    diceCube.classList.remove('rolling-animation');
+                    diceCube.innerText = diceFaces[result - 1];
+
+                    // スコアとターンの計算
+                    turn++;
+                    const ev = events[result];
+                    score += ev.pts;
+
+                    // 画面の数字をバキバキに書き換える
+                    document.getElementById('turnVal').innerText = turn;
+                    document.getElementById('scoreVal').innerText = score;
+                    logBox.innerHTML = `<strong>【出目 ${result}】</strong><br>${ev.name} (+${ev.pts}pt)`;
+
+                    // 10ターン終わったかチェック
+                    if (turn >= maxTurns) {
+                        setTimeout(() => {
+                            alert(`🎉探検終了！🎉\n10回の探検で【${score}自然ポイント】を獲得しました！ジョッキー君も大満足です🐶🐾`);
+                            rollBtn.innerText = "もう一度探検する";
+                            rollBtn.disabled = false;
+                        }, 400);
+                    } else {
+                        rollBtn.disabled = false;
+                    }
+                }
+            }, 60);
+        }
+    </script>
+</body>
+</html>

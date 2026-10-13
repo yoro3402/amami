@@ -3,170 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>瀬戸内検定 - AMAMI NATURE CLUB</title>
+    <title>奄美クイズに挑戦！</title>
+    <!-- 共通のスタイルシートを読み込み -->
+    <link rel="stylesheet" href="style.css?v=2026">
     <style>
-        /* 瀬戸内検定専用の深みのあるネイビーと爽やかな白のデザイン */
-        body { font-family: "Helvetica Neue", Arial, sans-serif; text-align: center; background-color: #f0f4f8; padding: 20px; color: #1e293b; }
-        .kentei-box { max-width: 500px; margin: 0 auto; background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 2px solid #1e3a8a; }
-        h1 { color: #1e3a8a; font-size: 24px; margin-bottom: 5px; }
-        .subtitle { font-size: 13px; color: #64748b; margin-bottom: 20px; }
-        .progress-text { font-size: 14px; font-weight: bold; color: #1e3a8a; margin-bottom: 10px; }
-        .question-text { font-size: 16px; font-weight: bold; line-height: 1.6; min-height: 4.5em; display: flex; align-items: center; justify-content: center; background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed #cbd5e1; }
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .btn { padding: 15px; font-size: 18px; font-weight: bold; border: none; border-radius: 12px; cursor: pointer; transition: transform 0.1s, opacity 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .btn:active { transform: scale(0.98); }
-        .btn-maru { background-color: #0284c7; color: white; }
-        .btn-batsu { background-color: #ea580c; color: white; }
-        .btn-action { background-color: #475569; color: white; width: 100%; font-size: 15px; padding: 12px; border: none; border-radius: 12px; cursor: pointer; margin-top: 10px; }
-        .result-mark { font-size: 60px; font-weight: bold; min-height: 70px; margin-bottom: 10px; }
-        .result-good { color: #059669; animation: bounce 0.5s; }
-        .result-bad { color: #dc2626; animation: shake 0.3s; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        .quiz-scroll-area {
+            width: 100%;
+            flex: 1;
+            overflow-y: auto;
+            margin: 15px 0;
+            padding-right: 4px;
+        }
+        .quiz-scroll-area::-webkit-scrollbar {
+            width: 4px;
+        }
+        .quiz-scroll-area::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+        .quiz-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 20px 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .question-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #ffffff;
+            margin-bottom: 12px;
+            text-align: left;
+            font-weight: 500;
+        }
+        .question-text-en {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #94a3b8;
+            margin-bottom: 25px;
+            text-align: left;
+            font-style: italic;
+        }
+        .quiz-choice-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 10px;
+        }
+        .quiz-ox-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quiz-ox-btn:active {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: #38bdf8;
+            transform: scale(0.96);
+        }
+        .result-message {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #38bdf8;
+        }
+        .quiz-meta {
+            font-size: 12px;
+            color: #38bdf8;
+            margin-bottom: 12px;
+            text-align: left;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+        .quiz-menu-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 5px;
+        }
+        .quiz-menu-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+        .quiz-menu-btn:active {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            transform: scale(0.98);
+        }
+        .quiz-menu-icon {
+            font-size: 28px;
+            margin-right: 15px;
+            width: 35px;
+            text-align: center;
+        }
+        .quiz-menu-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .quiz-menu-desc {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 3px;
+        }
     </style>
 </head>
 <body>
 
-<div class="kentei-box">
-    <h1>🧭 瀬戸内検定</h1>
-    <div class="subtitle">〜 郷土の自然・文化・歴史を学ぼう 〜</div>
-    
-    <!-- クイズ進行中の画面 -->
-    <div id="quiz-area">
-        <div class="progress-text" id="kentei-progress">第 1 問 / 全 10 問</div>
-        <div class="question-text" id="kentei-question">問題がここに表示されます。</div>
-        <div class="result-mark" id="kentei-result"></div>
-        
-        <div class="btn-grid">
-            <button class="btn btn-maru" onclick="answerKentei(true)">〇 (はい)</button>
-            <button class="btn btn-batsu" onclick="answerKentei(false)">× (いいえ)</button>
+    <div class="container">
+        <!-- 動的に書き換わるヘッダータイトル -->
+        <header class="brand-header">
+            <h1 class="brand-logo" id="mainTitle" style="font-size: 22px; letter-spacing: 0.1em;">奄美クイズ</h1>
+            <p class="brand-sub" id="subTitle">▲ えらんで ちょうせんしよう！ ▲</p>
+        </header>
+
+        <div class="quiz-scroll-area">
+            
+            <!-- 4つのクイズ選択メニュー -->
+            <div id="quizMenu" class="quiz-card">
+                <div class="quiz-menu-group">
+                    <!-- 1. 世界自然遺産クイズ -->
+                    <button class="quiz-menu-btn" onclick="selectQuiz('heritage')">
+                        <span class="quiz-menu-icon">🌳</span>
+                        <div>
+                            <div class="quiz-menu-title">世界自然遺産クイズ</div>
+                            <div class="quiz-menu-desc">奄美の貴重ないきものや大自然のひみつ</div>
+                        </div>
+                    </button>
+                    <!-- 2. 瀬戸内検定（○×） -->
+                    <a href="./kentei2.html" class="quiz-menu-btn" style="text-decoration: none;">
+                        <span class="quiz-menu-icon">🛶</span>
+                        <div>
+                            <div class="quiz-menu-title">瀬戸内検定</div>
+                            <div class="quiz-menu-desc">私たちのまち、瀬戸内町の歴史と文化（〇×）</div>
+                        </div>
+                    </a>
+                    <!-- 3. 瀬戸内検定 三択 -->
+                    <a href="./kentei3.html" class="quiz-menu-btn" style="text-decoration: none;">
+                        <span class="quiz-menu-icon">🎯</span>
+                        <div>
+                            <div class="quiz-menu-title">瀬戸内検定 三択</div>
+                            <div class="quiz-menu-desc">3つの選択肢から選ぶおなじみクイズ（郷土料理など）</div>
+                        </div>
+                    </a>
+                    <!-- 4. 瀬戸内検定 画像 -->
+                    <a href="./kentei4.html" class="quiz-menu-btn" style="text-decoration: none;">
+                        <span class="quiz-menu-icon">📸</span>
+                        <div>
+                            <div class="quiz-menu-title">瀬戸内検定 画像</div>
+                            <div class="quiz-menu-desc">写真を見て答えるビジュアルクイズ</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- クイズプレイ画面 -->
+            <div id="quizPlay" class="quiz-card" style="display: none;">
+                <div class="quiz-meta" id="quizProgress">もんだい 1 / 全 10 問</div>
+                <div class="question-text" id="questionText">読み込み中...</div>
+                <div class="question-text-en" id="questionTextEn">Loading...</div>
+                
+                <div class="quiz-choice-group">
+                    <button class="quiz-ox-btn" onclick="checkAnswer(true)">〇</button>
+                    <button class="quiz-ox-btn" onclick="checkAnswer(false)">×</button>
+                </div>
+                
+                <div id="resultMessage" class="result-message"></div>
+                <button id="nextBtn" class="modal-close-btn" style="display: none; margin-top: 15px;" onclick="nextQuestion()">つぎの問題へ 👉</button>
+            </div>
+
+            <!-- 結果発表画面のボタン -->
+            <div id="quizResult" class="quiz-card" style="display: none;">
+                <h3 style="color: #ffffff; font-size: 18px; margin-bottom: 10px;">🎉 クイズおわり！</h3>
+                <p id="scoreText" style="font-size: 15px; color: #cbd5e1; margin-bottom: 20px;">10問中 8問 正解でした！</p>
+                <p id="gradeText" style="font-size: 13px; color: #38bdf8; font-weight: bold; margin-bottom: 20px; line-height: 1.5;"></p>
+                <button class="nav-btn" style="margin-bottom: 10px; width: 100%; background: rgba(56, 189, 248, 0.1); border-color: #38bdf8;" onclick="backToQuizMenu()">🗺️ クイズメニューにもどる</button>
+                <button class="nav-btn" style="width: 100%;" onclick="startQuiz()">🔄 もう一度このクイズに挑戦する！</button>
+            </div>
+        </div>
+
+        <!-- 【★大修正】画面の一番下にある固定ボタンの文字を「🏠 ホームへもどる」に変更し、リンク先もトップ画面（index.html）へ直通するように復復させました！ -->
+        <div class="back-home-wrap">
+            <a href="index.html" class="nav-btn back-home-btn" id="footerLinkBtn" style="display: block; text-decoration: none; width: 100%;">🏠 ホームへもどる</a>
         </div>
     </div>
 
-    <!-- 10問終わった後の結果発表画面 -->
-    <div id="score-area" style="display: none;">
-        <h2 style="color: #1e3a8a;">🎉 検定結果発表 🎉</h2>
-        <div style="font-size: 24px; font-weight: bold; margin: 20px 0; color: #ea580c;" id="kentei-score">0問正解 / 10問中</div>
-        <div style="font-size: 15px; line-height: 1.6; color: #475569; margin-bottom: 25px;" id="kentei-comment">がんばったね！</div>
-        <button class="btn btn-maru" style="width: 100%; margin-bottom: 15px;" onclick="startKentei()">もう一度挑戦する</button>
-    </div>
+    <!-- ここで別室のクイズデータ（quiz-data.js）を電波リンク！ -->
+    <script src="quiz-data.js?v=2026"></script>
+    <script>
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedQuestions = [];
+        const TOTAL_QUESTIONS = 10;
 
-    <!-- ★改造用ボタン：HTMLの正しい配置（kentei-boxの箱の中の一番下）に移動しました -->
-    <button class="btn-action" style="background-color: #0d9488;" onclick="location.href='index.html?page=quiz-select-screen'">🏠 クイズえらびに戻る</button>
-</div>
+        window.onload = function() {
+            backToQuizMenu();
+        };
 
-<script>
-    // 🧭 瀬戸内検定 クイズ貯蔵庫（前半15問）
-    const kenteiDatabase = [
-        { q: "アマミノクロウサギは土に巣穴を掘って子どもを産む。", a: true },
-        { q: "アマミノクロウサギは子どもが大きくなってくると攻撃して遠くに追い出す。", a: true },
-        { q: "アマミトゲネズミはハブの攻撃をジャンプしてかわすことができる。", a: true },
-        { q: "与路島には平成中頃までイノシシはいなかった。", a: true },
-        { q: "オットンガエルは加計呂麻島にも生息する。", a: true },
-        { q: "アマミイシカワガエルは川の浅瀬に産狼する。", a: true },
-        { q: "アマミハナサキガエルは天然記念物ではない。", a: false },
-        { q: "シリケンイモリは奄美群島のどの島にも生息する。", a: false },
-        { q: "イボイモリは水たまりの中に産卵する。", a: false },
-        { q: "ハブの毒は筋肉を分解することができる。", a: false },
-        { q: "銀ハブより金ハブの方の毒が強い。", a: false },
-        { q: "冬に古仁屋の町の中でも盛んにケロロとないているカエルはアマミアオガエルである。", a: false },
-        { q: "ヒメハブは本土のマムシと同じ種類である。", a: true },
-        { q: "ヒャンのしっぽには毒針があるので危険だ。", a: false },
-        { q: "ガラスヒバアは強い毒を持っているので危険だ。", a: false }
-    ];
+        // クイズ選択メニュー画面に戻る処理
+        function backToQuizMenu() {
+            document.getElementById('mainTitle').innerText = "奄美クイズ";
+            document.getElementById('subTitle').innerText = "▲ えらんで ちょうせんしよう！ ▲";
+            document.getElementById('quizMenu').style.display = 'block';
+            document.getElementById('quizPlay').style.display = 'none';
+            document.getElementById('quizResult').style.display = 'none';
 
-    // 🧭 瀬戸内検定 クイズ貯蔵庫（後半14問を追加）
-    kenteiDatabase.push(
-        { q: "ヒメハブの卵の殻は透明で，中の赤ちゃんが透けて見える。", a: true },
-        { q: "キノボリトカゲは体の色を変えることができる。", a: true },
-        { q: "ルリカケスは奄美大島に生息する鳥の中で一年の最初に子育てをする鳥である。", a: true },
-        { q: "オオトラツグミは奄美大島本島だけに生息する。", a: true },
-        { q: "瀬戸内町古仁屋の平均降水量（雨量）は3000mmを超える。", a: false },
-        { q: "与路島の東にある無人島ハミヤ島で繁殖しているオオミズナギドリは，地面から飛び立つことができない。", a: true },
-        { q: "沖縄のリュウキュウアユは奄美大島原産のアユである。", a: true },
-        { q: "奄美大島の８月の最高気温の平均値は,鹿児島市より高い。", a: false },
-        { q: "ヤドリ浜の砂は軽い石が細かく砕かれたものである。", a: false },
-        { q: "ハブは隆起サンゴ礁でできた喜界島，沖永良部島，与論島には生息しない。", a: true },
-        { q: "リュウキュウアユは海を渡って別の川に行くことができる。", a: true },
-        { q: "ハミヤ島は水鳥の繁殖地として有名だ。", a: true },
-        { q: "湯湾岳の岩よりもホノホシ海岸の岩の方が古い。", a: false },
-        { q: "ハブはイオウが嫌いだから火山島には住んでいない。", a: false }
-    );
-
-    // クイズを動かすための重要な変数
-    let currentQuestions = []; // 今回選ばれた10問が入る箱
-    let currentIndex = 0;      // 今、何問目か (0からスタート)
-    let score = 0;             // 正解数
-
-    // 🧭 検定をスタート（またはリセット）する関数
-    function startKentei() {
-        score = 0;
-        currentIndex = 0;
-        document.getElementById('quiz-area').style.display = 'block';
-        document.getElementById('score-area').style.display = 'none';
-        document.getElementById('kentei-result').textContent = '';
-
-        // データベースから、ランダムに並び替えて10問だけを選び出す仕組み
-        let shuffled = [...kenteiDatabase].sort(() => 0.5 - Math.random());
-        currentQuestions = shuffled.slice(0, 10); // 10問だけを切り取る
-
-        showKenteiQuestion();
-    }
-
-    // 📝 画面に問題を表示する関数
-    function showKenteiQuestion() {
-        document.getElementById('kentei-result').textContent = '';
-        document.getElementById('kentei-progress').textContent = `第 ${currentIndex + 1} 問 / 全 10 問`;
-        document.getElementById('kentei-question').textContent = currentQuestions[currentIndex].q;
-    }
-
-    // ⭕❌ボタンを押したときに正解・不正解を判定する関数
-    function answerKentei(playerAnswer) {
-        const quizResult = document.getElementById('kentei-result');
-        const correctAnswer = currentQuestions[currentIndex].a;
-
-        if (playerAnswer === correctAnswer) {
-            score++;
-            quizResult.textContent = "⭕";
-            quizResult.className = "result-mark result-good";
-        } else {
-            quizResult.textContent = "❌";
-            quizResult.className = "result-mark result-bad";
-        }
-
-        setTimeout(() => {
-            currentIndex++;
-            if (currentIndex < 10) {
-                showKenteiQuestion();
-            } else {
-                showKenteiScore();
+            // 【動的連動】メニュー画面のときは、一番下のボタンを「ホームへもどる(index.html)」にします
+            const footerBtn = document.getElementById('footerLinkBtn');
+            if (footerBtn) {
+                footerBtn.innerText = "🏠 ホームへもどる";
+                footerBtn.href = "index.html";
+                // buttonの挙動をリンク(aタグ)本来の動きに戻す
+                footerBtn.setAttribute("onclick", ""); 
             }
-        }, 1200);
-    }
-
-    // 🎉 点数とコメントを発表する関数
-    function showKenteiScore() {
-        document.getElementById('quiz-area').style.display = 'none';
-        document.getElementById('score-area').style.display = 'block';
-
-        const scoreText = document.getElementById('kentei-score');
-        const commentText = document.getElementById('kentei-comment');
-        
-        scoreText.textContent = `${score} 問正解 / 10問中`;
-
-        if (score === 10) {
-            commentText.textContent = "🎊もの凄い！全問正解！きみは完璧な瀬戸内博士だね！🎊";
-        } else if (score >= 7) {
-            commentText.textContent = "✨素晴らしい成績！瀬戸内の自然についてとっても詳しいね！✨";
-        } else if (score >= 4) {
-            commentText.textContent = "👍ナイスチャレンジ！この調子で何度も挑戦して覚えていこう！";
-        } else {
-            commentText.textContent = "🐾がんばったね！もう一度挑戦して、瀬戸内の宝物を見つけてみよう！";
         }
-    }
 
-    // 🚀 画面が開いた瞬間に、一番最初のクイズを起動させます
-    startKentei();
-</script>
+        // 世界自然遺産クイズが選ばれたときの処理
+        function selectQuiz(type) {
+            document.getElementById('mainTitle').innerText = "世界自然遺産クイズ";
+            document.getElementById('subTitle').innerText = "▲ クイズに ちょうせん中！ ▲";
+
+            // 【動的連動】クイズ本編が始まったら、一番下のボタンを「メニューにもどる」に切り替えます
+            const footerBtn = document.getElementById('footerLinkBtn');
+            if (footerBtn) {
+                footerBtn.innerText = "⬅ クイズメニューにもどる";
+                footerBtn.href = "javascript:void(0);"; // ページ遷移を止める
+                footerBtn.setAttribute("onclick", "backToQuizMenu()"); // クリックでメニューに戻す
+            }
+
+            startQuiz();
+        }
+
+        function startQuiz() {
+            let sourceQuestions = typeof heritageQuestions !== 'undefined' ? heritageQuestions : [];
+            
+            if (sourceQuestions.length === 0) {
+                alert("クイズデータがまだ準備されていないか、読み込めていません。");
+                backToQuizMenu();
+                return;
+            }
+
+            // シャッフルして10問を贅沢に切り出す
+            let shuffled = [...sourceQuestions].sort(() => 0.5 - Math.random());
+            selectedQuestions = shuffled.slice(0, TOTAL_QUESTIONS);
+            
+            currentQuestionIndex = 0;
+            score = 0;
+
+            document.getElementById('quizMenu').style.display = 'none';
+            document.getElementById('quizPlay').style.display = 'block';
+            document.getElementById('quizResult').style.display = 'none';
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const currentQ = selectedQuestions[currentQuestionIndex];
+
+            document.getElementById('quizProgress').innerText = `もんだい ${currentQuestionIndex + 1} / 全 ${TOTAL_QUESTIONS} 問`;
+            document.getElementById('questionText').innerText = currentQ.ja;
+            document.getElementById('questionTextEn').innerText = currentQ.en || '';
+            document.getElementById('resultMessage').innerText = '';
+            document.getElementById('nextBtn').style.display = 'none';
+
+            const buttons = document.getElementsByClassName('quiz-ox-btn');
+            for(let btn of buttons) { btn.disabled = false; }
+        }
+
+        function checkAnswer(userChoice) {
+            const currentQ = selectedQuestions[currentQuestionIndex];
+            const buttons = document.getElementsByClassName('quiz-ox-btn');
+            for(let btn of buttons) { btn.disabled = true; }
+
+            const resultMsg = document.getElementById('resultMessage');
+
+            if (userChoice === currentQ.a) {
+                resultMsg.innerText = "⭕️ せいかい！ / CORRECT";
+                resultMsg.style.color = "#38bdf8";
+                score++;
+            } else {
+                resultMsg.innerText = "❌ まちがい！ / INCORRECT";
+                resultMsg.style.color = "#ef4444";
+            }
+
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < TOTAL_QUESTIONS) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quizPlay').style.display = 'none';
+            document.getElementById('quizResult').style.display = 'block';
+
+            document.getElementById('scoreText').innerText = `10問中、 ${score}問 せいかいでした！`;
+
+            const gradeText = document.getElementById('gradeText');
+            const rate = score / TOTAL_QUESTIONS;
+
+            if (rate === 1) {
+                gradeText.innerText = "🐶「パーフェクトワン！きみは今日からかんぺきなマスターだね！🐾」";
+            } else if (rate >= 0.7) {
+                gradeText.innerText = "🛶「すごいすごい！奄美のことがとっても大好きなんだね！」";
+            } else {
+                gradeText.innerText = "🌿「おしい！これでお出かけすれば、もっと奄美の山や海がおもしろくなるよ！」";
+            }
+        }
+
+        function openComingSoon(quizName) {
+            alert(`「${quizName}」の部屋は、ただいま相棒のジョッキー君と一緒にバキバキに構築しています！お楽しみに 🐶🐾`);
+        }
+    </script>
 </body>
 </html>

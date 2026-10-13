@@ -5,32 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>瀬戸内検定(画像入り3択版) - AMAMI NATURE CLUB</title>
     <style>
-        /* 📱 スマホの1画面にすっぽり収めるための親切設計デザイン */
-        body { font-family: "Helvetica Neue", Arial, sans-serif; text-align: center; background-color: #f0f4f8; padding: 20px; color: #1e293b; }
-        .kentei-box { max-width: 500px; margin: 0 auto; background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 2px solid #1e3a8a; }
-        h1 { color: #1e3a8a; font-size: 24px; margin-bottom: 5px; }
-        .subtitle { font-size: 13px; color: #64748b; margin-bottom: 20px; }
-        .progress-text { font-size: 14px; font-weight: bold; color: #1e3a8a; margin-bottom: 10px; }
+        /* 📱 縦の余白を極限まで削り、スマホ1画面にすっぽり収める超親切設計 */
+        body { 
+            font-family: "Helvetica Neue", Arial, sans-serif; 
+            text-align: center; 
+            background-color: #f0f4f8; 
+            padding: 8px; /* 上下の余白を狭く */
+            color: #1e293b; 
+            margin: 0;
+        }
+        .kentei-box { 
+            max-width: 420px; 
+            margin: 0 auto; 
+            background: white; 
+            border-radius: 16px; 
+            padding: 12px 16px; /* 内側の余白をスリムに */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            border: 2px solid #1e3a8a; 
+        }
+        h1 { color: #1e3a8a; font-size: 18px; margin: 0 0 2px 0; } /* タイトルを小さく */
+        .subtitle { font-size: 11px; color: #64748b; margin-bottom: 8px; } /* すき間を狭く */
+        .progress-text { font-size: 12px; font-weight: bold; color: #1e3a8a; margin-bottom: 6px; }
         
-        /* 問題文の箱 */
-        .question-text { font-size: 16px; font-weight: bold; line-height: 1.6; min-height: 3em; display: flex; align-items: center; justify-content: center; background: #f8fafc; padding: 10px; border-radius: 12px; margin-bottom: 12px; border: 1px dashed #cbd5e1; text-align: left; }
+        /* 写真エリア：さらにコンパクト（幅110px）に微調整 */
+        .quiz-image-area { margin-bottom: 6px; display: none; text-align: center; }
+        .quiz-image-area img { 
+            max-width: 110px; 
+            width: 100%; 
+            height: auto; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
+            border: 1px solid #cbd5e1; 
+        }
+
+        /* 問題文の箱：高さをさらに狭めてキュッと凝縮 */
+        .question-text { 
+            font-size: 14px; 
+            font-weight: bold; 
+            line-height: 1.4; 
+            min-height: 2.5em; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: #f8fafc; 
+            padding: 6px 12px; 
+            border-radius: 8px; 
+            margin-bottom: 8px; 
+            border: 1px dashed #cbd5e1; 
+            text-align: left; 
+        }
         
-        /* 写真エリア：ノートの付箋サイズ（幅140px）にコンパクト化 */
-        .quiz-image-area { margin-bottom: 8px; display: none; text-align: center; }
-        .quiz-image-area img { max-width: 140px; width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); border: 1px solid #cbd5e1; }
-        
-        /* 3つのボタン同士のすき間をピタッと調整 */
-        .choice-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-        .btn-choice { width: 100%; padding: 10px 14px; font-size: 15px; font-weight: bold; text-align: left; background-color: #f1f5f9; color: #1e293b; border: 2px solid #cbd5e1; border-radius: 12px; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        /* 3つのボタン：クッション（内白）を狭めて、ボタン同士の隙間をピタッと凝縮 */
+        .choice-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+        .btn-choice { 
+            width: 100%; 
+            padding: 8px 12px; /* ボタンを薄くスマートに */
+            font-size: 14px; 
+            font-weight: bold; 
+            text-align: left; 
+            background-color: #f1f5f9; 
+            color: #1e293b; 
+            border: 2px solid #cbd5e1; 
+            border-radius: 10px; 
+            cursor: pointer; 
+            transition: 0.2s; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+        }
         .btn-choice:hover { background-color: #e2e8f0; border-color: #94a3b8; transform: scale(1.01); }
         
         /* 下部の案内・戻るボタン */
-        .btn-action { background-color: #475569; color: white; width: 100%; font-size: 15px; padding: 12px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .result-mark { font-size: 60px; font-weight: bold; min-height: 70px; margin-bottom: 10px; }
+        .btn-action { background-color: #475569; color: white; width: 100%; font-size: 14px; padding: 10px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .result-mark { font-size: 40px; font-weight: bold; min-height: 45px; margin-bottom: 4px; line-height: 45px; } /* ○×演出もコンパクトに */
         .result-good { color: #059669; animation: bounce 0.5s; }
         .result-bad { color: #dc2626; animation: shake 0.3s; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
     </style>
 </head>
 <body>
@@ -55,63 +104,19 @@
 
     <!-- 10問終わった後の結果発表画面 -->
     <div id="score-area" style="display: none;">
-        <h2 style="color: #1e3a8a;">🎉 検定結果発表 🎉</h2>
-        <div style="font-size: 24px; font-weight: bold; margin: 20px 0; color: #ea580c;" id="kentei-score">0問正解 / 10問中</div>
-        <div style="font-size: 15px; line-height: 1.6; color: #475569; margin-bottom: 25px;" id="kentei-comment">がんばったね！</div>
-        <button class="btn-choice" style="text-align: center; background-color: #0284c7; color: white; border: none; margin-bottom: 15px;" onclick="startKentei()">もう一度挑戦する</button>
+        <h2 style="color: #1e3a8a; font-size: 20px;">🎉 検定結果発表 🎉</h2>
+        <div style="font-size: 22px; font-weight: bold; margin: 12px 0; color: #ea580c;" id="kentei-score">0問正解 / 10問中</div>
+        <div style="font-size: 14px; line-height: 1.5; color: #475569; margin-bottom: 16px;" id="kentei-comment">がんばったね！</div>
+        <button class="btn-choice" style="text-align: center; background-color: #0284c7; color: white; border: none; margin-bottom: 12px;" onclick="startKentei()">もう一度挑戦する</button>
     </div>
 
-    <!-- 直接クイズえらびに戻れるボタン -->
-    <button class="btn-action" style="background-color: #0d9488;" onclick="location.href='index.html?page=quiz-select-screen'">🏠 クイズえらびに戻る</button>
+    <!-- クイズメニュー（kentei.html）へ直通するボタン -->
+    <button class="btn-action" style="background-color: #0d9488;" onclick="location.href='kentei.html'">⬅ クイズメニューに戻る</button>
 </div>
+
+<!-- 外部の quiz-data4.js からデータをバキバキに読み込みます -->
+<script src="quiz-data4.js?v=2026"></script>
 <script>
-    // 🧭 39問の生き物・自然クイズ貯蔵庫（誤字やバグをすべて綺麗に修正済み！）
-    const kenteiDatabase = [
-        { q: "これは何の糞でしょうか？", img: "images/amaminokurousagi.webp", c: ["アマミノクロウサギ", "リュウキュウイノシシ", "ノヤギ"], a: 1 },
-        { q: "このネズミの名は？", img: "images/kenaganezumi.webp", c: ["ケナガネズミ", "トゲネズミ", "クマネズミ"], a: 1 },
-        { q: "このコウモリは何？", img: "images/oriikokikugasirakoumori.webp", c: ["エラブオオコウモリ", "オリイコキクガシラコウモリ", "イエコウモリ"], a: 2 },
-        { q: "この動物は何？", img: "images/amaminokurousagi.webp", c: ["クマネズミ", "リュウキュウイノシシ", "アマミノクロウサギ"], a: 3 },
-        { q: "この緑色のカエルは何?", img: "images/amamiisikawagaeru.webp", c: ["アマミイシカワガエル", "リュウキュウカジカガエル", "アマミアオガエル"], a: 1 },
-        { q: "このカエルは何？", img: "images/ottonngaeru.webp", c: ["リュウキュウカジカガエル", "ハロウエルアマガエル", "オットンガエル"], a: 3 },
-        { q: "この動物は何？", img: "images/yuukyuuaohebi.webp", c: ["ミミズヘビ", "ガラスヒバア", "リュウキュウアオヘビ"], a: 3 },
-        { q: "このヘビは何？", img: "images/hyann.webp", c: ["アカマタ", "ヒメハブ", "ヒャン"], a: 3 },
-        { q: "この動物は何？", img: "images/ba-batokage.webp", c: ["オキナワトカゲ", "アオカナヘビ", "バーバートカゲ"], a: 3 },
-        { q: "このトカゲは何？", img: "images/ba-batokage.webp", c: ["アオスジトカゲ", "バーバートカゲ", "オオシマトカゲ"], a: 2 },
-        { q: "この動物は何？", img: "images/kinoboritokage.webp", c: ["キノボリトカゲ", "ミナミヤモリ", "オビトカゲモドキ"], a: 1 },
-        { q: "この動物は何？", img: "images/akaumigame.webp", c: ["アカウミガメ", "アオウミガメ", "タイマイ"], a: 1 },
-        { q: "この鳥は何？", img: "images/akahige.webp", c: ["アカマタ", "アカヒゲ", "アカショウビン"], a: 2 },
-        { q: "この鳥は何？", img: "images/amamiyamasigi.webp", c: ["キジバト", "アマミヤマシギ", "ミフウズラ"], a: 2 },
-        { q: "この鳥は何？", img: "images/misago.webp", c: ["カツオドリ", "オオミズナギドリ", "ミサゴ"], a: 3 },
-        { q: "この鳥は何？", img: "images/akashoubinn.webp", c: ["アカショウビン", "アカヒゲ", "アカマタ"], a: 1 },
-        { q: "養殖されている魚では世界一大きな魚は？", img: "images/kuromaguro.webp", c: ["カツオ", "クロマグロ", "カンパチ"], a: 2 },
-        { q: "これは何？", img: "images/minamitobihaze.webp", c: ["ミナミトビハゼ", "ウナギ", "ヨシノボリ"], a: 1 },
-        { q: "昼間の地面を這っているこの魚は何？", img: "images/oounagi.webp", c: ["オオウナギ", "タウナギ", "オナガウツボ"], a: 1 },
-        { q: "1970年代に沖縄では絶滅して、奄美しかいないこの魚は？", img: "images/ryuukyuuayu.webp", c: ["リュウキュウアユ", "タップミノー", "メダカ"], a: 1 }
-    ];
-
-    // 後半のデータをプッシュ
-    kenteiDatabase.push(
-        { q: "これ貝は何？", img: "images/mabegai.webp", c: ["マベガイ", "シロチョウガイ", "アコヤガイ"], a: 1 },
-        { q: "これは何？", img: "images/kobusime.webp", c: ["スルメイカ", "ダイオウイカ", "コブシメ"], a: 3 },
-        { q: "干潟に住むこのカニは何？", img: "images/okinawahakusennsiomaneki.webp", c: ["ズワイガニ", "コ米ツキガニ", "オキナワハクセンシオマネキ"], a: 3 },
-        { q: "このクモの名前は？", img: "images/oojorougumo.webp", c: ["オオジョロウグモ", "アシダカグモ", "ハエトリグモ"], a: 1 },
-        { q: "このクワガタの名前は？", img: "images/amamimarubanekuwagata.webp", c: ["アマミビラタクワガタ", "アマミマルバネクワガタ", "アマミノコギリクワガタ"], a: 2 },
-        { q: "このクワガタの名前は？", img: "images/amaminokogirikuwagata.webp", c: ["アマミミヤマクワガタ", "アマミノコギリクワガタ", "シカクワガタ"], a: 2 },
-        { q: "これは何？", img: "images/marudaikokukogane.webp", c: ["アマミコカブトムシ", "オオシマセンチコガネ", "マルダイコクコガネ"], a: 3 },
-        { q: "このチョウは何？", img: "images/ryukyuasagimadara.webp", c: ["アカボシゴマダラ", "リュウキュウアサギマダラ", "ツマベニチョウ"], a: 2 },
-        { q: "これは何？", img: "images/ryuukyuuhagurotonnbo.webp", c: ["オニヤンマ", "リュウキュウハグロトンボ", "アマミトゲオトンボ"], a: 2 },
-        { q: "これは何？", img: "images/hikegehego.webp", c: ["ヒカゲヘゴ", "アマミシダ", "リュウビンタイ"], a: 1 },
-        { q: "この木の枝に依っている植物は何？", img: "images/simaootaniwatari.webp", c: ["タマシダ", "シマオオタニワタリ", "ワラビ"], a: 2 },
-        { q: "これは何？", img: "images/ssimaazami.webp", c: ["ソテツ", "シマアザミ", "カリフラワー"], a: 2 },
-        { q: "これは何でしょう。日本で一番早く咲き，沖縄では正月前に咲きます。", img: "images/hikannzakura.webp", c: ["ソメイヨシノ", "カンヒザクラ(ヒカンザクラ)", "オオシマザクラ"], a: 2 },
-        { q: "これは何でしょう？アメリカ大陸原産の移入植物，菊の仲間で白い花を一年中咲かせる。奄美大島でも畑や道路脇の雑草となり困りもの。", img: "images/sironosenndanngusa.webp", c: ["タヂアワユキセンダングサ(シロノセンダングサ)", "オオマツヨイグサ", "セイタカアワダチソウ"], a: 1 },
-        { q: "これは何の根？", img: "images/gajumaru.webp", c: ["オキナワジイ", "サキシマスオウノキ", "ガジュマル"], a: 3 },
-        { q: "秋にとれるこのキノコの名は？", img: "images/siitake.webp", c: ["シイタケ", "マツタケ", "バカマツタケ"], a: 1 },
-        { q: "このキノコの名は？", img: "images/kikurage.webp", c: ["コフキサルノコシカケ", "カワラタケ", "キクラゲ"], a: 3 },
-        { q: "マングローブ林で見かけるこの土の山は何？", img: "images/oriikokikugasirakoumori.webp", c: ["ベンケイガニの巣", "ネズミの巣", "オキナワアナジャコの巣"], a: 3 },
-        { q: "ヤドリ浜にあるこれは何？", img: "images/bi-tirokku.webp", c: ["捨てられたコンクリート", "ビーチロック", "岩"], a: 2 }
-    ];
-
     let currentQuestions = [];
     let currentIndex = 0;
     let score = 0;
@@ -124,14 +129,22 @@
         document.getElementById('score-area').style.display = 'none';
         document.getElementById('kentei-result').textContent = '';
 
-        // 毎回ランダムに並び替えて10問を抽出する
-        let shuffled = [...kenteiDatabase].sort(() => 0.5 - Math.random());
+        // 別室（quiz-data4.js）のデータを安全に呼び出す処理
+        let sourceDatabase = typeof imageKenteiDatabase !== 'undefined' ? imageKenteiDatabase : [];
+        
+        if (sourceDatabase.length === 0) {
+            alert("画像クイズのデータが正しく読み込めません。");
+            return;
+        }
+
+        // 39問から毎回ランダムに10問を抽出する
+        let shuffled = [...sourceDatabase].sort(() => 0.5 - Math.random());
         currentQuestions = shuffled.slice(0, 10);
 
         showKenteiQuestion();
     }
 
-    // 📝 画面に問題と写真を切り替える関数
+    // 📝 画面に問題文と写真を正しく送り届ける関数
     function showKenteiQuestion() {
         document.getElementById('kentei-result').textContent = '';
         document.getElementById('kentei-progress').textContent = `第 ${currentIndex + 1} 問 / 全 10 問`;
@@ -149,13 +162,13 @@
             imgBox.style.display = 'none';
         }
         
-        // ★バグ完全修正：リスト（配列）から1つずつ選択肢を取り出すように [0],[1],[2] を書き加えました
+        // 3つのボタンの中身を別室データから正確に読み込む設定
         document.getElementById('choice1').textContent = `① ${currentQ.c[0]}`;
         document.getElementById('choice2').textContent = `② ${currentQ.c[1]}`;
         document.getElementById('choice3').textContent = `③ ${currentQ.c[2]}`;
     }
 
-    // 3択ボタンが押されたら答え合わせをする関数
+    // ボタンが押されたら答え合わせをする関数
     function answerKentei(playerChoice) {
         const quizResult = document.getElementById('kentei-result');
         const correctAnswer = currentQuestions[currentIndex].a;
@@ -191,17 +204,17 @@
         scoreText.textContent = `${score} 問正解 / 10問中`;
 
         if (score === 10) {
-            commentText.textContent = "🎊もの凄い！全問正解！きみは完璧な瀬戸内生き物博士だね！🎊";
+            commentText.textContent = "🎊全問正解！完璧な瀬戸内マスターだね！🎊";
         } else if (score >= 7) {
-            commentText.textContent = "✨素晴らしい成績！瀬戸内の大自然にとても詳しいね！✨";
+            commentText.textContent = "✨素晴らしい！大自然のことにとても詳しいね！✨";
         } else if (score >= 4) {
-            commentText.textContent = "👍ナイスチャレンジ！この調子で何度も挑戦して覚えていこう！";
+            commentText.textContent = "👍ナイス！何度も挑戦して覚えていこう！";
         } else {
-            commentText.textContent = "🐾がんばったね！もう一度挑戦して、シマの生き物たちを覚えよう！";
+            commentText.textContent = "🐾がんばったね！もう一度挑戦してみよう！";
         }
     }
 
-    // 🚀 ページを開いた瞬間に、一番最初のクイズを起動させます
+    // 🚀 画面が開いた瞬間にクイズを起動させます
     startKentei();
 </script>
 </body>

@@ -1,360 +1,248 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- Google tag (gtag.js) メーターセンサー -->
-    <script async src="https://googletagmanager.com"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-16041489621');
-    </script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMAMI NATURE CLUB - 奥田義仁</title>
-    <link rel="stylesheet" href="style.css">
+    <title>AMAMI WEB CREATIVE</title>
+    <!-- ガイドサイトと同じ美しい世界観のスタイルシートを読み込み -->
+    <link rel="stylesheet" href="style.css?v=2026">
+    <style>
+        /* Webクリエイティブ専用の、少し知的でサイバー感のある深い海のグラデーション背景 */
+        body {
+            background: linear-gradient(135deg, #060b14 0%, #0a1120 100%) !important;
+        }
+        
+        /* ABOUT US内のリンクボタン専用のおしゃれなデザイン */
+        .link-box-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .link-box-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .link-box-item:active {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #38bdf8;
+            transform: scale(0.98);
+        }
+        .link-box-title {
+            font-weight: 500;
+        }
+        .link-box-arrow {
+            color: #38bdf8;
+            font-size: 12px;
+        }
+
+        /* ホームページ作成相談モーダル用の装飾 */
+        .plan-section-title {
+            font-size: 13px;
+            color: #38bdf8;
+            font-weight: bold;
+            margin: 15px 0 5px 0;
+            letter-spacing: 0.5px;
+        }
+        .plan-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+        .plan-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .plan-item:last-child {
+            border-bottom: none;
+        }
+        .plan-name {
+            font-size: 12px;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+        .plan-price {
+            font-size: 14px;
+            color: #38bdf8;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-    <!-- 言語切り替え -->
-    <div class="lang-switch">
-        <button class="lang-btn active" id="btn-ja" onclick="setLang('ja')">JP</button>
-        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
-    </div>
+    <div class="container">
+        <!-- プロ仕様の新しいブランドロゴ（タップすると開発者プロフィールが開きます） -->
+        <header class="brand-header" onclick="openModal()">
+            <h1 class="brand-logo">AMAMI WEB CREATIVE</h1>
+            <p class="brand-sub">▲ Tap to Creator & Partner Profile ▲</p>
+        </header>
 
-
-    <!-- ================= ① メイン画面（HOME） ================= -->
-    <div id="main-screen" class="page-section active-section">
-        <div class="club-title">AMAMI NATURE CLUB</div>
-        <div class="slideshow-container">
-            <div class="mySlides fade"><img src="photo1.jpg" alt="Amami 1"></div>
-            <div class="mySlides fade"><img src="photo2.jpg" alt="Amami 2"></div>
-            <div class="mySlides fade"><img src="photo3.jpg" alt="Amami 3"></div>
-            <div class="mySlides fade"><img src="photo4.jpg" alt="Amami 4"></div>
-        </div>
-        <div style="font-size: 50px; margin-top: 10px;">🐕🐾</div>
-        
-        <!-- 名前をクリックすると自己紹介へ移動 -->
-        <div style="font-size: 26px; font-weight: bold; color: #0d9488;" 
-             onclick="showPage('profile-screen')" 
-             style="cursor: pointer; text-decoration: underline; touch-action: manipulation;">
-             <span style="text-decoration: underline; cursor: pointer;">奥田義仁</span>
-        </div>
-        
-        <!-- 「犬の散歩」をクリックするとハッピー＆ラッキーの画面に移動 -->
-        <p data-ja="趣味は<strong onclick='showPage(&quot;dog-screen&quot;)' style='color: #0d9488; text-decoration: underline; cursor: pointer; touch-action: manipulation;'>犬の散歩</strong>です。" 
-           data-en="My hobby is <strong onclick='showPage(&quot;dog-screen&quot;)' style='color: #0d9488; text-decoration: underline; cursor: pointer; touch-action: manipulation;'>walking my dogs</strong>.">
-            趣味は<strong onclick="showPage('dog-screen')" style="color: #0d9488; text-decoration: underline; cursor: pointer; touch-action: manipulation;">犬の散歩</strong>です。
-        </p>
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-        
-        <!-- 厳選された5つのメニュー扉（ブログボタンのジャンプ命令を最強の形に強化しました） -->
-        <div class="menu-grid">
-            <button class="btn btn-blue" onclick="showPage('nature-screen')" data-ja="🌿 奄美の自然" data-en="🌿 Nature">🌿 奄美の自然</button>
-            <button class="btn btn-orange" onclick="showPage('guide-screen')" data-ja="🛶 ツアーガイド" data-en="🛶 Tour Guide">🛶 ツアーガイド</button>
-            <button class="btn btn-green" onclick="showPage('quiz-select-screen')" data-ja="🔍 クイズに挑戦" data-en="🔍 Quiz Challenges">🔍 クイズに挑戦</button>
-            <button class="btn btn-purple" onclick="showPage('game-select-screen')" data-ja="🎲 ゲームで遊ぶ" data-en="🎲 Play Games">🎲 ゲームで遊ぶ</button>
+        <!-- 子供たちが迷わない極上の5大メニューボタン -->
+        <nav class="main-nav">
+            <!-- 1. 奄美クイズ -->
+            <a href="kentei.html" class="nav-btn">🧠 奄美クイズ</a>
             
-            <!-- ★【バグ完全修正】スマホの安全装置をすり抜けて、新しいタブで確実に奥田さんのブログを1秒で開きます -->
-            <button class="btn btn-dark" style="background-color: #475569;" onclick="window.open('https://yoro3402.synapse-blog.jp', '_blank')" data-ja="📖 ブログ" data-en="📖 Blog">📖 ブログ</button>
-        </div>
-    </div> <!-- ① メイン画面の終わり -->
-
-      <!-- ================= 🔍 クイズえらび画面（新設） ================= -->
-    <div id="quiz-select-screen" class="page-section">
-        <h2 style="color: #0d9488;" data-ja="🔍 クイズに挑戦" data-en="🔍 Quiz Challenges">🔍 クイズに挑戦</h2>
-        <p style="font-size: 14px; color: #475569; margin-bottom: 20px;" data-ja="挑戦したいクイズを選んでね！" data-en="Choose a quiz to challenge!">挑戦したいクイズを選んでね！</p>
-        
-        <div class="choice-list" style="display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 0 auto 20px auto;">
-            <!-- ① 世界自然遺産クイズ -->
-            <button class="btn-choice" style="background-color: #f0fdf4; border-color: #bbf7d0; color: #166534;" onclick="showPage('quiz-screen'); startQuiz();" data-ja="🌿 世界自然遺産クイズ (30問)" data-en="🌿 Amami Nature Quiz">🌿 世界自然遺産クイズ (30問)</button>
+            <!-- 2. ネイチャーゲーム -->
+            <button class="nav-btn" onclick="jumpToGameMenu()">🎮 ネイチャーゲーム</button>
             
-            <!-- ② ⭕❌ 瀬戸内検定 (kentei.html へのリンクを完全に修正しました) -->
-            <button class="btn-choice" style="background-color: #f0f9ff; border-color: #bae6fd; color: #075985;" onclick="location.href='kentei.html'" data-ja="🧭 瀬戸内検定 (〇×問題)" data-en="🧭 Setouchi Test (True/False)">🧭 瀬戸内検定 (〇×問題)</button>
+            <!-- 3. 公式ブログ -->
+            <button class="nav-btn" onclick="jumpToBlog()">📝 公式ブログ（植物日記）</button>
             
-            <!-- ③ 🍱 瀬戸内検定 (kentei3.html へのリンクを完全に修正しました) -->
-            <button class="btn-choice" style="background-color: #fff7ed; border-color: #fed7aa; color: #9a3412;" onclick="location.href='kentei3.html'" data-ja="🍱 瀬戸内検定 (3択問題)" data-en="🍱 Setouchi Test (3 Choices)">🍱 瀬戸内検定 (3択問題)</button>
+            <!-- 4. ホームページ作成相談 -->
+            <button class="nav-btn" onclick="openSoudanModal()">💻 ホームページ作成相談</button>
+            
+            <!-- 5. ガイドサイト（相互リンク） -->
+            <button class="nav-btn" onclick="jumpToNatureClub()" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05);">🛶 AMAMI NATURE CLUB (ガイドサイト)</button>
+        </nav>
 
-            <!-- ④ 📸 瀬戸内検定 (kentei4.html へのリンクを完全に修正しました) -->
-            <button class="btn-choice" style="background-color: #fdf2f8; border-color: #fbcfe8; color: #9d174d;" onclick="location.href='kentei4.html'" data-ja="📸 瀬戸内検定 (画像入り3択)" data-en="📸 Setouchi Test (with Images)">📸 瀬戸内検定 (画像入り3択)</button>
-        </div>
-    </div> <!-- クイズえらび画面の終わり -->
-
-
-    <!-- ================= 🎲 ゲームで遊ぶ画面（新設） ================= -->
-    <div id="game-select-screen" class="page-section">
-        <h2 style="color: #8b5cf6;" data-ja="🎲 ゲームで遊ぶ" data-en="🎲 Play Games">🎲 ゲームで遊ぶ</h2>
-        <p style="font-size: 14px; color: #475569; margin-bottom: 20px;" data-ja="遊びたいゲームを選んでね！" data-en="Choose a game to play!">遊びたいゲームを選んでね！</p>
-        
-        <div class="menu-grid">
-            <!-- 既存のダイスゲーム -->
-            <button class="btn btn-purple" onclick="showPage('game-screen'); resetGame();" data-ja="🎲 ダイスゲーム" data-en="🎲 Dice Game">🎲 ダイスゲーム</button>
-            <!-- 独立ファイルの宝さがしゲーム -->
-            <a href="treasure.html" class="btn btn-purple" style="background-color: #ec4899;" data-ja="💎 宝さがし" data-en="💎 Treasure Hunt">💎 宝さがし</a>
-        </div>
+        <!-- コピーライト -->
+        <footer class="brand-footer">
+            <p>&copy; AMAMI WEB CREATIVE</p>
+        </footer>
     </div>
-    <!-- ================= 🛶 奥田の自己紹介画面 ================= -->
-    <div id="profile-screen" class="page-section">
-        <h2 style="color: #0d9488;" data-ja="🛶 ガイドプロフィール" data-en="🛶 Guide Profile">🛶 ガイドプロフィール</h2>
-        <div style="background: #f0fdf4; border-radius: 16px; padding: 20px; text-align: left; font-size: 14px; line-height: 1.6; color: #334155; margin: 15px 0; border: 1px solid #bbf7d0;">
-            <div style="text-align: center; margin-bottom: 15px;">
-                <img src="kanu.jpg" alt="カヌーガイド奥田" style="max-width: 240px; width: 100%; height: auto; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+    <!-- 【機能1】ふわっと飛び出す開発者＆相棒のプロフィールルーム（モーダル） -->
+    <div id="profileModal" class="modal-overlay" onclick="closeModal(event, 'profileModal')">
+        <div class="modal-card" style="max-height: 85vh; overflow-y: auto;">
+            <div class="modal-header">
+                <h2>CREATOR PROFILE</h2>
+                <span class="close-x" onclick="document.getElementById('profileModal').classList.remove('active')">&times;</span>
             </div>
-            <div data-ja="33年間、中学校の数学の先生をしていました。現在は、奄美大島自然保護パトロール員をしており、奄美大島の豊かな自然と希少種の保護に努めています。島の大切な宝物である動植物のこと、美しい風景のことを、元先生ならではの分かりやすさで楽しく丁寧にご案内いたします！" 
-                 data-en="I worked as a junior high school mathematics teacher for 33 years. Currently, I serve as an Amami Oshima Nature Conservation Patrol Officer, working to protect the rich environment and endangered species of the island. Leveraging my teaching background, I will guide you through the island's precious flora, fauna, and beautiful scenery in a fun and easy-to-understand way!">
-                33年間、中学校の数学の先生をしていました。現在は、奄美大島自然保護パトロール員をしており、奄美大島の豊かな自然と希少種の保護に努めています。島の大切な宝物である動植物のこと、美しい風景のことを、元先生ならではの分かりやすさで楽しく丁寧にご案内いたします！
-            </div>
-        </div>
-    </div>
-    
-    <!-- ================= 🐕 犬の散歩（隠し自己紹介画面） ================= -->
-    <div id="dog-screen" class="page-section">
-        <h2 style="color: #0d9488;" data-ja="🐕 愛犬との思い出" data-en="🐕 My Beloved Dogs">🐕 愛犬との思い出</h2>
-        <div style="background: #f0fdf4; border-radius: 16px; padding: 20px; text-align: left; font-size: 14px; line-height: 1.6; color: #334155; margin: 15px 0; border: 1px solid #bbf7d0;">
-            <div style="text-align: center; margin-bottom: 15px;">
-                <img src="inu.jpg" alt="愛犬ハッピーとラッキー" style="max-width: 240px; width: 100%; height: auto; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-            </div>
-            <div data-ja="愛犬の<strong>ハッピー</strong>と<strong>ラッキー</strong>は、15年前に私が中学校の担任をしていた頃、校門に置かれていた保護犬です。生徒たちが教室へ連れてきてくれた縁で、我が家で迎えることになりました。毎日の朝と夕方の散歩が欠かせない日課で、そのおかげで今もみんなで元気いっぱいに過ごしています！" 
-                 data-en="My dogs, <strong>Happy</strong> and <strong>Lucky</strong>, were rescued 15 years ago. When I was a junior high school teacher, they were left at the school gate, and my students brought them to the classroom. That's how they became part of my family! Walking them every morning and evening is our essential routine, and thanks to that, we are all doing great and stay healthy.">
-                愛犬の<strong>ハッピー</strong>と<strong>ラッキー</strong>は、15年前に私が中学校の担任をしていた頃、校門に置かれていた保護犬です。生徒たちが教室へ連れてきてくれた縁で、我が家で迎えることになりました。毎日の朝と夕方の散歩が欠かせない日課で、そのおかげで今もみんなで元気いっぱいに過ごしています！
-            </div>
-        </div>
-    </div> <!-- 犬の画面の終わり -->
+            <div class="modal-body">
+                <div class="profile-item">
+                    <span class="label">代表エンジニア / クリエイター</span>
+                    <p class="name">奥田 義仁 <span class="en">Yoshihito Okuda</span></p>
+                    <p class="text" style="font-size: 12px; color: #cbd5e1; margin-top: 8px; line-height: 1.6;">
+                        30年以上、中学校の数学教師として教鞭を執る傍ら、プログラミング技術を独学。現在はHTML5/CSS3/JavaScriptを用い、端末内での「100%完全独立動作」にこだわった超高精度な軽量・高速サイトデザインを提唱しています。<br><br>
+                        地元の民宿、農園、商店の魅力を世界へ発信する「地域応援プラン」を主宰。お茶を飲みながら、温かくてバキバキに動くホームページを皆様と一緒に作成します。
+                    </p>
+                </div>
 
+                <div class="profile-item" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px;">
+                    <span class="label">専属品質管理チーフ / 大切な相棒</span>
+                    <p class="name">ジョッキー君 🐶 <span class="en">Jockey</span></p>
+                    <p class="text" style="font-size: 12px; color: #cbd5e1; margin-top: 6px;">
+                        奥田の最も信頼するバディ。毎日の散歩タイム（ライフワーク）を通じて、クリエイターの新しいアルゴリズムやデザインのアイデアを刺激・検証する重要な役割を担っています。
+                    </p>
+                </div>
 
-
-   <!-- ================= ② 自然（ギャラリー） ================= -->
-    <div id="nature-screen" class="page-section">
-        <h2 style="color: #0284c7;" data-ja="🌿 奄美の自然" data-en="🌿 Nature Gallery">🌿 奄美の自然</h2>
-        <div class="photo-grid">
-            <div><img src="photo1.jpg" class="nature-photo"><div class="photo-caption">Amami 1</div></div>
-            <div><img src="photo2.jpg" class="nature-photo"><div class="photo-caption">Amami 2</div></div>
-            <div><img src="photo3.jpg" class="nature-photo"><div class="photo-caption">Amami 3</div></div>
-            <div><img src="photo4.jpg" class="nature-photo"><div class="photo-caption">Amami 4</div></div>
-        </div>
-        <div style="margin-top: 10px; font-size: 13px; text-align: left; padding: 15px; background: #f0f9ff; border-radius: 10px; line-height: 1.5;" data-ja="奄美大島の自然は、刻一刻とその表情を変えます。私が撮影した風景をご紹介します。" data-en="Nature of Amami Oshima. These are the scenes I captured.">
-            奄美大島の自然は、刻一刻とその表情を変えます。私が撮影した風景をご紹介します。
-        </div>
-    </div>
-   
-<!-- ================= ③ クイズ（ボタンの名前を新しいプログラム用に修正済み！） ================= -->
-<div id="quiz-screen" class="page-section">
-    <h2 style="color: #0d9488;" data-ja="世界自然遺産クイズ" data-en="Nature Quiz">世界自然遺産クイズ</h2>
-    <div class="status-box">
-        <div id="quiz-progress" style="font-size: 12px; color: #64748b; margin-bottom: 5px;"></div>
-        
-        <!-- プログラムから文字が届く大切な箱 -->
-        <div id="question" style="font-size: 16px; font-weight: bold; margin-bottom: 15px; min-height: 3em; display: flex; align-items: center; justify-content: center; background: #f8fafc; padding: 15px; border-radius: 12px; border: 1px dashed #cbd5e1;">問題がここに表示されます。</div>
-        
-        <div id="quiz-result" style="font-size: 35px; min-height: 45px;"></div>
-        <div class="menu-grid" id="quiz-btns">
-            <!-- ★onclickの中身を「amamiCheckAnswer」に変更しました -->
-            <button class="btn btn-blue" onclick="amamiCheckAnswer(true)" data-ja="〇 (はい)" data-en="Yes">〇 (はい)</button>
-            <button class="btn btn-orange" onclick="amamiCheckAnswer(false)" data-ja="× (いいえ)" data-en="No">× (いいえ)</button>
-        </div>
-        
-        <div id="quiz-final-msg" style="display:none; margin-top:10px;">
-            <!-- ★onclickの中身を「amamiStartQuiz」に変更しました -->
-            <button class="btn btn-dark" style="margin-bottom: 10px;" onclick="amamiStartQuiz()" data-ja="もう一度挑戦" data-en="Try Again">もう一度挑戦</button>
-            <button class="btn btn-blue" style="background-color: #0d9488; width: 100%;" onclick="showPage('quiz-select-screen')" data-ja="🏠 クイズえらびに戻る" data-en="🏠 Back to Quiz List">🏠 クイズえらびに戻る</button>
-        </div>
-    </div>
-</div> <!-- ③ クイズの終わり -->
-
-<!-- ================= ④ ツアーガイド料金表 ================= -->
-<div id="guide-screen" class="page-section">
-    <h2 style="color: #f59e0b;" data-ja="🛶 ツアーガイド料金" data-en="🛶 Tour Fees">🛶 ツアーガイド料金</h2>
-    <div class="guide-list">
-        <!-- マングローブカヌー -->
-        <div class="guide-item">
-            <div>
-                <span data-ja="マングローブカヌー" data-en="Canoe Tour">マングローブカヌー</span>
-                <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下: 6,000 JPY" data-en="※Under 15: $80 USD">※中学生以下: 6,000 JPY</div>
-            </div>
-            <strong class="price-tag" data-price-ja="8,000 JPY" data-price-en="$100 USD">8,000 JPY</strong>
-        </div>
-
-        <!-- ナイトツアー -->
-        <div class="guide-item">
-            <div>
-                <span data-ja="ナイトツアー" data-en="Night Tour">ナイトツアー</span>
-                <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($50 USD)">※中学生以下は半額</div>
-            </div>
-            <strong class="price-tag" data-price-ja="8,000 JPY" data-price-en="$100 USD">8,000 JPY</strong>
-        </div>
-
-        <!-- 金作原体験ツアー -->
-        <div class="guide-item">
-            <span data-ja="金作原体験ツアー" data-en="Kinsakubaru Trekking">金作原体験ツアー</span>
-            <strong class="price-tag" data-price-ja="7,000 JPY" data-price-en="$90 USD">7,000 JPY</strong>
-        </div>
-
-        <!-- 島内周遊ガイド (1日) -->
-        <div class="guide-item">
-            <div>
-                <span data-ja="島内周遊ガイド (1日)" data-en="Island Day Tour (Full Day)">島内周遊ガイド (1日)</span>
-                <div style="font-size: 11px; color: #64748b; margin-top: 2px;" data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($100 USD)">※中学生以下は半額</div>
-            </div>
-            <strong class="price-tag" data-price-ja="15,000 JPY" data-price-en="$200 USD">15,000 JPY</strong>
-        </div>
-
-        <!-- 島内周遊ガイド (半日) -->
-        <div class="guide-item">
-            <div>
-                <span data-ja="島内周遊ガイド (半日)" data-en="Island Day Tour (Half Day)">島内周遊ガイド (半日)</span>
-                <div style="font-size: 11px; color: #64748b; margin-top: 2px; font-weight: normal; text-align: left; line-height: 1.3;">
-                    <span data-ja="※中学生以下は半額" data-en="※Under 15: Half price ($70 USD)">※中学生以下は半額</span><br>
-                    <span style="color: #0d9488; font-weight: bold;" data-ja="★料金・プランのご相談に応じます！" data-en="★Prices & plans negotiable!">★料金・プランのご相談に応じます！</span>
+                <!-- お互いのお部屋を繋ぐ、確実な連携リンク窓口 -->
+                <div class="profile-item" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 12px;">
+                    <span class="label">Our Service / ガイドサイト連携</span>
+                    <div class="link-box-list">
+                        <div class="link-box-item" onclick="jumpToNatureClub()">
+                            <span class="link-box-title">🛶 奄美エコツアーガイド AMAMI NATURE CLUB</span>
+                            <span class="link-box-arrow">👉</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <strong class="price-tag" data-price-ja="10,000 JPY" data-price-en="$140 USD">10,000 JPY</strong>
+            <button class="modal-close-btn" onclick="document.getElementById('profileModal').classList.remove('active')">閉じる</button>
         </div>
     </div>
 
-    <!-- 翻訳機のご案内（データ消えバグを修正） -->
-    <div style="margin: -5px 0 15px 0; font-size: 12px; color: #475569; text-align: left; line-height: 1.4; padding: 10px; background: #f8fafc; border-radius: 10px; border-left: 4px solid #94a3b8;" data-ja="※私は英語が流暢には話せないので、当日は翻訳機を使って誠実にご案内いたします。" data-en="⚠️ Please note: I do not speak fluent English. I will guide you using a pocket translator device. Thank you for your understanding!">※私は英語が流暢には話せないので、当日は翻訳機を使って誠実にご案内いたします。</div>
-    
-    <!-- 💻 ホームページ作成のご相談窓口 -->
-    <div style="margin: 25px 0 15px 0; text-align: left; background: #f0fdf4; padding: 18px; border-radius: 18px; border: 2px solid #99f6e4;">
-        <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 15px; color: #0d9488;" data-ja="💻 ホームページ作成のご相談 (地域応援プラン)" data-en="💻 Web Creation Service (Local Support)">💻 ホームページ作成のご相談 (地域応援プラン)</p>
-        <p style="margin: 0 0 12px 0; font-size: 13px; color: #475569; line-height: 1.5;" data-ja="地元の民宿、農園、個人商店の皆様へ。お茶を飲みながら、皆様の魅力が伝わる温かいホームページを一緒に作成します。パソコンが苦手な方も安心してお任せください。" data-en="For local guest houses, farms, and shops. I will create a warm and welcoming website that showcases your unique charm. Perfect for beginners!">地元の民宿、農園、個人商店の皆様へ。お茶を飲みながら、皆様の魅力が伝わる温かいホームページを一緒に作成します。パソコンが苦手な方も安心してお任せください。</p>
-        <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px dashed #ccfbf1;">
-            <span data-ja="ホームページ作成 (初期費用)" data-en="Website Creation Fee">ホームページ作成 (初期費用)</span>
-            <strong style="color: #0d9488;">50,000 JPY</strong>
-        </div>
-        <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0;">
-            <span data-ja="毎月の管理・修正サポート費" data-en="Monthly Maintenance Fee">毎月の管理・修正サポート費</span>
-            <strong style="color: #b45309;">3,000 JPY / 月</strong>
+    <!-- 【機能2】「ホームページ作成のご相談（地域応援プラン）」の専用部屋（モーダル） -->
+    <div id="soudanModal" class="modal-overlay" onclick="closeModal(event, 'soudanModal')">
+        <div class="modal-card" style="max-height: 85vh; overflow-y: auto;">
+            <div class="modal-header">
+                <h2>BUSINESS CONSULTING ☕</h2>
+                <span class="close-x" onclick="document.getElementById('soudanModal').classList.remove('active')">&times;</span>
+            </div>
+            <div class="modal-body" style="text-align: left; line-height: 1.6;">
+                <h3 style="font-size: 15px; color: #ffffff; font-weight: bold; margin-bottom: 10px; border-left: 3px solid #38bdf8; padding-left: 8px;">
+                    ホームページ作成のご相談 (地域応援プラン)
+                </h3>
+                <p style="font-size: 12px; color: #cbd5e1; margin-bottom: 10px;">
+                    地元の民宿、農園、個人商店の皆様へ。お茶を飲みながら、皆様の魅力が伝わる温かいホームページを一緒に作成します。パソコンが苦手な方も安心してお任せください。
+                </p>
+
+                <!-- ホームページプランのカード -->
+                <div class="plan-section-title">▼ WEB SITE PLAN</div>
+                <div class="plan-card" style="border-color: rgba(56, 189, 248, 0.2); background: rgba(56, 189, 248, 0.03);">
+                    <div class="plan-item">
+                        <span class="plan-name">💻 ホームページ作成 (初期費用)</span>
+                        <span class="plan-price">50,000 JPY</span>
+                    </div>
+                    <div class="plan-item">
+                        <span class="plan-name">🛠️ 毎月の管理・修正サポート費</span>
+                        <span class="plan-price">3,000 JPY / 月</span>
+                    </div>
+                </div>
+
+                <!-- 各種検定制作プランのカード（50,000 JPY に修正完了） -->
+                <div class="plan-section-title">▼ ORIGINAL QUIZ PLAN</div>
+                <div class="plan-card" style="border-color: rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.03);">
+                    <div class="plan-item">
+                        <span class="plan-name">🧠 オリジナル検定・クイズシステム制作</span>
+                        <span class="plan-price" style="color: #10b981;">50,000 JPY</span>
+                    </div>
+                    <div class="plan-item">
+                        <span class="plan-name">📝 問題テキストの追加・差し替え（1問）</span>
+                        <span class="plan-price" style="color: #10b981;">500 JPY</span>
+                    </div>
+                </div>
+                <p style="font-size: 11px; color: #94a3b8; line-height: 1.4; margin-top: 5px; padding-left: 5px;">
+                    ※お店やイベントの宣伝用オリジナル検定をバキバキに構築します。仕組みや見せ方など、まずはお気軽にご相談ください。
+                </p>
+                
+                <p style="font-size: 11px; color: #64748b; text-align: center; margin-top: 20px;">
+                    🐶 ジョッキー君と一緒に、皆様からのお声がけをお待ちしております 🐾
+                </p>
+            </div>
+            <button class="modal-close-btn" onclick="document.getElementById('soudanModal').classList.remove('active')">戻る</button>
         </div>
     </div>
 
-    <!-- 連絡先ボタン -->
-    <div class="contact-box">
-        <p style="margin:0 0 10px 0; font-weight:bold;" data-ja="ご予約・ご相談" data-en="Booking & Inquiry">ご予約・ご相談</p>
-        <div class="menu-grid">
-            <a href="mailto:yoro3402@gmail.com" class="btn btn-green" data-ja="📧 メール" data-en="📧 Email">📧 メール</a>
-            <a href="tel:08052619833" class="btn btn-dark" data-ja="📞 電話" data-en="📞 Call">📞 電話</a>
-        </div>
-    </div>
-</div> <!-- ④ ツアーガイド料金表画面の終わり -->
-
-<!-- ================= ⑤ ダイスゲーム ================= -->
-<div id="game-screen" class="page-section">
-    <h2 style="color: #8b5cf6;" data-ja="🎲 ダイスゲーム" data-en="🎲 Dice Game">🎲 ダイスゲーム</h2>
-    <p style="font-size: 14px; font-weight: bold; color: #6d28d9; margin-bottom: 10px;">君とぼくのサイコロの合計をあててね</p>
-    <div class="status-box">
-        <div><span data-ja="所持金" data-en="Money">所持金</span>: <span class="money" id="player-money">1000</span> / Pot: <span id="current-pot">0</span></div>
-        <p style="font-size: 11px; color: #64748b; margin: 4px 0 0 0;">これはきみのサイコロの数だよ。ぼくのサイコロは見えないよ</p>
-        <div class="dice-area" id="my-dice">?</div>
-        <div id="guess-display-area" style="font-size: 14px; font-weight: bold; margin-bottom: 10px; display: none;">
-            <div>きみの予想: <span id="display-my-guess" style="color: #8b5cf6; font-size: 16px;">-</span></div>
-            <div>ぼくの予想: <span id="display-cpu-guess" style="color: #0d9488; font-size: 16px;">-</span></div>
-        </div>
-        <div id="game-msg" style="font-weight:bold; font-size: 14px; border-top: 1px dashed #e2e8f0; padding-top: 10px;">勝負開始！</div>
-    </div>
-    <div id="game-controls">
-        <button id="btn-start" class="btn btn-purple" onclick="initRound()">勝負開始 (100円)</button>
-        <div id="guess-selector" style="display:none;"><div id="guess-buttons" class="guess-grid"></div></div>
-        <div id="action-controls" class="menu-grid" style="display:none;">
-            <button class="btn btn-orange" onclick="playerAction('call')">勝負</button>
-            <button class="btn btn-blue" onclick="playerAction('fold')">降りる</button>
-        </div>
-    </div>
-</div>
-</div> <!-- .container の終わり -->
-
-<!-- 画面最下部に固定されるホームに戻るボタン -->
-<button id="home-back-btn" class="btn btn-dark btn-fixed-bottom" style="display: none;" onclick="showPage('main-screen')" data-ja="🏠 ホームへ戻る" data-en="🏠 Home">🏠 ホームへ戻る</button>
-
-<script>
-    // 🌿 「世界自然遺産クイズ」のデータ
-    const amamiQuizDatabase = [
-        { q: "奄美大島は2021年に世界自然遺産に登録された。", a: true },
-        { q: "アマミノクロウサギは夜行性の動物である。", a: true },
-        { q: "ルリカケスは鹿児島県の県鳥に指定されている。", a: true },
-        { q: "ハブは昼間しか活動しないヘビである。", a: false },
-        { q: "金作原原生林にはヒカゲヘゴなどの巨大なシダ植物が自生している。", a: true },
-        { q: "奄美大島のマングローブ原生林は日本で一番大きい。", a: false },
-        { q: "大島紬（おおしまつむぎ）は泥で染める伝統的な泥染めが特徴である。", a: true },
-        { q: "奄美大島には、冬になるとホエールウォッチングでクジラが見られる。", a: true },
-        { q: "アマミトゲネズミは、体にトゲのような硬い毛が生えている。", a: true },
-        { q: "奄美大島の最高峰は、湯湾岳（ゆわんだけ）である。", a: true }
-    ];
-
-    let currentAmamiQuestions = [];
-    let amamiQuizIndex = 0;
-    let amamiQuizScore = 0;
-
-    // ★関数名を「amamiStartQuiz」に改名して上書きを完全にブロック！
-    function amamiStartQuiz() {
-        amamiQuizScore = 0;
-        amamiQuizIndex = 0;
-        
-        let shuffled = [...amamiQuizDatabase].sort(() => 0.5 - Math.random());
-        currentAmamiQuestions = shuffled;
-
-        const finalMsg = document.getElementById('quiz-final-msg');
-        const btns = document.getElementById('quiz-btns');
-        const result = document.getElementById('quiz-result');
-        
-        if(finalMsg) finalMsg.style.display = 'none';
-        if(btns) btns.style.display = 'grid';
-        if(result) result.textContent = '';
-        amamiShowQuizQuestion(); // 改名した関数を呼び出す
-    }
-
-    // ★関数名を「amamiShowQuizQuestion」に改名！
-    function amamiShowQuizQuestion() {
-        const questionEl = document.getElementById('question');
-        const progressEl = document.getElementById('quiz-progress');
-        const resultEl = document.getElementById('quiz-result');
-        
-        if (questionEl && progressEl && resultEl) {
-            resultEl.textContent = '';
-            progressEl.textContent = `第 ${amamiQuizIndex + 1} 問 / 全 ${currentAmamiQuestions.length} 問`;
-            questionEl.textContent = currentAmamiQuestions[amamiQuizIndex].q;
-        }
-    }
-
-    // ★関数名を「amamiCheckAnswer」に改名！
-    function amamiCheckAnswer(playerAnswer) {
-        const resultEl = document.getElementById('quiz-result');
-        const questionEl = document.getElementById('question');
-        const btns = document.getElementById('quiz-btns');
-        const finalMsg = document.getElementById('quiz-final-msg');
-        const progressEl = document.getElementById('quiz-progress');
-        const correctAnswer = currentAmamiQuestions[amamiQuizIndex].a;
-
-        if (resultEl && playerAnswer === correctAnswer) {
-            amamiQuizScore++;
-            resultEl.textContent = "⭕";
-            resultEl.style.color = "#059669";
-        } else if(resultEl) {
-            resultEl.textContent = "❌";
-            resultEl.style.color = "#dc2626";
+    <!-- 安全なURL合体・ジャンププログラム -->
+    <script>
+        function jumpToGameMenu() {
+            window.location.href = "game.html";
         }
 
-        setTimeout(() => {
-            amamiQuizIndex++;
-            if (amamiQuizIndex < currentAmamiQuestions.length) {
-                amamiShowQuizQuestion();
-            } else {
-                if(questionEl) questionEl.textContent = `クイズ終了！あなたのスコアは ${amamiQuizScore} / ${currentAmamiQuestions.length} 問でした！`;
-                if(btns) btns.style.display = 'none';
-                if(finalMsg) finalMsg.style.display = 'block';
-                if(progressEl) progressEl.textContent = '';
-                if(resultEl) resultEl.textContent = '';
+        function jumpToNatureClub() {
+            const s = "https://";
+            const h = "koniya";
+            const i = "3402";
+            const p = ".synapse.kagoshima.jp/";
+            window.open(s + h + i + p, '_blank');
+        }
+
+        function jumpToBlog() {
+            const scheme = "https://";
+            const user = "yoro";
+            const id = "3402";
+            const path = ".synapse-blog.jp/amami/";
+            window.open(scheme + user + id + path, '_blank');
+        }
+
+        function openModal() {
+            document.getElementById('profileModal').classList.add('active');
+        }
+        
+        function openSoudanModal() {
+            document.getElementById('soudanModal').classList.add('active');
+        }
+
+        function closeModal(event, modalId) {
+            if (event.target.id === modalId) {
+                document.getElementById(modalId).classList.remove('active');
             }
-        }, 1200);
-    }
-
-    // 最初からクイズを裏でセットしておく
-    amamiStartQuiz();
-</script>
-
-<script src="script1.js"></script>
-<script src="script2.js"></script>
+        }
+    </script>
 </body>
 </html>

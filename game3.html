@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ハノイの塔 - AMAMI WEB CREATIVE</title>
+    <!-- 共通スタイルシートを読み込み -->
+    <link rel="stylesheet" href="style.css?v=2026">
+    <style>
+        /* Webクリエイティブ専用の、知的でサイバー感のある深い海のグラデーション背景 */
+        body {
+            background: linear-gradient(135deg, #060b14 0%, #0a1120 100%) !important;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .game-container-wrapper {
+            max-width: 440px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px 10px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin: 0 0 5px 0;
+            font-weight: 700;
+        }
+
+        .game-intro {
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.5;
+            margin: 0 0 15px 0;
+        }
+
+        /* 以前の手数・枚数情報をスタイリッシュにアレンジ */
+        .info-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-around;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .status-val {
+            font-weight: bold;
+            color: #38bdf8;
+            font-size: 15px;
+        }
+
+        /* お祝いメッセージ表示エリア（ガタつき防止の最小高さ設定） */
+        .message-area {
+            min-height: 40px;
+            color: #38bdf8;
+            font-size: 14px;
+            font-weight: bold;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 以前のボタンをさらに洗練させた配置構造 */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            min-height: 38px; /* ボタン未出現時のレイアウト維持用 */
+        }
+
+        .btn {
+            padding: 8px 16px;
+            font-size: 12px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            display: none; /* 初期は非表示 */
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        .btn-next {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+        .btn-home {
+            background: #475569;
+            color: white;
+        }
+
+        /* スマホの画面幅に合わせて「100%はみ出さずに自動縮小」するゲーム盤ステージ */
+        .game-board {
+            display: flex;
+            justify-content: space-around;
+            height: 180px;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 8px solid #475569;
+            border-radius: 8px 8px 4px 4px;
+            padding: 10px 5px 0 5px;
+            position: relative;
+            align-items: flex-end;
+            box-sizing: border-box;
+        }
+
+        /* 3本の柱 */
+        .peg {
+            width: 32%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            box-sizing: border-box;
+            z-index: 3;
+            padding-bottom: 2px;
+        }
+
+        /* 以前の柱（木製）の美しさをサイバー風に昇華 */
+        .peg::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 8px;
+            height: 140px;
+            background: #475569;
+            border-radius: 4px 4px 0 0;
+            z-index: 1;
+        }
+
+        /* ディスクの共通スタイル（以前の丸みを帯びた美しいデザインを踏襲） */
+        .disk {
+            height: 20px;
+            border-radius: 10px;
+            z-index: 2;
+            margin-bottom: 2px;
+            box-shadow: inset 0 -3px 5px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-sizing: border-box;
+            cursor: grab;
+            transition: visibility 0s;
+        }
+        .disk:active {
+            cursor: grabbing;
+        }
+
+        /* 下部ナビゲーションボタン */
+        .btn-footer-nav {
+            display: inline-flex;
+            gap: 10px;
+            justify-content: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 15px;
+            width: 100%;
+        }
+        .btn-nav-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 14px;
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-nav-link:active {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container-wrapper">
+        <h1>🗼 ハノイの塔</h1>
+        <p class="game-intro">
+            一番上のディスクを別の柱にドラッグ＆ドロップしてください。小さいディスクの上に大きいものは置けません。
+        </p>
+
+        <!-- 以前と同じ手数・枚数管理インジケーター -->
+        <div class="info-panel">
+            <div>ディスク数: <span id="disk-count" class="status-val">3</span> 枚</div>
+            <div>手数: <span id="moves" class="status-val">0</span> 手</div>
+        </div>
+
+        <!-- お祝いメッセージ表示エリア -->
+        <div class="message-area" id="message"></div>
+
+        <!-- 以前と同じ連動仕様のステップアップボタン群 -->
+        <div class="button-container">
+            <button class="btn btn-next" id="btn-next">🚀 次に挑戦しますか？</button>
+            <button class="btn btn-home" id="btn-home">🏠 最初の3枚に戻る</button>
+        </div>
+
+        <!-- スマホ幅を考慮したパズルステージ -->
+        <div class="game-board">
+            <div class="peg" id="peg1"></div>
+            <div class="peg" id="peg2"></div>
+            <div class="peg" id="peg3"></div>
+        </div>
+
+        <div class="btn-footer-nav">
+            <a href="game.html" class="btn-nav-link">⬅ ゲｰム選択へ戻る</a>
+            <a href="index.html" class="btn-nav-link">🏠 ﾎｰ姆へ戻る</a>
+        </div>
+    </div>
+    <!-- 以前100%正しく動作したドラッグ＆ドロップとレベルアップの完全再現ロジック -->
+    <script>
+        // ディスクの色リスト（以前の美しさをそのまま、最大8枚まで自動対応）
+        const colors = [
+            '#ff4757', '#ffa502', '#2ed573', '#1e90ff', 
+            '#9b59b6', '#34495e', '#1abc9c', '#e67e22'
+        ];
+
+        let currentDiskCount = 3; // 初期状態は3枚
+        let movesCount = 0;
+        let draggedDisk = null;
+
+        const peg1 = document.getElementById('peg1');
+        const peg2 = document.getElementById('peg2');
+        const peg3 = document.getElementById('peg3');
+        const movesDisplay = document.getElementById('moves');
+        const diskCountDisplay = document.getElementById('disk-count');
+        const messageDisplay = document.getElementById('message');
+        const btnNext = document.getElementById('btn-next');
+        const btnHome = document.getElementById('btn-home');
+
+        // ゲームの初期化・リセット関数
+        function initGame(diskAmount) {
+            currentDiskCount = diskAmount;
+            movesCount = 0;
+            movesDisplay.textContent = movesCount;
+            diskCountDisplay.textContent = currentDiskCount;
+            messageDisplay.textContent = '一番上のディスクを掴んで動かしてね 🐾';
+            messageDisplay.style.color = '#94a3b8'; // 通常メッセージの色
+            
+            // ボタンを隠す
+            btnNext.style.display = 'none';
+            btnHome.style.display = 'none';
+
+            // 柱をすべて空にする
+            peg1.innerHTML = '';
+            peg2.innerHTML = '';
+            peg3.innerHTML = '';
+
+            // 指定された枚数のディスクを1番目の柱に生成（大きい順に下から積む）
+            for (let i = currentDiskCount; i >= 1; i--) {
+                const disk = document.createElement('div');
+                disk.classList.add('disk');
+                disk.setAttribute('draggable', 'true');
+                disk.setAttribute('data-size', i);
+                disk.id = 'd' + i;
+                
+                // 【スマホ対応】以前の幅計算をベースに、スマホの横幅からはみ出さない比率（max-width）へ最適化
+                disk.style.width = `calc(30px + ${i * 10}%)`;
+                disk.style.maxWidth = '100%';
+                disk.style.background = colors[(i - 1) % colors.length];
+
+                // ドラッグイベントの登録
+                setupDragEvents(disk);
+
+                peg1.appendChild(disk);
+            }
+        }
+
+        // ドラッグ処理の設定
+        function setupDragEvents(disk) {
+            disk.addEventListener('dragstart', (e) => {
+                const parentPeg = disk.parentElement;
+                // 一番上のディスクだけドラッグ可能
+                if (parentPeg.lastElementChild !== disk) {
+                    e.preventDefault();
+                    return;
+                }
+                draggedDisk = disk;
+                setTimeout(() => disk.style.visibility = 'hidden', 0);
+            });
+
+            disk.addEventListener('dragend', () => {
+                setTimeout(() => {
+                    if (draggedDisk) draggedDisk.style.visibility = 'visible';
+                    draggedDisk = null;
+                }, 0);
+            });
+        }
+
+        // 柱（ドロップ先）のイベント設定
+        [peg1, peg2, peg3].forEach(peg => {
+            peg.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+
+            peg.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (!draggedDisk) return;
+
+                const sourcePeg = draggedDisk.parentElement;
+                const topDisk = peg.lastElementChild;
+                
+                if (sourcePeg === peg) return;
+
+                // ルール判定（小さいディスクの上に大きいものは置けない）
+                if (!topDisk || parseInt(draggedDisk.dataset.size) < parseInt(topDisk.dataset.size)) {
+                    peg.appendChild(draggedDisk);
+                    
+                    movesCount++;
+                    movesDisplay.textContent = movesCount;
+
+                    checkWin();
+                } else {
+                    alert('⚠️ 小さいディスクの上に大きいディスクは置けません！');
+                }
+            });
+        });
+
+        // クリア判定（以前100%正しく動作していたchildElementCountロジックを完全再現）
+        function checkWin() {
+            if (peg2.childElementCount === currentDiskCount || peg3.childElementCount === currentDiskCount) {
+                // 数学的理論値（2^n - 1）の最小手数をバキバキに計算
+                const minMoves = Math.pow(2, currentDiskCount) - 1;
+                
+                if (movesCount === minMoves) {
+                    messageDisplay.innerHTML = `🎉 よくできました！！ (${movesCount}手で最小クリア！数学的センスが抜群です！🐶🐾)`;
+                } else {
+                    messageDisplay.innerHTML = `🎉 クリアおめでとう！！ (${movesCount}手でクリア！最小手数は ${minMoves}手 だよ 🐾)`;
+                }
+                messageDisplay.style.color = '#38bdf8'; // クリアお祝いの色
+                
+                // すべてのディスクをドラッグ不可にする
+                document.querySelectorAll('.disk').forEach(disk => disk.setAttribute('draggable', 'false'));
+                
+                // 以前と同様に、クリア後にボタンを100%バキバキに出現させる
+                btnNext.style.display = 'block';
+                btnHome.style.display = 'block';
+                
+                // スマホで画面スクロールを強制せずともボタンが見えるよう一瞬アラートを出す
+                setTimeout(() => {
+                    alert(`🎉 ステージクリア！\n画面の上部に「次に挑戦しますか？」ボタンが出現しました！`);
+                }, 150);
+            }
+        }
+
+        // ボタンのクリックイベント（レベルアップ制御）
+        btnNext.addEventListener('click', () => {
+            if (currentDiskCount >= 8) {
+                alert('すごいです！最大レベル（8枚）までクリアしました！最初の3枚に戻ります。');
+                initGame(3);
+            } else {
+                // ディスクを1枚増やしてバキバキにスタート
+                initGame(currentDiskCount + 1);
+            }
+        });
+
+        btnHome.addEventListener('click', () => {
+            // 最初の3枚に戻す
+            initGame(3);
+        });
+
+        // 最初にゲームを起動
+        initGame(3);
+    </script>
+</body>
+</html>

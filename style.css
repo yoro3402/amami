@@ -1,151 +1,203 @@
+/* ==========================================================================
+   AMAMI WEB CREATIVE - 高級感のある洗練された黒ベースデザイン
+   ========================================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", sans-serif;
+}
+
 body {
-    font-family: "Helvetica Neue", Arial, sans-serif;
-    background-color: #f0fdfa;
-    display: flex; justify-content: center; align-items: center;
-    min-height: 100vh; margin: 0; padding: 20px 0; color: #2d3748;
-}
-.container {
-    background-color: #ffffff; padding: 30px 20px; border-radius: 24px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-    text-align: center; max-width: 550px; width: 92%; position: relative; min-height: 500px;
-    margin-bottom: 80px; box-sizing: border-box;
-}
-.club-title {
-    font-size: 22px; font-weight: 900; color: #0d9488; letter-spacing: 2px;
-    margin-bottom: 5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-}
-.slideshow-container {
-    max-width: 100%; height: 180px; position: relative; margin: 15px auto;
-    overflow: hidden; border-radius: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.mySlides { display: none; width: 100%; height: 100%; }
-.mySlides img { width: 100%; height: 100%; object-fit: cover; }
-.fade { animation-name: fade; animation-duration: 1.5s; }
-@keyframes fade { from {opacity: .4} to {opacity: 1} }
-.lang-switch { position: absolute; top: 15px; right: 15px; background: #e2e8f0; border-radius: 12px; padding: 4px; display: flex; gap: 4px; }
-.lang-btn { border: none; padding: 4px 10px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: bold; transition: 0.3s; }
-.lang-btn.active { background: #0d9488; color: white; }
-.menu-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
-.btn { display: inline-block; color: white; border: none; padding: 12px 18px; font-size: 15px; border-radius: 14px; cursor: pointer; transition: 0.2s; font-weight: bold; box-shadow: 0 3px 5px rgba(0,0,0,0.1); text-decoration: none; touch-action: manipulation; }
-.btn-green { background-color: #0d9488; }
-.btn-blue { background-color: #0284c7; }
-.btn-orange { background-color: #f59e0b; }
-.btn-purple { background-color: #8b5cf6; }
-.btn-dark { background-color: #1e293b; }
-.btn:hover { opacity: 0.9; transform: scale(1.03); }
-.btn-fixed-bottom { position: fixed; bottom: 20px; right: 20px; font-size: 13px; padding: 10px 16px; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2); }
-.page-section { display: none; }
-.page-section.active-section { display: block; }
-.guide-list { text-align: left; background: #fffbeb; padding: 15px; border-radius: 15px; border: 2px solid #fef3c7; margin: 15px 0; font-size: 14px; }
-.guide-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #fcd34d; }
-.contact-box { margin-top: 15px; padding: 15px; background: #f0fdf4; border-radius: 15px; border: 1px solid #bbf7d0; }
-.status-box { background: #f8fafc; border-radius: 15px; padding: 12px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
-.dice-area { font-size: 50px; min-height: 80px; display: flex; justify-content: center; align-items: center; margin: 15px 0; }
-.win-msg { color: #0d9488; font-size: 24px; font-weight: 900; animation: bounce 0.5s infinite alternate; display: inline-block; }
-.lose-msg { color: #e11d48; font-size: 24px; font-weight: 900; display: inline-block; }
-@keyframes bounce { from { transform: scale(1); } to { transform: scale(1.08); } }
-.money { color: #b45309; font-weight: bold; font-size: 18px; }
-.guess-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; max-width: 320px; margin: 10px auto; }
-.guess-btn { width: 100%; height: 45px; font-size: 16px; padding: 0; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-.photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 10px; }
-.nature-photo { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 5px; }
-.photo-caption { font-size: 11px; font-weight: bold; color: #4b5563; margin-bottom: 10px; }
-
-/* 新しい選択画面を綺麗に整えるためのデザイン */
-#quiz-select-screen .menu-grid,
-#game-select-screen .menu-grid {
-    margin-top: 15px;
-    gap: 12px;
-}
-
-#quiz-select-screen p,
-#game-select-screen p {
-    font-size: 14px;
-    color: #475569;
-    margin-bottom: 20px;
-    line-height: 1.5;
-}
-
-/* ボタンのホバー（マウスをのせたとき）の動きを滑らかにする設定 */
-.menu-grid .btn, .menu-grid a.btn {
+    background: linear-gradient(135deg, #060b14 0%, #0a1120 100%) !important;
+    color: #f1f3f5;
+    min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
-    min-height: 50px;
-    padding: 10px 15px;
-    font-size: 15px;
-    border-radius: 12px;
-    transition: transform 0.2s, background-color 0.2s;
+    align-items: center;
+    overflow: hidden;
 }
 
-.menu-grid .btn:hover, .menu-grid a.btn:hover {
-    transform: scale(1.02);
-}
-
-/* 3択・画像入りクイズの選択肢ボタンを綺麗に整えるデザイン */
-.choice-list {
+.container {
+    width: 100%;
+    max-width: 380px;
+    padding: 28px 24px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin: 0 auto 20px auto;
-    max-width: 400px;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.btn-choice {
-    width: 100%;
-    padding: 14px;
-    font-size: 15px;
-    font-weight: bold;
-    text-align: left;
-    background-color: #f1f5f9;
-    color: #1e293b;
-    border: 2px solid #cbd5e1;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.2s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-}
-/* ボタンの上にマウスを乗せたときの滑らかな動き */
-.btn-choice:hover {
-    background-color: #e2e8f0;
-    border-color: #94a3b8;
-    transform: scale(1.01);
-}
-
-/* クイズの写真エリアのデザイン */
-.quiz-image-area {
-    margin-bottom: 15px;
-    display: none;
+/* ロゴエリア */
+.brand-header {
     text-align: center;
-}
-
-.quiz-image-area img {
-    max-width: 200px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
     width: 100%;
-    height: auto;
+}
+.brand-header:active {
+    transform: scale(0.98);
+    opacity: 0.8;
+}
+.brand-logo {
+    font-size: 24px;
+    font-weight: 200;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding-bottom: 10px;
+    margin-bottom: 8px;
+}
+.brand-sub {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+/* 5つのガラス風ボタンをきれいに縦に並べる設定 */
+.main-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: auto 0;
+}
+.nav-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.12); 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
-/* ★奥田さんのアイデア：スマホの1画面にすっぽり収めるための親切設計 */
-.quiz-image-area {
-    margin-bottom: 8px; /* 写真の下のすき間を半分に縮めました */
-}
-
-.quiz-image-area img {
-    max-width: 140px; /* 写真の大きさをノートの付箋サイズ（140幅）に少しコンパクトにしました */
-}
-
-.question-text {
-    min-height: auto; /* 問題文の箱の高さが必要以上に広がらないようにしました */
-    margin-bottom: 12px; /* 問題文とボタンの間のすき間をギュッと詰めました */
-    padding: 10px;       /* 内側の余白もスッキリさせました */
+.nav-btn:active {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(56, 189, 248, 0.6);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transform: scale(0.98);
 }
 
-.choice-list {
-    gap: 8px; /* 3つのボタン同士のすき間もピタッと詰めました */
+.brand-footer {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: #334155;
+    margin-bottom: 5px;
 }
 
-.btn-choice {
-    padding: 10px 14px; /* ボタンの縦幅をスマートにして、押しやすさはそのままに縮めました */
+/* 飛び出すポップアップ（モーダル）の設定 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(4, 7, 15, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+.modal-card {
+    background: linear-gradient(180deg, #111827 0%, #070a12 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 340px;
+    padding: 26px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-overlay.active .modal-card {
+    transform: translateY(0);
+}
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+}
+.modal-header h2 {
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: #ffffff;
+}
+.close-x {
+    font-size: 24px;
+    color: #64748b;
+    cursor: pointer;
+}
+.profile-item {
+    margin-bottom: 16px;
+}
+.profile-item .label {
+    display: block;
+    font-size: 10px;
+    color: #38bdf8;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+}
+.profile-item .name {
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+}
+.profile-item .en {
+    font-size: 12px;
+    font-weight: 300;
+    color: #94a3b8;
+    margin-left: 6px;
+}
+.profile-item .text {
+    font-size: 13px;
+    color: #cbd5e1;
+    line-height: 1.6;
+}
+.modal-close-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #ffffff;
+    color: #0f172a;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+.modal-close-btn:active {
+    background-color: #e2e8f0;
+    transform: scale(0.98);
 }

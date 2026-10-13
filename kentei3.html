@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>瀬戸内検定(3択版) - AMAMI NATURE CLUB</title>
     <style>
+        /* 🎨 郷土の温かみを感じる綺麗なネイビーと白のデザイン */
         body { font-family: "Helvetica Neue", Arial, sans-serif; text-align: center; background-color: #f0f4f8; padding: 20px; color: #1e293b; }
         .kentei-box { max-width: 500px; margin: 0 auto; background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 2px solid #1e3a8a; }
         h1 { color: #1e3a8a; font-size: 24px; margin-bottom: 5px; }
         .subtitle { font-size: 13px; color: #64748b; margin-bottom: 20px; }
         .progress-text { font-size: 14px; font-weight: bold; color: #1e3a8a; margin-bottom: 10px; }
         .question-text { font-size: 16px; font-weight: bold; line-height: 1.6; min-height: 4.5em; display: flex; align-items: center; justify-content: center; background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed #cbd5e1; text-align: left; }
+        
+        /* 3択ボタンの配置 */
         .choice-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-        .btn-choice { width: 100%; padding: 10px 14px; font-size: 15px; font-weight: bold; text-align: left; background-color: #f1f5f9; color: #1e293b; border: 2px solid #cbd5e1; border-radius: 12px; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .btn-choice { width: 100%; padding: 12px 14px; font-size: 15px; font-weight: bold; text-align: left; background-color: #f1f5f9; color: #1e293b; border: 2px solid #cbd5e1; border-radius: 12px; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .btn-choice:hover { background-color: #e2e8f0; border-color: #94a3b8; transform: scale(1.01); }
+        
+        /* 戻るボタン・正解マークの演出 */
         .btn-action { background-color: #475569; color: white; width: 100%; font-size: 15px; padding: 12px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .result-mark { font-size: 60px; font-weight: bold; min-height: 70px; margin-bottom: 10px; }
         .result-good { color: #059669; animation: bounce 0.5s; }
@@ -28,6 +33,7 @@
     <h1>🧭 瀬戸内検定 (3択版)</h1>
     <div class="subtitle">〜 郷土の食・文化・特産品を学ぼう 〜</div>
     
+    <!-- クイズ進行中の画面 -->
     <div id="quiz-area">
         <div class="progress-text" id="kentei-progress">第 1 問 / 全 10 問</div>
         <div class="question-text" id="kentei-question">問題がここに表示されます。</div>
@@ -40,6 +46,7 @@
         </div>
     </div>
 
+    <!-- 結果発表画面 -->
     <div id="score-area" style="display: none;">
         <h2 style="color: #1e3a8a;">🎉 検定結果発表 🎉</h2>
         <div style="font-size: 24px; font-weight: bold; margin: 20px 0; color: #ea580c;" id="kentei-score">0問正解 / 10問中</div>
@@ -47,36 +54,18 @@
         <button class="btn-choice" style="text-align: center; background-color: #0284c7; color: white; border: none; margin-bottom: 15px;" onclick="startKentei()">もう一度挑戦する</button>
     </div>
 
-<!-- トップへ戻る代わりに、直接クイズ選択画面を呼び出すように統一 -->
-<button class="btn-action" style="background-color: #0d9488;" onclick="location.href='index.html?page=quiz-select-screen'">🏠 クイズえらびに戻る</button>
-
-
+    <!-- クイズメニュー（kentei.html）に戻るボタン -->
+    <button class="btn-action" style="background-color: #0d9488;" onclick="location.href='kentei.html'">⬅ クイズメニューに戻る</button>
 </div>
 
+<!-- 【重要：外部電波リンク】新しく作成する3択専用の問題データ室（quiz-data3.js）を呼び出します -->
+<script src="quiz-data3.js?v=2026"></script>
 <script>
-    // 🧭 3択・瀬戸内検定 クイズ貯蔵庫
-    const kenteiDatabase = [
-        { q: "正月の儀式で3種類の食べ物をいただく料理をなんというか？", c: ["三献", "三食", "三種"], a: 1 },
-        { q: "正月に料理と一緒にお酒をいただくことを何というか?", c: ["とりいれ", "とりはらい", "とりかわし"], a: 3 },
-        { q: "三献の一の膳はどれか？", c: ["煮物", "餅入りのお吸い物", "刺し身"], a: 2 },
-        { q: "代表的な郷土料理で，明治時代に広まったとされるそうめん料理は何か？", c: ["あぶらぞうめん", "冷やぞうめん", "焼きぞうめん"], a: 1 },
-        { q: "奄美で年越しのときに食べる肉料理を何というか？", c: ["フネイフネイ", "ウァンフネイ", "ヒンジヤーフネイ"], a: 1 },
-        { q: "お祝いのときに作る赤飯料理は何か？", c: ["カシキ", "イシキ", "ヨシキ"], a: 1 },
-        { q: "七草がゆの中に入れる肉は，何肉か？", c: ["馬肉", "豚肉", "猪肉"], a: 2 },
-        { q: "新鮮なイカの墨を塩または味噌で味を調え，具としてイカの身を入れる料理は何か？", c: ["タダ汁", "サダ汁", "マダ汁"], a: 3 },
-        { q: "旧の3月３日は潮が良く引くので,島ではミニヤビレ（貝取り）に出かける．この日に良く食べるといわれる餅をなんというか？", c: ["シリムチ", "ヤキムチ", "フティムチ"], a: 3 },
-        { q: "伝統的な保存食に塩豚があります．豚肉のどの部分を使うか？", c: ["三枚肉やロース", "レバーや内臓", "全部"], a: 3 },
-        { q: "アオサのすまし汁を作るときにアオサを入れるタイミングはどれか？", c: ["一番最初から煮込む", "調味料を入れる前", "火を消す前"], a: 3 },
-        { q: "魚の味噌汁によく使う魚はどれか？", c: ["エラブチ", "シビ", "ネバリ"], a: 3 },
-        { q: "青色緑色，黄色などの縞模様をしていて,刺身にするとおいしい魚は何か？", c: ["ヤシ", "エラブチ", "カティン"], a: 2 },
-        { q: "シビという魚は何のこども？", c: ["クロマグロ", "カツオ", "キハダマグロ"], a: 3 },
-        { q: "奄美のソデイカは，別名を何というか？", c: ["薩摩イカ", "琉球イカ", "奄美イカ"], a: 1 }
-    ];
-
-    let currentQuestions =;
+    let currentQuestions = [];
     let currentIndex = 0;
     let score = 0;
 
+    // 🧭 クイズをスタートする関数
     function startKentei() {
         score = 0;
         currentIndex = 0;
@@ -84,12 +73,22 @@
         document.getElementById('score-area').style.display = 'none';
         document.getElementById('kentei-result').textContent = '';
 
-        let shuffled = [...kenteiDatabase].sort(() => 0.5 - Math.random());
+        // 別室（quiz-data3.js）のデータを安全に呼び出す
+        let sourceDatabase = typeof kenteiDatabase !== 'undefined' ? kenteiDatabase : [];
+        
+        if (sourceDatabase.length === 0) {
+            alert("3択クイズのデータが正しく読み込めません。");
+            return;
+        }
+
+        // 毎回ランダムに並び替えて10問を抽出する
+        let shuffled = [...sourceDatabase].sort(() => 0.5 - Math.random());
         currentQuestions = shuffled.slice(0, 10);
 
         showKenteiQuestion();
     }
 
+    // 📝 画面に問題文と3つのボタンの中身を送り届ける関数
     function showKenteiQuestion() {
         document.getElementById('kentei-result').textContent = '';
         document.getElementById('kentei-progress').textContent = `第 ${currentIndex + 1} 問 / 全 10 問`;
@@ -102,6 +101,7 @@
         document.getElementById('choice3').textContent = `③ ${currentQ.c[2]}`;
     }
 
+    // ボタンが押されたら答え合わせをする関数
     function answerKentei(playerChoice) {
         const quizResult = document.getElementById('kentei-result');
         const correctAnswer = currentQuestions[currentIndex].a;
@@ -125,6 +125,7 @@
         }, 1200);
     }
 
+    // 🎉 結果とコメントを発表する関数
     function showKenteiScore() {
         document.getElementById('quiz-area').style.display = 'none';
         document.getElementById('score-area').style.display = 'block';
@@ -145,6 +146,7 @@
         }
     }
 
+    // 🚀 画面が開いた瞬間にクイズを起動
     startKentei();
 </script>
 </body>

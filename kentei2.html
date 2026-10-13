@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瀬戸内検定に挑戦！</title>
+    <!-- 共通のスタイルシートを読み込み -->
+    <link rel="stylesheet" href="style.css?v=2026">
+    <style>
+        .quiz-scroll-area {
+            width: 100%;
+            flex: 1;
+            overflow-y: auto;
+            margin: 15px 0;
+            padding-right: 4px;
+        }
+        .quiz-scroll-area::-webkit-scrollbar {
+            width: 4px;
+        }
+        .quiz-scroll-area::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+        .quiz-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 20px 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .question-text {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #ffffff;
+            margin-bottom: 12px;
+            text-align: left;
+            font-weight: 500;
+        }
+        .question-text-en {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #94a3b8;
+            margin-bottom: 25px;
+            text-align: left;
+            font-style: italic;
+        }
+        .quiz-choice-group {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 10px;
+        }
+        .quiz-ox-btn {
+            display: block;
+            width: 100%;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quiz-ox-btn:active {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: #38bdf8;
+            transform: scale(0.96);
+        }
+        .result-message {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 15px 0;
+            color: #38bdf8;
+        }
+        .quiz-meta {
+            font-size: 12px;
+            color: #38bdf8;
+            margin-bottom: 12px;
+            text-align: left;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 瀬戸内検定専用のヘッダー看板 -->
+        <header class="brand-header">
+            <h1 class="brand-logo" style="font-size: 22px; letter-spacing: 0.1em;">瀬戸内検定</h1>
+            <p class="brand-sub">▲ まちのれきし・ぶんかのクイズ ▲</p>
+        </header>
+
+        <div class="quiz-scroll-area">
+            
+            <!-- 【プレイ画面】 -->
+            <div id="quizPlay" class="quiz-card">
+                <div class="quiz-meta" id="quizProgress">もんだい 1 / 全 10 問</div>
+                <div class="question-text" id="questionText">読み込み中...</div>
+                <div class="question-text-en" id="questionTextEn">Loading...</div>
+                
+                <div class="quiz-choice-group">
+                    <button class="quiz-ox-btn" onclick="checkAnswer(true)">〇</button>
+                    <button class="quiz-ox-btn" onclick="checkAnswer(false)">×</button>
+                </div>
+                
+                <div id="resultMessage" class="result-message"></div>
+                <button id="nextBtn" class="modal-close-btn" style="display: none; margin-top: 15px;" onclick="nextQuestion()">つぎの問題へ 👉</button>
+            </div>
+
+            <!-- 【結果発表画面】 -->
+            <div id="quizResult" class="quiz-card" style="display: none;">
+                <h3 style="color: #ffffff; font-size: 18px; margin-bottom: 10px;">🎉 クイズおわり！</h3>
+                <p id="scoreText" style="font-size: 15px; color: #cbd5e1; margin-bottom: 20px;">10問中 8問 正解でした！</p>
+                <p id="gradeText" style="font-size: 13px; color: #38bdf8; font-weight: bold; margin-bottom: 20px; line-height: 1.5;"></p>
+                <button class="nav-btn" onclick="startQuiz()">🔄 もう一度挑戦する！</button>
+            </div>
+        </div>
+
+        <!-- 戻る先は、クイズメニュー（kentei.html） -->
+        <div class="back-home-wrap">
+            <a href="kentei.html" class="nav-btn back-home-btn">⬅ クイズメニューにもどる</a>
+        </div>
+    </div>
+
+    <!-- 瀬戸内専用の問題データを電波リンク！ -->
+    <script src="quiz-data2.js?v=2026"></script>
+    <script>
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedQuestions = [];
+        const TOTAL_QUESTIONS = 10; // 毎回ランダムで10問出題
+
+        window.onload = function() {
+            startQuiz();
+        };
+
+        function startQuiz() {
+            let sourceQuestions = typeof setouchiQuestions !== 'undefined' ? setouchiQuestions : [];
+            
+            if (sourceQuestions.length === 0) {
+                alert("瀬戸内検定のクイズデータが読み込めません。");
+                return;
+            }
+
+            let shuffled = [...sourceQuestions].sort(() => 0.5 - Math.random());
+            selectedQuestions = shuffled.slice(0, TOTAL_QUESTIONS);
+            
+            currentQuestionIndex = 0;
+            score = 0;
+
+            document.getElementById('quizPlay').style.display = 'block';
+            document.getElementById('quizResult').style.display = 'none';
+
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const currentQ = selectedQuestions[currentQuestionIndex];
+            const displayTotal = Math.min(TOTAL_QUESTIONS, selectedQuestions.length);
+
+            document.getElementById('quizProgress').innerText = `もんだい ${currentQuestionIndex + 1} / 全 ${displayTotal} 問`;
+            document.getElementById('questionText').innerText = currentQ.ja;
+            document.getElementById('questionTextEn').innerText = currentQ.en || '';
+            document.getElementById('resultMessage').innerText = '';
+            document.getElementById('nextBtn').style.display = 'none';
+
+            const buttons = document.getElementsByClassName('quiz-ox-btn');
+            for(let btn of buttons) { btn.disabled = false; }
+        }
+
+        function checkAnswer(userChoice) {
+            const currentQ = selectedQuestions[currentQuestionIndex];
+            const buttons = document.getElementsByClassName('quiz-ox-btn');
+            for(let btn of buttons) { btn.disabled = true; }
+
+            const resultMsg = document.getElementById('resultMessage');
+
+            if (userChoice === currentQ.a) {
+                resultMsg.innerText = "⭕️ せいかい！ / CORRECT";
+                resultMsg.style.color = "#38bdf8";
+                score++;
+            } else {
+                resultMsg.innerText = "❌ まちがい！ / INCORRECT";
+                resultMsg.style.color = "#ef4444";
+            }
+
+            document.getElementById('nextBtn').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            const displayTotal = Math.min(TOTAL_QUESTIONS, selectedQuestions.length);
+            
+            if (currentQuestionIndex < displayTotal) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quizPlay').style.display = 'none';
+            document.getElementById('quizResult').style.display = 'block';
+
+            const displayTotal = Math.min(TOTAL_QUESTIONS, selectedQuestions.length);
+            document.getElementById('scoreText').innerText = `${displayTotal}問中、 ${score}問 せいかいでした！`;
+
+            const gradeText = document.getElementById('gradeText');
+            const rate = score / displayTotal;
+
+            if (rate === 1) {
+                gradeText.innerText = "🐶「パーフェクトワン！きみは瀬戸内町の自然を完全に極めた『瀬戸内マスター』だね！🐾」";
+            } else if (rate >= 0.7) {
+                gradeText.innerText = "🛶「素晴らしい！加計呂麻や与路、請島の海や生き物のことが大好きなんだね！」";
+            } else {
+                gradeText.innerText = "🌿「おしい！古仁屋の町や自然をもっと探検すると、クイズがさらに楽しくなるよ！」";
+            }
+        }
+    </script>
+</body>
+</html>

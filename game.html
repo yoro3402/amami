@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NATURE GAME MENU - AMAMI WEB CREATIVE</title>
+    <!-- 共通スタイルシートを読み込み -->
+    <link rel="stylesheet" href="style.css?v=2026">
+    <style>
+        /* Webクリエイティブ専用の、少し知的でサイバー感のある深い海のグラデーション背景 */
+        body {
+            background: linear-gradient(135deg, #060b14 0%, #0a1120 100%) !important;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px 10px;
+            box-sizing: border-box;
+        }
+
+        .menu-container {
+            max-width: 400px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 25px 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-sizing: border-box;
+        }
+
+        .brand-logo {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 0 0 5px 0;
+        }
+
+        .brand-sub {
+            color: #94a3b8;
+            font-size: 13px;
+            margin: 0 0 20px 0;
+        }
+
+        .game-menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .game-menu-item {
+            display: block;
+            padding: 16px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #ffffff;
+            text-decoration: none;
+            text-align: left;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-sizing: border-box;
+        }
+
+        /* パソコン・マウス操作時のホバー効果 */
+        @media (hover: hover) {
+            .game-menu-item:hover {
+                background: rgba(255, 255, 255, 0.08);
+                border-color: #38bdf8;
+                transform: translateY(-2px);
+            }
+        }
+
+        /* スマホ・タップ時のアクティブ効果 */
+        .game-menu-item:active {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #38bdf8;
+            transform: scale(0.98);
+        }
+
+        .game-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #38bdf8;
+            margin: 0 0 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .game-desc {
+            font-size: 12px;
+            color: #94a3b8;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .btn-back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 25px;
+            padding: 10px 18px;
+            font-size: 13px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-back-home:active {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu-container">
+        <header>
+            <h1 class="brand-logo">NATURE GAME ROOM</h1>
+            <p class="brand-sub">遊ぶゲームを選んでね！</p>
+        </header>
+
+        <div class="game-menu-list">
+            <!-- 1. 宝さがしゲームへのリンク -->
+            <a href="game1.html" class="game-menu-item">
+                <p class="game-title">🗺️ 宝さがしゲーム</p>
+                <p class="game-desc">9×9のマスの中に隠された宝箱を見つけ出そう！外れても、宝箱に近いマスほど赤く熱くなってヒントを教えてくれるよ。</p>
+            </a>
+
+            <!-- 2. サイコロ自然ダイスへのリンク -->
+            <a href="game2.html" class="game-menu-item">
+                <p class="game-title">🎲 サイコロ自然ダイス</p>
+                <p class="game-desc">サイコロを振って奄美大島の壮大な大自然を探検しよう！アマミノクロウサギなどのレアな生き物に出会えるかな？</p>
+            </a>
+
+            <!-- 3. 【新設！】ハノイの塔へのリンク -->
+            <a href="game3.html" class="game-menu-item" style="border-color: rgba(56, 189, 248, 0.3);">
+                <p class="game-title" style="color: #38bdf8;">🗼 ハノイの塔</p>
+                <p class="game-desc">3本の棒を使って、全ての円盤を右端の棒へ移動させる高精度な論理パズルゲーム！数学的センスをバキバキに呼び覚まそう。</p>
+            </a>
+        </div>
+
+        <!-- メイン画面（index.html）へ戻るボタン -->
+        <a href="index.html" class="btn-back-home">🏠 ホームページへ戻る</a>
+    </div>
+
+</body>
+</html>
