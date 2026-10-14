@@ -1,0 +1,154 @@
+/* ==========================================================================
+   【kentei4専用】スマホ1画面にすっぽり収めるための「すき間凝縮」最強デザイン
+   ========================================================================== */
+html, body {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+    background-color: #060b14 !important;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    height: auto !important;
+    min-height: 100vh !important;
+    max-width: 380px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    /* 中央寄せで要素をコンパクトにギュッと集めます */
+    justify-content: center !important; 
+    box-sizing: border-box !important;
+    /* 【すき間調整】下部のクッションをさらに40pxまでスマートに引き締め */
+    padding: 12px 20px 40px 20px !important; 
+}
+
+h1 { 
+    color: #ffffff; 
+    font-size: 20px; 
+    font-weight: 200;
+    letter-spacing: 0.1em;
+    margin: 5px 0 2px 0; 
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.subtitle { 
+    font-size: 9px; 
+    letter-spacing: 0.08em;
+    color: #64748b; 
+    margin-bottom: 8px; 
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.quiz-card {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 14px !important;
+    padding: 16px 14px 10px 14px !important; /* カードの下側内白をさらに削りました */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+    text-align: center !important;
+    margin-bottom: 0px !important; /* 【重要】下の戻るボタンと隙間なくピタッと密着させます */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.quiz-meta {
+    font-size: 11px !important;
+    color: #38bdf8;
+    margin-bottom: 6px !important; 
+    text-align: left !important;
+    font-weight: bold !important;
+    letter-spacing: 0.05em !important;
+}
+
+/* 写真表示エリア：縦の幅をコンパクトに維持 */
+.quiz-image-area { 
+    margin: 4px 0 8px 0; 
+    display: block; 
+    text-align: center; 
+    min-height: 100px; 
+}
+
+.quiz-image-area img { 
+    max-width: 140px; 
+    width: 100%; 
+    height: auto; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4); 
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* 問題文の箱 */
+.question-text { 
+    font-size: 14px; 
+    font-weight: 500; 
+    line-height: 1.4; 
+    color: #ffffff;
+    background: rgba(4, 7, 15, 0.4); 
+    padding: 10px 12px; 
+    border-radius: 8px; 
+    margin-bottom: 10px; 
+    border: 1px dashed rgba(255, 255, 255, 0.1); 
+    text-align: left; 
+}
+
+/* 3つの三択ボタン */
+.choice-list { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+    margin-bottom: 8px; 
+}
+
+.btn-choice { 
+    width: 100%; 
+    padding: 12px 14px; 
+    font-size: 13px; 
+    font-weight: 400; 
+    text-decoration: none;
+    text-align: left; 
+    background: rgba(255, 255, 255, 0.03); 
+    color: #ffffff; 
+    border: 1px solid rgba(255, 255, 255, 0.12); 
+    border-radius: 10px; 
+    cursor: pointer; 
+    transition: all 0.2s ease; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+}
+
+.btn-choice:active:not(:disabled) { 
+    background: rgba(255, 255, 255, 0.15); 
+    border-color: rgba(56, 189, 248, 0.6); 
+    transform: scale(0.98); 
+}
+
+.btn-choice:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ⭕️❌マーク表示エリア：高さを維持しつつ余白をタイトに凝縮 */
+.result-mark { 
+    font-size: 34px; 
+    font-weight: bold; 
+    min-height: 36px; 
+    margin-top: 2px;
+    margin-bottom: 2px; 
+    line-height: 36px; 
+}
+.result-good { color: #10b981; animation: bounce 0.5s; }
+.result-bad { color: #f43f5e; animation: shake 0.3s; }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+
+/* 【今回の主役】上のカードとの隙間（margin-top）をたったの「4px」に縮小し、限界まで上に引き上げ！ */
+.back-home-wrap {
+    width: 100% !important;
+    margin-top: 4px !important; 
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    box-sizing: border-box !important;
+}

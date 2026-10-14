@@ -1,0 +1,164 @@
+/* ==========================================================================
+   【画面切れ・隠れバグ完全粉砕】スマートフォン専用・上書き最強CSS
+   ========================================================================== */
+html {
+    background-color: #060b14 !important;
+}
+
+body {
+    background: linear-gradient(135deg, #060b14 0%, #0a1120 100%) !important;
+    min-height: 100vh !important;
+    height: auto !important;
+    /* スマホ全体の自然なスクロール機能を100%強制的に開通させます */
+    overflow-y: scroll !important; 
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-overflow-scrolling: touch; /* iPhoneでのスクロールをバキバキになめらかにする指定 */
+}
+
+.container {
+    height: auto !important;                     /* 高さを絶対に固定させません */
+    min-height: 100vh !important;
+    max-width: 380px !important;
+    margin: 0 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;       /* 上から順に自然に並べます */
+    box-sizing: border-box !important;
+    
+    /* 【超重要】スマホ最下部のバーがどれだけ暴れても絶対にボタンを隠せない鉄壁の巨大余白 */
+    padding: 20px 16px 100px 16px !important; 
+}
+
+/* クイズのスクロールエリア（コンテナ側の固定を解除したため、ここも自動伸縮させます） */
+.quiz-scroll-area {
+    width: 100% !important;
+    height: auto !important;
+    flex: none !important; /* 縦幅の奪い合いを停止します */
+    margin: 15px 0 !important;
+}
+
+.quiz-card {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 14px !important;
+    padding: 20px 16px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+    text-align: center !important;
+    margin-bottom: 15px !important;
+}
+
+.question-text {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    color: #ffffff !important;
+    margin-bottom: 12px !important;
+    text-align: left !important;
+    font-weight: 500 !important;
+}
+
+.question-text-en {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    color: #94a3b8 !important;
+    margin-bottom: 25px !important;
+    text-align: left !important;
+    font-style: italic !important;
+}
+
+.quiz-choice-group {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    margin-bottom: 10px !important;
+}
+
+.quiz-ox-btn {
+    display: block !important;
+    width: 100% !important;
+    padding: 20px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 14px !important;
+    color: #ffffff !important;
+    font-size: 24px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.quiz-ox-btn:active {
+    background: rgba(56, 189, 248, 0.2) !important;
+    border-color: #38bdf8 !important;
+    transform: scale(0.96) !important;
+}
+
+.result-message {
+    font-size: 16px !important;
+    font-weight: bold !important;
+    margin: 15px 0 !important;
+    color: #38bdf8 !important;
+}
+
+.quiz-meta {
+    font-size: 12px !important;
+    color: #38bdf8 !important;
+    margin-bottom: 12px !important;
+    text-align: left !important;
+    font-weight: bold !important;
+    letter-spacing: 0.05em !important;
+}
+
+.quiz-menu-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    margin-top: 5px !important;
+}
+
+.quiz-menu-btn {
+    display: flex !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 16px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    text-align: left !important;
+}
+
+.quiz-menu-btn:active {
+    background: rgba(56, 189, 248, 0.15) !important;
+    border-color: #38bdf8 !important;
+    transform: scale(0.98) !important;
+}
+
+.quiz-menu-icon {
+    font-size: 28px !important;
+    margin-right: 15px !important;
+    width: 35px !important;
+    text-align: center !important;
+}
+
+.quiz-menu-title {
+    font-size: 15px !important;
+    font-weight: bold !important;
+    color: #ffffff !important;
+}
+
+.quiz-menu-desc {
+    font-size: 11px !important;
+    color: #64748b !important;
+    margin-top: 3px !important;
+}
+
+/* 【超強力】最下部ボタンを絶対にスマホの裏に隠さないための最終配置設定 */
+.back-home-wrap {
+    width: 100% !important;
+    margin-top: 25px !important; 
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    box-sizing: border-box !important;
+}

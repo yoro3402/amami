@@ -4,85 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMAMI WEB CREATIVE</title>
-    <!-- ガイドサイトと同じ美しい世界観のスタイルシートを読み込み -->
+    <!-- 高級感のある洗練された黒ベースデザイン（相談モーダル用スタイルも統合済み） -->
     <link rel="stylesheet" href="style.css?v=2026">
-    <style>
-        /* Webクリエイティブ専用の、少し知的でサイバー感のある深い海のグラデーション背景 */
-        body {
-            background: linear-gradient(135deg, #060b14 0%, #0a1120 100%) !important;
-        }
-        
-        /* ABOUT US内のリンクボタン専用のおしゃれなデザイン */
-        .link-box-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        .link-box-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 14px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #ffffff;
-            text-decoration: none;
-            font-size: 13px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-        .link-box-item:active {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #38bdf8;
-            transform: scale(0.98);
-        }
-        .link-box-title {
-            font-weight: 500;
-        }
-        .link-box-arrow {
-            color: #38bdf8;
-            font-size: 12px;
-        }
-
-        /* ホームページ作成相談モーダル用の装飾 */
-        .plan-section-title {
-            font-size: 13px;
-            color: #38bdf8;
-            font-weight: bold;
-            margin: 15px 0 5px 0;
-            letter-spacing: 0.5px;
-        }
-        .plan-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            padding: 12px 15px;
-            margin-bottom: 12px;
-            text-align: left;
-        }
-        .plan-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .plan-item:last-child {
-            border-bottom: none;
-        }
-        .plan-name {
-            font-size: 12px;
-            color: #e2e8f0;
-            font-weight: 500;
-        }
-        .plan-price {
-            font-size: 14px;
-            color: #38bdf8;
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
 
@@ -96,7 +19,7 @@
         <!-- 子供たちが迷わない極上の5大メニューボタン -->
         <nav class="main-nav">
             <!-- 1. 奄美クイズ -->
-            <a href="kentei.html" class="nav-btn">🧠 奄美クイズ</a>
+            <a href="kentei.html" class="nav-btn" style="text-decoration: none;">🧠 奄美クイズ</a>
             
             <!-- 2. ネイチャーゲーム -->
             <button class="nav-btn" onclick="jumpToGameMenu()">🎮 ネイチャーゲーム</button>
@@ -116,6 +39,7 @@
             <p>&copy; AMAMI WEB CREATIVE</p>
         </footer>
     </div>
+
     <!-- 【機能1】ふわっと飛び出す開発者＆相棒のプロフィールルーム（モーダル） -->
     <div id="profileModal" class="modal-overlay" onclick="closeModal(event, 'profileModal')">
         <div class="modal-card" style="max-height: 85vh; overflow-y: auto;">
@@ -164,7 +88,7 @@
                 <span class="close-x" onclick="document.getElementById('soudanModal').classList.remove('active')">&times;</span>
             </div>
             <div class="modal-body" style="text-align: left; line-height: 1.6;">
-                <h3 style="font-size: 15px; color: #ffffff; font-weight: bold; margin-bottom: 10px; border-left: 3px solid #38bdf8; padding-left: 8px;">
+                <h3 class="soudan-title">
                     ホームページ作成のご相談 (地域応援プラン)
                 </h3>
                 <p style="font-size: 12px; color: #cbd5e1; margin-bottom: 10px;">
@@ -173,7 +97,7 @@
 
                 <!-- ホームページプランのカード -->
                 <div class="plan-section-title">▼ WEB SITE PLAN</div>
-                <div class="plan-card" style="border-color: rgba(56, 189, 248, 0.2); background: rgba(56, 189, 248, 0.03);">
+                <div class="plan-card plan-card-blue">
                     <div class="plan-item">
                         <span class="plan-name">💻 ホームページ作成 (初期費用)</span>
                         <span class="plan-price">50,000 JPY</span>
@@ -184,16 +108,16 @@
                     </div>
                 </div>
 
-                <!-- 各種検定制作プランのカード（50,000 JPY に修正完了） -->
+                <!-- 各種検定制作プランのカード -->
                 <div class="plan-section-title">▼ ORIGINAL QUIZ PLAN</div>
-                <div class="plan-card" style="border-color: rgba(16, 185, 129, 0.2); background: rgba(16, 185, 129, 0.03);">
+                <div class="plan-card plan-card-green">
                     <div class="plan-item">
                         <span class="plan-name">🧠 オリジナル検定・クイズシステム制作</span>
-                        <span class="plan-price" style="color: #10b981;">50,000 JPY</span>
+                        <span class="plan-price plan-price-green">50,000 JPY</span>
                     </div>
                     <div class="plan-item">
                         <span class="plan-name">📝 問題テキストの追加・差し替え（1問）</span>
-                        <span class="plan-price" style="color: #10b981;">500 JPY</span>
+                        <span class="plan-price plan-price-green">500 JPY</span>
                     </div>
                 </div>
                 <p style="font-size: 11px; color: #94a3b8; line-height: 1.4; margin-top: 5px; padding-left: 5px;">

@@ -4,218 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>瀬戸内検定(画像入り3択版) - AMAMI NATURE CLUB</title>
-    <style>
-        /* 📱 縦の余白を極限まで削り、スマホ1画面にすっぽり収める超親切設計 */
-        body { 
-            font-family: "Helvetica Neue", Arial, sans-serif; 
-            text-align: center; 
-            background-color: #f0f4f8; 
-            padding: 8px; /* 上下の余白を狭く */
-            color: #1e293b; 
-            margin: 0;
-        }
-        .kentei-box { 
-            max-width: 420px; 
-            margin: 0 auto; 
-            background: white; 
-            border-radius: 16px; 
-            padding: 12px 16px; /* 内側の余白をスリムに */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
-            border: 2px solid #1e3a8a; 
-        }
-        h1 { color: #1e3a8a; font-size: 18px; margin: 0 0 2px 0; } /* タイトルを小さく */
-        .subtitle { font-size: 11px; color: #64748b; margin-bottom: 8px; } /* すき間を狭く */
-        .progress-text { font-size: 12px; font-weight: bold; color: #1e3a8a; margin-bottom: 6px; }
-        
-        /* 写真エリア：さらにコンパクト（幅110px）に微調整 */
-        .quiz-image-area { margin-bottom: 6px; display: none; text-align: center; }
-        .quiz-image-area img { 
-            max-width: 110px; 
-            width: 100%; 
-            height: auto; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08); 
-            border: 1px solid #cbd5e1; 
-        }
-
-        /* 問題文の箱：高さをさらに狭めてキュッと凝縮 */
-        .question-text { 
-            font-size: 14px; 
-            font-weight: bold; 
-            line-height: 1.4; 
-            min-height: 2.5em; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            background: #f8fafc; 
-            padding: 6px 12px; 
-            border-radius: 8px; 
-            margin-bottom: 8px; 
-            border: 1px dashed #cbd5e1; 
-            text-align: left; 
-        }
-        
-        /* 3つのボタン：クッション（内白）を狭めて、ボタン同士の隙間をピタッと凝縮 */
-        .choice-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
-        .btn-choice { 
-            width: 100%; 
-            padding: 8px 12px; /* ボタンを薄くスマートに */
-            font-size: 14px; 
-            font-weight: bold; 
-            text-align: left; 
-            background-color: #f1f5f9; 
-            color: #1e293b; 
-            border: 2px solid #cbd5e1; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            transition: 0.2s; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
-        }
-        .btn-choice:hover { background-color: #e2e8f0; border-color: #94a3b8; transform: scale(1.01); }
-        
-        /* 下部の案内・戻るボタン */
-        .btn-action { background-color: #475569; color: white; width: 100%; font-size: 14px; padding: 10px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .result-mark { font-size: 40px; font-weight: bold; min-height: 45px; margin-bottom: 4px; line-height: 45px; } /* ○×演出もコンパクトに */
-        .result-good { color: #059669; animation: bounce 0.5s; }
-        .result-bad { color: #dc2626; animation: shake 0.3s; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
-    </style>
+    <!-- 1. 全体共通のスタイルシートを読み込み -->
+    <link rel="stylesheet" href="style.css?v=2026">
+    <!-- 2. 【新設】画像クイズ専用のスタイルシートを別室から読み込み -->
+    <link rel="stylesheet" href="kentei4-style.css?v=2026">
 </head>
 <body>
 
-<div class="kentei-box">
-    <h1>🧭 瀬戸内検定 (画像入り)</h1>
-    <div class="subtitle">〜 郷土の自然・生き物を写真で学ぼう 〜</div>
-    
-    <!-- クイズ進行中の画面 -->
-    <div id="quiz-area">
-        <div class="progress-text" id="kentei-progress">第 1 問 / 全 10 問</div>
-        <div class="quiz-image-area" id="kentei-image-box"><img src="" id="kentei-img" alt="クイズ画像"></div>
-        <div class="question-text" id="kentei-question">問題がここに表示されます。</div>
-        <div class="result-mark" id="kentei-result"></div>
-        
-        <div class="choice-list">
-            <button class="btn-choice" id="choice1" onclick="answerKentei(1)">① 選択肢 1</button>
-            <button class="btn-choice" id="choice2" onclick="answerKentei(2)">② 選択肢 2</button>
-            <button class="btn-choice" id="choice3" onclick="answerKentei(3)">③ 選択肢 3</button>
+    <div class="container">
+        <!-- 動的に書き換わるヘッダータイトル -->
+        <header class="brand-header">
+            <h1 class="brand-logo" id="mainTitle">瀬戸内検定</h1>
+            <p class="brand-sub" id="subTitle">▲ 写真を見て三択クイズに挑戦！ ▲</p>
+        </header>
+
+        <!-- クイズプレイ画面 -->
+        <div id="quizPlay" class="quiz-card">
+            <div class="quiz-meta" id="quizProgress">もんだい 1 / 全 10 問</div>
+            
+            <!-- 写真表示エリア -->
+            <div class="quiz-image-area">
+                <img id="quizImage" src="" alt="クイズ写真">
+            </div>
+
+            <div class="question-text" id="questionText">読み込み中...</div>
+            
+            <div class="choice-list">
+                <button class="btn-choice" id="choice1" onclick="answerKentei(1)">① 選択肢 1</button>
+                <button class="btn-choice" id="choice2" onclick="answerKentei(2)">② 選択肢 2</button>
+                <button class="btn-choice" id="choice3" onclick="answerKentei(3)">③ 選択肢 3</button>
+            </div>
+            
+            <div id="resultMark" class="result-mark"></div>
+        </div>
+
+        <!-- 結果発表画面（クリア後に露出） -->
+        <div id="quizResult" class="quiz-card" style="display: none;">
+            <h3 style="color: #ffffff; font-size: 18px; margin-bottom: 10px;">🎉 クイズおわり！</h3>
+            <p id="scoreText" style="font-size: 15px; color: #cbd5e1; margin-bottom: 20px;">10問中 0問 正解でした！</p>
+            <p id="gradeText" style="font-size: 13px; color: #38bdf8; font-weight: bold; margin-bottom: 20px; line-height: 1.5;"></p>
+            <button class="btn-choice" style="text-align: center; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); color: white; border: none; margin-bottom: 12px;" onclick="startKentei()">🔄 もう一度挑戦する！</button>
+        </div>
+
+        <!-- 一番下の固定ボタンエリア（すき間を凝縮） -->
+        <div class="back-home-wrap">
+            <a href="kentei.html" class="nav-btn" style="display: block; text-decoration: none; width: 100%; text-align: center;">⬅ クイズメニューにもどる</a>
         </div>
     </div>
 
-    <!-- 10問終わった後の結果発表画面 -->
-    <div id="score-area" style="display: none;">
-        <h2 style="color: #1e3a8a; font-size: 20px;">🎉 検定結果発表 🎉</h2>
-        <div style="font-size: 22px; font-weight: bold; margin: 12px 0; color: #ea580c;" id="kentei-score">0問正解 / 10問中</div>
-        <div style="font-size: 14px; line-height: 1.5; color: #475569; margin-bottom: 16px;" id="kentei-comment">がんばったね！</div>
-        <button class="btn-choice" style="text-align: center; background-color: #0284c7; color: white; border: none; margin-bottom: 12px;" onclick="startKentei()">もう一度挑戦する</button>
-    </div>
-
-    <!-- クイズメニュー（kentei.html）へ直通するボタン -->
-    <button class="btn-action" style="background-color: #0d9488;" onclick="location.href='kentei.html'">⬅ クイズメニューに戻る</button>
-</div>
-
-<!-- 外部の quiz-data4.js からデータをバキバキに読み込みます -->
-<script src="quiz-data4.js?v=2026"></script>
-<script>
-    let currentQuestions = [];
-    let currentIndex = 0;
-    let score = 0;
-
-    // 🧭 クイズをスタート（またはリセット）する関数
-    function startKentei() {
-        score = 0;
-        currentIndex = 0;
-        document.getElementById('quiz-area').style.display = 'block';
-        document.getElementById('score-area').style.display = 'none';
-        document.getElementById('kentei-result').textContent = '';
-
-        // 別室（quiz-data4.js）のデータを安全に呼び出す処理
-        let sourceDatabase = typeof imageKenteiDatabase !== 'undefined' ? imageKenteiDatabase : [];
-        
-        if (sourceDatabase.length === 0) {
-            alert("画像クイズのデータが正しく読み込めません。");
-            return;
-        }
-
-        // 39問から毎回ランダムに10問を抽出する
-        let shuffled = [...sourceDatabase].sort(() => 0.5 - Math.random());
-        currentQuestions = shuffled.slice(0, 10);
-
-        showKenteiQuestion();
-    }
-
-    // 📝 画面に問題文と写真を正しく送り届ける関数
-    function showKenteiQuestion() {
-        document.getElementById('kentei-result').textContent = '';
-        document.getElementById('kentei-progress').textContent = `第 ${currentIndex + 1} 問 / 全 10 問`;
-        
-        const currentQ = currentQuestions[currentIndex];
-        document.getElementById('kentei-question').textContent = currentQ.q;
-        
-        // 写真がある問題のときだけ表示する処理
-        const imgBox = document.getElementById('kentei-image-box');
-        const imgEl = document.getElementById('kentei-img');
-        if (currentQ.img) {
-            imgEl.src = currentQ.img;
-            imgBox.style.display = 'block';
-        } else {
-            imgBox.style.display = 'none';
-        }
-        
-        // 3つのボタンの中身を別室データから正確に読み込む設定
-        document.getElementById('choice1').textContent = `① ${currentQ.c[0]}`;
-        document.getElementById('choice2').textContent = `② ${currentQ.c[1]}`;
-        document.getElementById('choice3').textContent = `③ ${currentQ.c[2]}`;
-    }
-
-    // ボタンが押されたら答え合わせをする関数
-    function answerKentei(playerChoice) {
-        const quizResult = document.getElementById('kentei-result');
-        const correctAnswer = currentQuestions[currentIndex].a;
-
-        if (playerChoice === correctAnswer) {
-            score++;
-            quizResult.textContent = "⭕";
-            quizResult.className = "result-mark result-good";
-        } else {
-            quizResult.textContent = "❌";
-            quizResult.className = "result-mark result-bad";
-        }
-
-        // 1.2秒待ってから自動的に次の問題へ進む
-        setTimeout(() => {
-            currentIndex++;
-            if (currentIndex < 10) {
-                showKenteiQuestion();
-            } else {
-                showKenteiScore();
-            }
-        }, 1200);
-    }
-
-    // 🎉 10問終わった後に点数とコメントを発表する関数
-    function showKenteiScore() {
-        document.getElementById('quiz-area').style.display = 'none';
-        document.getElementById('score-area').style.display = 'block';
-
-        const scoreText = document.getElementById('kentei-score');
-        const commentText = document.getElementById('kentei-comment');
-        
-        scoreText.textContent = `${score} 問正解 / 10問中`;
-
-        if (score === 10) {
-            commentText.textContent = "🎊全問正解！完璧な瀬戸内マスターだね！🎊";
-        } else if (score >= 7) {
-            commentText.textContent = "✨素晴らしい！大自然のことにとても詳しいね！✨";
-        } else if (score >= 4) {
-            commentText.textContent = "👍ナイス！何度も挑戦して覚えていこう！";
-        } else {
-            commentText.textContent = "🐾がんばったね！もう一度挑戦してみよう！";
-        }
-    }
-
-    // 🚀 画面が開いた瞬間にクイズを起動させます
-    startKentei();
-</script>
+    <!-- 3. 別室のクイズデータ（quiz-data4.js）を電波リンク -->
+    <script src="quiz-data4.js?v=2026_okuda_perfect_vfinal_fix3"></script>
+    <!-- 4. 【新設】画像クイズ専用のプログラムロジックを別室から読み込み -->
+    <script src="kentei4-script.js?v=2026_okuda_perfect_vfinal_fix3"></script>
 </body>
 </html>

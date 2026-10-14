@@ -3,101 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>瀬戸内検定に挑戦！</title>
+    <title>瀬戸内検定（〇×） - AMAMI WEB CREATIVE</title>
     <!-- 共通のスタイルシートを読み込み -->
     <link rel="stylesheet" href="style.css?v=2026">
     <style>
+        /* ==========================================================================
+           【kentei2専用】スマホの画面切れ・ボタン隠れを物理的に100%回避する最強上書き命令
+           ========================================================================== */
+        html, body {
+            height: auto !important;
+            min-height: 100vh !important;
+            overflow-y: auto !important; /* スマホ全体の上下スクロールを完全開通 */
+            background-color: #060b14 !important;
+        }
+
+        .container {
+            height: auto !important; /* 縦幅の画面ロックを完全に解除 */
+            min-height: 100vh !important;
+            max-width: 380px !important;
+            margin: 0 auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: flex-start !important; /* 上から順に自然に並べます */
+            box-sizing: border-box !important;
+            
+            /* 【重要】スマホ最下部のバーがどれだけ暴れても絶対にボタンを隠せない鉄壁の巨大余白 */
+            padding: 24px 20px 120px 20px !important; 
+        }
+
+        /* クイズのスクロールエリア（高さを固定せず、スマホの縦揺れを防ぐ自動伸縮構造） */
         .quiz-scroll-area {
-            width: 100%;
-            flex: 1;
-            overflow-y: auto;
-            margin: 15px 0;
-            padding-right: 4px;
+            width: 100% !important;
+            height: auto !important;
+            flex: none !important;
+            margin: 15px 0 !important;
         }
-        .quiz-scroll-area::-webkit-scrollbar {
-            width: 4px;
-        }
-        .quiz-scroll-area::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 2px;
-        }
+
         .quiz-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 20px 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 14px !important;
+            padding: 20px 16px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+            text-align: center !important;
+            margin-bottom: 15px !important;
         }
+
         .question-text {
-            font-size: 16px;
-            line-height: 1.6;
-            color: #ffffff;
-            margin-bottom: 12px;
-            text-align: left;
-            font-weight: 500;
+            font-size: 16px !important;
+            line-height: 1.6 !important;
+            color: #ffffff !important;
+            margin-bottom: 12px !important;
+            text-align: left !important;
+            font-weight: 500 !important;
         }
+
         .question-text-en {
-            font-size: 12px;
-            line-height: 1.5;
-            color: #94a3b8;
-            margin-bottom: 25px;
-            text-align: left;
-            font-style: italic;
+            font-size: 12px !important;
+            line-height: 1.5 !important;
+            color: #94a3b8 !important;
+            margin-bottom: 25px !important;
+            text-align: left !important;
+            font-style: italic !important;
         }
+
         .quiz-choice-group {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 10px;
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 16px !important;
+            margin-bottom: 10px !important;
         }
+
         .quiz-ox-btn {
-            display: block;
-            width: 100%;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 14px;
-            color: #ffffff;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            display: block !important;
+            width: 100% !important;
+            padding: 20px !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 14px !important;
+            color: #ffffff !important;
+            font-size: 24px !important;
+            font-weight: bold !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
         }
+
         .quiz-ox-btn:active {
-            background: rgba(56, 189, 248, 0.2);
-            border-color: #38bdf8;
-            transform: scale(0.96);
+            background: rgba(56, 189, 248, 0.2) !important;
+            border-color: #38bdf8 !important;
+            transform: scale(0.96) !important;
         }
+
         .result-message {
-            font-size: 16px;
-            font-weight: bold;
-            margin: 15px 0;
-            color: #38bdf8;
+            font-size: 16px !important;
+            font-weight: bold !important;
+            margin: 15px 0 !important;
+            color: #38bdf8 !important;
         }
+
         .quiz-meta {
-            font-size: 12px;
-            color: #38bdf8;
-            margin-bottom: 12px;
-            text-align: left;
-            font-weight: bold;
-            letter-spacing: 0.05em;
+            font-size: 12px !important;
+            color: #38bdf8 !important;
+            margin-bottom: 12px !important;
+            text-align: left !important;
+            font-weight: bold !important;
+            letter-spacing: 0.05em !important;
+        }
+
+        /* 一番下の固定ボタンをスマホのバーから強制的に引き離す最終クッション余白 */
+        .back-home-wrap {
+            width: 100% !important;
+            margin-top: 30px !important; 
+            padding-bottom: env(safe-area-inset-bottom) !important;
+            box-sizing: border-box !important;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- 瀬戸内検定専用のヘッダー看板 -->
+        <!-- 動的に書き換わるヘッダータイトル -->
         <header class="brand-header">
-            <h1 class="brand-logo" style="font-size: 22px; letter-spacing: 0.1em;">瀬戸内検定</h1>
-            <p class="brand-sub">▲ まちのれきし・ぶんかのクイズ ▲</p>
+            <h1 class="brand-logo" id="mainTitle" style="font-size: 22px; letter-spacing: 0.1em;">瀬戸内検定</h1>
+            <p class="brand-sub" id="subTitle">▲ まちの歴史と文化にちょうせん！ ▲</p>
         </header>
 
         <div class="quiz-scroll-area">
             
-            <!-- 【プレイ画面】 -->
+            <!-- クイズプレイ画面（初期状態） -->
             <div id="quizPlay" class="quiz-card">
                 <div class="quiz-meta" id="quizProgress">もんだい 1 / 全 10 問</div>
                 <div class="question-text" id="questionText">読み込み中...</div>
@@ -112,46 +145,48 @@
                 <button id="nextBtn" class="modal-close-btn" style="display: none; margin-top: 15px;" onclick="nextQuestion()">つぎの問題へ 👉</button>
             </div>
 
-            <!-- 【結果発表画面】 -->
+            <!-- 結果発表画面（クリア後に露出） -->
             <div id="quizResult" class="quiz-card" style="display: none;">
                 <h3 style="color: #ffffff; font-size: 18px; margin-bottom: 10px;">🎉 クイズおわり！</h3>
-                <p id="scoreText" style="font-size: 15px; color: #cbd5e1; margin-bottom: 20px;">10問中 8問 正解でした！</p>
+                <p id="scoreText" style="font-size: 15px; color: #cbd5e1; margin-bottom: 20px;">10問中 0問 正解でした！</p>
                 <p id="gradeText" style="font-size: 13px; color: #38bdf8; font-weight: bold; margin-bottom: 20px; line-height: 1.5;"></p>
-                <button class="nav-btn" onclick="startQuiz()">🔄 もう一度挑戦する！</button>
+                <button class="nav-btn" style="width: 100%;" onclick="startQuiz()">🔄 もう一度挑戦する！</button>
             </div>
         </div>
 
-        <!-- 戻る先は、クイズメニュー（kentei.html） -->
+        <!-- 一番下の固定ボタンエリア（セーフエリア付きで絶対に隠れません） -->
         <div class="back-home-wrap">
-            <a href="kentei.html" class="nav-btn back-home-btn">⬅ クイズメニューにもどる</a>
+            <a href="kentei.html" class="nav-btn back-home-btn" id="footerLinkBtn" style="display: block; text-decoration: none; width: 100%;">⬅ クイズメニューにもどる</a>
         </div>
     </div>
-
-    <!-- 瀬戸内専用の問題データを電波リンク！ -->
-    <script src="quiz-data2.js?v=2026"></script>
+    <!-- 瀬戸内町のローカルクイズデータと高精度プログラム -->
     <script>
+        const setouchiQuestions = [
+            { ja: "瀬戸内町にある加計呂麻島（かけろまじま）へは、古仁屋から船で行くことができる？", en: "Can you go to Kakeromajima from Koniya by boat?", a: true },
+            { ja: "大島海峡は、かつて日本海軍の軍港（要塞）として使われていた歴史がある？", en: "Did Oshima Strait once serve as a naval port?", a: true },
+            { ja: "古仁屋港から見える一番大きな島は「徳之島」である？", en: "Is the largest island visible from Koniya Port Tokunoshima?", a: false },
+            { ja: "瀬戸内町の郷土芸能「八月踊り」は、チヂン（太鼓）を叩きながら踊る？", en: "Do people dance July-August dance with Chijin drums?", a: true },
+            { ja: "瀬戸内町は、マグロの養殖（クロマグロ）が非常に盛んな街である？", en: "Is Bluefin tuna farming prosperous in Setouchi town?", a: true },
+            { ja: "加計呂麻島にある「諸鈍（しょどん）のシバヤ」は、国の重要無形民俗文化財である？", en: "Is Shodon no Shibaya a national cultural property?", a: true },
+            { ja: "瀬戸内町の木は「ガジュマル」である？", en: "Is the town tree of Setouchi the Gajumaru?", a: false },
+            { ja: "高知山（こうちやま）展望台からは、大島海峡を美しく一望できる？", en: "Can you overlook Oshima Strait from Mt.Kochi observatory?", a: true },
+            { ja: "瀬戸内町には、日本で唯一の「水中観光船」が運航している？", en: "Is the underwater sightseeing boat operating in Setouchi?", a: true },
+            { ja: "古仁屋にある「せとうち海の駅」では、地元の新鮮な魚を食べることができる？", en: "Can you eat fresh fish at Setouchi Umi-no-Eki?", a: true }
+        ];
+
         let currentQuestionIndex = 0;
         let score = 0;
         let selectedQuestions = [];
-        const TOTAL_QUESTIONS = 10; // 毎回ランダムで10問出題
+        const TOTAL_QUESTIONS = 10;
 
-        window.onload = function() {
-            startQuiz();
-        };
-
+        // クイズの開始
         function startQuiz() {
-            let sourceQuestions = typeof setouchiQuestions !== 'undefined' ? setouchiQuestions : [];
-            
-            if (sourceQuestions.length === 0) {
-                alert("瀬戸内検定のクイズデータが読み込めません。");
-                return;
-            }
-
-            let shuffled = [...sourceQuestions].sort(() => 0.5 - Math.random());
-            selectedQuestions = shuffled.slice(0, TOTAL_QUESTIONS);
-            
             currentQuestionIndex = 0;
             score = 0;
+            
+            // データをランダムにシャッフル
+            const shuffled = [...setouchiQuestions].sort(() => 0.5 - Math.random());
+            selectedQuestions = shuffled.slice(0, TOTAL_QUESTIONS);
 
             document.getElementById('quizPlay').style.display = 'block';
             document.getElementById('quizResult').style.display = 'none';
@@ -159,11 +194,11 @@
             showQuestion();
         }
 
+        // 問題の描写
         function showQuestion() {
             const currentQ = selectedQuestions[currentQuestionIndex];
-            const displayTotal = Math.min(TOTAL_QUESTIONS, selectedQuestions.length);
 
-            document.getElementById('quizProgress').innerText = `もんだい ${currentQuestionIndex + 1} / 全 ${displayTotal} 問`;
+            document.getElementById('quizProgress').innerText = `もんだい ${currentQuestionIndex + 1} / 全 ${TOTAL_QUESTIONS} 問`;
             document.getElementById('questionText').innerText = currentQ.ja;
             document.getElementById('questionTextEn').innerText = currentQ.en || '';
             document.getElementById('resultMessage').innerText = '';
@@ -173,6 +208,7 @@
             for(let btn of buttons) { btn.disabled = false; }
         }
 
+        // 正誤判定
         function checkAnswer(userChoice) {
             const currentQ = selectedQuestions[currentQuestionIndex];
             const buttons = document.getElementsByClassName('quiz-ox-btn');
@@ -190,37 +226,48 @@
             }
 
             document.getElementById('nextBtn').style.display = 'block';
+            if (currentQuestionIndex === TOTAL_QUESTIONS - 1) {
+                document.getElementById('nextBtn').innerText = "けっか発表を見る ➔";
+            } else {
+                document.getElementById('nextBtn').innerText = "つぎの問題へ 👉";
+            }
         }
 
         function nextQuestion() {
             currentQuestionIndex++;
-            const displayTotal = Math.min(TOTAL_QUESTIONS, selectedQuestions.length);
-            
-            if (currentQuestionIndex < displayTotal) {
+            if (currentQuestionIndex < TOTAL_QUESTIONS) {
                 showQuestion();
             } else {
                 showResult();
             }
         }
 
+        // 結果発表
         function showResult() {
             document.getElementById('quizPlay').style.display = 'none';
             document.getElementById('quizResult').style.display = 'block';
 
-            const displayTotal = Math.min(TOTAL_QUESTIONS, selectedQuestions.length);
-            document.getElementById('scoreText').innerText = `${displayTotal}問中、 ${score}問 せいかいでした！`;
+            document.getElementById('scoreText').innerText = `10問中、 ${score}問 せいかいでした！`;
 
             const gradeText = document.getElementById('gradeText');
-            const rate = score / displayTotal;
+            const rate = score / TOTAL_QUESTIONS;
 
             if (rate === 1) {
-                gradeText.innerText = "🐶「パーフェクトワン！きみは瀬戸内町の自然を完全に極めた『瀬戸内マスター』だね！🐾」";
+                gradeText.innerText = "🐶「パーフェクトワン！きみは今日から瀬戸内町の完全なマスターだね！🐾」";
+                gradeText.style.color = "#fbbf24";
             } else if (rate >= 0.7) {
-                gradeText.innerText = "🛶「素晴らしい！加計呂麻や与路、請島の海や生き物のことが大好きなんだね！」";
+                gradeText.innerText = "🛶「すごいすごい！せとうちの歴史や文化にめちゃくちゃ詳しいね！」";
+                gradeText.style.color = "#10b981";
             } else {
-                gradeText.innerText = "🌿「おしい！古仁屋の町や自然をもっと探検すると、クイズがさらに楽しくなるよ！」";
+                gradeText.innerText = "🌿「おしい！せとうち海の駅や加計呂麻島へ、もっと秘密を探しに行ってみよう！」";
+                gradeText.style.color = "#cbd5e1";
             }
         }
+
+        // 自動でクイズを起動
+        window.onload = function() {
+            startQuiz();
+        };
     </script>
 </body>
 </html>
