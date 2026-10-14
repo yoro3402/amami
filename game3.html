@@ -200,7 +200,7 @@
     <div class="game-container-wrapper">
         <h1>🗼 ハノイの塔</h1>
         <p class="game-intro">
-            一番上のディスクを別の柱にドラッグ＆ドロップしてください。小さいディスクの上に大きいものは置けません。
+            【スマホ対応】移動させる「皿のある柱」をタップし、次に「移動先の柱」をタップしてね。<br>小さい皿の上に大きいものは置けません。
         </p>
 
         <!-- 以前と同じ手数・枚数管理インジケーター -->
@@ -220,31 +220,32 @@
 
         <!-- スマホ幅を考慮したパズルステージ -->
         <div class="game-board">
-            <div class="peg" id="peg1"></div>
-            <div class="peg" id="peg2"></div>
-            <div class="peg" id="peg3"></div>
+            <div class="peg" id="peg1" onclick="selectPeg(1)"></div>
+            <div class="peg" id="peg2" onclick="selectPeg(2)"></div>
+            <div class="peg" id="peg3" onclick="selectPeg(3)"></div>
         </div>
 
         <div class="btn-footer-nav">
-            <a href="game.html" class="btn-nav-link">⬅ ゲｰム選択へ戻る</a>
-            <a href="index.html" class="btn-nav-link">🏠 ﾎｰ姆へ戻る</a>
+            <a href="game.html" class="btn-nav-link">⬅ ゲーム選択へ戻る</a>
+            <a href="index.html" class="btn-nav-link">🏠 ホームへ戻る</a>
         </div>
     </div>
-    <!-- 以前100%正しく動作したドラッグ＆ドロップとレベルアップの完全再現ロジック -->
+
+    <!-- 100%独立動作するタップ型レベルアップ制御ロジック -->
     <script>
-        // ディスクの色リスト（以前の美しさをそのまま、最大8枚まで自動対応）
+        // ディスクの色リスト（以前の美しさをそのまま最大8枚まで自動対応）
         const colors = [
             '#ff4757', '#ffa502', '#2ed573', '#1e90ff', 
             '#9b59b6', '#34495e', '#1abc9c', '#e67e22'
         ];
 
-        let currentDiskCount = 3; // 初期状態は3枚
+        // 3本の柱のデータを二次元配列で完全仮想管理（1=小 〜 8=大）
+        let pegsData = { 1: [], 2: [], 3: [] };
+        let currentDiskCount = 3; 
         let movesCount = 0;
-        let draggedDisk = null;
+        let selectedPegId = null; // 1回目にタップされた柱のIDを一時保管
+        let gameOver = false;
 
-        const peg1 = document.getElementById('peg1');
-        const peg2 = document.getElementById('peg2');
-        const peg3 = document.getElementById('peg3');
         const movesDisplay = document.getElementById('moves');
         const diskCountDisplay = document.getElementById('disk-count');
         const messageDisplay = document.getElementById('message');
@@ -255,135 +256,156 @@
         function initGame(diskAmount) {
             currentDiskCount = diskAmount;
             movesCount = 0;
+            selectedPegId = null;
+            gameOver = false;
+            
             movesDisplay.textContent = movesCount;
             diskCountDisplay.textContent = currentDiskCount;
-            messageDisplay.textContent = '一番上のディスクを掴んで動かしてね 🐾';
-            messageDisplay.style.color = '#94a3b8'; // 通常メッセージの色
+            messageDisplay.textContent = '一番上のディスクを選んで動かしてね 🐾';
+            messageDisplay.style.color = '#cbd5e1'; 
             
-            // ボタンを隠す
             btnNext.style.display = 'none';
             btnHome.style.display = 'none';
 
-            // 柱をすべて空にする
-            peg1.innerHTML = '';
-            peg2.innerHTML = '';
-            peg3.innerHTML = '';
+            // 配列データの初期化
+            pegsData[1] = [];
+            pegsData[2] = [];
+            pegsData[3] = [];
 
-            // 指定された枚数のディスクを1番目の柱に生成（大きい順に下から積む）
+            // 指定された枚数のディスク数値を1番目の柱へ大きい順（下から）積む
             for (let i = currentDiskCount; i >= 1; i--) {
-                const disk = document.createElement('div');
-                disk.classList.add('disk');
-                disk.setAttribute('draggable', 'true');
-                disk.setAttribute('data-size', i);
-                disk.id = 'd' + i;
-                
-                // 【スマホ対応】以前の幅計算をベースに、スマホの横幅からはみ出さない比率（max-width）へ最適化
-                disk.style.width = `calc(30px + ${i * 10}%)`;
-                disk.style.maxWidth = '100%';
-                disk.style.background = colors[(i - 1) % colors.length];
+                pegsData[1].push(i);
+            }
 
-                // ドラッグイベントの登録
-                setupDragEvents(disk);
+            renderBoard();
+        }
 
-                peg1.appendChild(disk);
+        // 柱のデータを基に画面を美しく同期・再描写する数理アルゴリズム
+        function renderBoard() {
+            // 枚数が増えても柱の高さ（140px）を決してはみ出さないよう、皿の厚みを動的計算
+            const diskHeight = Math.min(24, Math.floor(130 / currentDiskCount));
+
+            for (let p = 1; p <= 3; p++) {
+                const pegElement = document.getElementById(`peg${p}`);
+                pegElement.innerHTML = '';
+
+                // タップ選択されている柱に、前半新設の「発光ハイライト」を同期
+                if (selectedPegId === p) {
+                    pegElement.classList.add('selected');
+                } else {
+                    pegElement.classList.remove('selected');
+                }
+
+                // データを基に、スマホに最適化された綺麗な階段状のディスクを物理生成
+                pegsData[p].forEach(diskSize => {
+                    const disk = document.createElement('div');
+                    disk.classList.add('disk');
+                    
+                    // 奥田様の幅計算比率をレスポンシブ％へ完全最適化
+                    const widthPercent = 30 + (diskSize * (60 / currentDiskCount));
+                    disk.style.width = `${widthPercent}%`;
+                    disk.style.height = `${diskHeight}px`;
+                    disk.style.background = colors[(diskSize - 1) % colors.length];
+
+                    pegElement.appendChild(disk);
+                });
             }
         }
 
-        // ドラッグ処理の設定
-        function setupDragEvents(disk) {
-            disk.addEventListener('dragstart', (e) => {
-                const parentPeg = disk.parentElement;
-                // 一番上のディスクだけドラッグ可能
-                if (parentPeg.lastElementChild !== disk) {
-                    e.preventDefault();
+        // 柱がタップされた時の高精度コントロールプログラム（ドラッグからの大改修）
+        function selectPeg(pegId) {
+            if (gameOver) return;
+
+            // 【1回目のタップ】移動元の柱を選択
+            if (selectedPegId === null) {
+                if (pegsData[pegId].length === 0) {
+                    messageDisplay.textContent = '⚠️ その柱には動かせるディスクがありません！';
+                    messageDisplay.style.color = '#f43f5e';
                     return;
                 }
-                draggedDisk = disk;
-                setTimeout(() => disk.style.visibility = 'hidden', 0);
-            });
+                selectedPegId = pegId;
+                messageDisplay.textContent = '🔮 次に「移動させたい先の柱」をタップしてください。';
+                messageDisplay.style.color = '#38bdf8';
+                renderBoard();
+            } 
+            // 【2回目のタップ】移動先の柱を選択
+            else {
+                // 同じ柱を2回叩いた場合は選択キャンセル
+                if (selectedPegId === pegId) {
+                    selectedPegId = null;
+                    messageDisplay.textContent = '移動をキャンセルしました。皿のある柱を選んでね。';
+                    messageDisplay.style.color = '#cbd5e1';
+                    renderBoard();
+                    return;
+                }
 
-            disk.addEventListener('dragend', () => {
-                setTimeout(() => {
-                    if (draggedDisk) draggedDisk.style.visibility = 'visible';
-                    draggedDisk = null;
-                }, 0);
-            });
-        }
+                const fromPeg = pegsData[selectedPegId];
+                const toPeg = pegsData[pegId];
+                const movingDiskSize = fromPeg[fromPeg.length - 1]; // 動かす皿のサイズ
+                const targetTopDiskSize = toPeg[toPeg.length - 1];   // 移動先の一番上の皿のサイズ
 
-        // 柱（ドロップ先）のイベント設定
-        [peg1, peg2, peg3].forEach(peg => {
-            peg.addEventListener('dragover', (e) => {
-                e.preventDefault();
-            });
-
-            peg.addEventListener('drop', (e) => {
-                e.preventDefault();
-                if (!draggedDisk) return;
-
-                const sourcePeg = draggedDisk.parentElement;
-                const topDisk = peg.lastElementChild;
-                
-                if (sourcePeg === peg) return;
-
-                // ルール判定（小さいディスクの上に大きいものは置けない）
-                if (!topDisk || parseInt(draggedDisk.dataset.size) < parseInt(topDisk.dataset.size)) {
-                    peg.appendChild(draggedDisk);
-                    
-                    movesCount++;
-                    movesDisplay.textContent = movesCount;
-
-                    checkWin();
-                } else {
+                // 鉄のハノイルール判定（小さい皿の上に大きい皿は置けない）
+                if (toPeg.length > 0 && targetTopDiskSize < movingDiskSize) {
                     alert('⚠️ 小さいディスクの上に大きいディスクは置けません！');
+                    selectedPegId = null; // 選択状態を解除
+                    renderBoard();
+                    return;
                 }
-            });
-        });
 
-        // クリア判定（以前100%正しく動作していたchildElementCountロジックを完全再現）
-        function checkWin() {
-            if (peg2.childElementCount === currentDiskCount || peg3.childElementCount === currentDiskCount) {
-                // 数学的理論値（2^n - 1）の最小手数をバキバキに計算
-                const minMoves = Math.pow(2, currentDiskCount) - 1;
-                
-                if (movesCount === minMoves) {
-                    messageDisplay.innerHTML = `🎉 よくできました！！ (${movesCount}手で最小クリア！数学的センスが抜群です！🐶🐾)`;
-                } else {
-                    messageDisplay.innerHTML = `🎉 クリアおめでとう！！ (${movesCount}手でクリア！最小手数は ${minMoves}手 だよ 🐾)`;
+                // 正常な配列移動処理
+                toPeg.push(fromPeg.pop());
+                movesCount++;
+                movesDisplay.textContent = movesCount;
+                messageDisplay.textContent = '👍 綺麗に移動できました！';
+                messageDisplay.style.color = '#10b981';
+
+                selectedPegId = null; // 選択を解除して再描写
+                renderBoard();
+
+                // クリア判定（2番目、または3番目の柱の配列数が揃ったら勝利！）
+                if (pegsData[2].length === currentDiskCount || pegsData[3].length === currentDiskCount) {
+                    checkWin();
                 }
-                messageDisplay.style.color = '#38bdf8'; // クリアお祝いの色
-                
-                // すべてのディスクをドラッグ不可にする
-                document.querySelectorAll('.disk').forEach(disk => disk.setAttribute('draggable', 'false'));
-                
-                // 以前と同様に、クリア後にボタンを100%バキバキに出現させる
-                btnNext.style.display = 'block';
-                btnHome.style.display = 'block';
-                
-                // スマホで画面スクロールを強制せずともボタンが見えるよう一瞬アラートを出す
-                setTimeout(() => {
-                    alert(`🎉 ステージクリア！\n画面の上部に「次に挑戦しますか？」ボタンが出現しました！`);
-                }, 150);
             }
         }
 
-        // ボタンのクリックイベント（レベルアップ制御）
+        // クリア判定（お祝いメッセージとステップアップボタン出現の完全再現）
+        function checkWin() {
+            gameOver = true;
+            // 数学的理論値（2^n - 1）の最小手数をバキバキに計算
+            const minMoves = Math.pow(2, currentDiskCount) - 1;
+            
+            if (movesCount === minMoves) {
+                messageDisplay.innerHTML = `🎉 よくできました！！ (${movesCount}手で最小クリア！数学的センスが抜群です！🐶🐾)`;
+            } else {
+                messageDisplay.innerHTML = `🎉 クリアおめでとう！！ (${movesCount}手でクリア！最小手数は ${minMoves}手 だよ 🐾)`;
+            }
+            messageDisplay.style.color = '#38bdf8'; 
+            
+            // クリア後にボタンを100%バキバキに出現させる仕様をそのまま踏襲
+            btnNext.style.display = 'block';
+            btnHome.style.display = 'block';
+            
+            // 以前と同様の、スマホ視野を助ける親切なアラート誘導
+            setTimeout(() => {
+                alert(`🎉 ステージクリア！\n画面の上部に「次に挑戦しますか？」ボタンが出現しました！`);
+            }, 150);
+        }
+
+        // ボタンのクリックイベント（レベルアップ制御の完全統合）
         btnNext.addEventListener('click', () => {
             if (currentDiskCount >= 8) {
                 alert('すごいです！最大レベル（8枚）までクリアしました！最初の3枚に戻ります。');
                 initGame(3);
             } else {
-                // ディスクを1枚増やしてバキバキにスタート
                 initGame(currentDiskCount + 1);
             }
         });
 
         btnHome.addEventListener('click', () => {
-            // 最初の3枚に戻す
             initGame(3);
         });
 
-        // 最初にゲームを起動
+        // 最初にゲームを自動起動
         initGame(3);
     </script>
-</body>
-</html>
