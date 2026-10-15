@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>ハノイの塔 - AMAMI WEB CREATIVE</title>
     <!-- 共通スタイルシートを読み込み -->
     <link rel="stylesheet" href="style.css?v=2026">
@@ -18,6 +18,10 @@
             margin: 0;
             padding: 10px;
             box-sizing: border-box;
+            /* 📱 スマホでの不要な長押し選択やタップタイトルの青反転を防ぐ */
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         .game-container-wrapper {
@@ -47,7 +51,7 @@
             margin: 0 0 15px 0;
         }
 
-        /* 以前の手数・枚数情報をスタイリッシュにアレンジ */
+        /* 手数・枚数情報をスタイリッシュにアレンジ */
         .info-panel {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -66,7 +70,7 @@
             font-size: 15px;
         }
 
-        /* お祝いメッセージ表示エリア（ガタつき防止の最小高さ設定） */
+        /* お祝いメッセージ表示エリア */
         .message-area {
             min-height: 40px;
             color: #38bdf8;
@@ -80,13 +84,13 @@
             justify-content: center;
         }
 
-        /* 以前のボタンをさらに洗練させた配置構造 */
+        /* レベルアップボタンの配置構造 */
         .button-container {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-bottom: 20px;
-            min-height: 38px; /* ボタン未出現時のレイアウト維持用 */
+            min-height: 38px;
         }
 
         .btn {
@@ -98,7 +102,7 @@
             cursor: pointer;
             transition: all 0.2s;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            display: none; /* 初期は非表示 */
+            display: none;
         }
         .btn:active {
             transform: scale(0.96);
@@ -112,7 +116,7 @@
             color: white;
         }
 
-        /* スマホの画面幅に合わせて「100%はみ出さずに自動縮小」するゲーム盤ステージ */
+        /* スマホ自動縮小するゲーム盤ステージ */
         .game-board {
             display: flex;
             justify-content: space-around;
@@ -138,9 +142,14 @@
             box-sizing: border-box;
             z-index: 3;
             padding-bottom: 2px;
+            border-radius: 8px;
+            transition: background-color 0.2s, box-shadow 0.2s;
+            touch-action: none; 
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* 以前の柱（木製）の美しさをサイバー風に昇華 */
+        /* 柱の軸 */
         .peg::before {
             content: '';
             position: absolute;
@@ -150,9 +159,19 @@
             background: #475569;
             border-radius: 4px 4px 0 0;
             z-index: 1;
+            transition: background-color 0.2s;
         }
 
-        /* ディスクの共通スタイル（以前の丸みを帯びた美しいデザインを踏襲） */
+        /* 1つ目に選択された柱を美しく発光させるデザイン */
+        .peg.selected {
+            background: rgba(56, 189, 248, 0.2);
+            box-shadow: inset 0 0 12px rgba(56, 189, 248, 0.4);
+        }
+        .peg.selected::before {
+            background: #38bdf8;
+        }
+
+        /* ディスクの共通スタイル */
         .disk {
             height: 20px;
             border-radius: 10px;
@@ -161,11 +180,8 @@
             box-shadow: inset 0 -3px 5px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-sizing: border-box;
-            cursor: grab;
-            transition: visibility 0s;
-        }
-        .disk:active {
-            cursor: grabbing;
+            /* 📱 お皿が柱のタップイベントを遮らないようにガード（超重要） */
+            pointer-events: none; 
         }
 
         /* 下部ナビゲーションボタン */
@@ -203,26 +219,23 @@
             【スマホ対応】移動させる「皿のある柱」をタップし、次に「移動先の柱」をタップしてね。<br>小さい皿の上に大きいものは置けません。
         </p>
 
-        <!-- 以前と同じ手数・枚数管理インジケーター -->
         <div class="info-panel">
             <div>ディスク数: <span id="disk-count" class="status-val">3</span> 枚</div>
             <div>手数: <span id="moves" class="status-val">0</span> 手</div>
         </div>
 
-        <!-- お祝いメッセージ表示エリア -->
         <div class="message-area" id="message"></div>
 
-        <!-- 以前と同じ連動仕様のステップアップボタン群 -->
         <div class="button-container">
             <button class="btn btn-next" id="btn-next">🚀 次に挑戦しますか？</button>
             <button class="btn btn-home" id="btn-home">🏠 最初の3枚に戻る</button>
         </div>
 
-        <!-- スマホ幅を考慮したパズルステージ -->
+        <!-- パズルステージ -->
         <div class="game-board">
-            <div class="peg" id="peg1" onclick="selectPeg(1)"></div>
-            <div class="peg" id="peg2" onclick="selectPeg(2)"></div>
-            <div class="peg" id="peg3" onclick="selectPeg(3)"></div>
+            <div class="peg" id="peg1"></div>
+            <div class="peg" id="peg2"></div>
+            <div class="peg" id="peg3"></div>
         </div>
 
         <div class="btn-footer-nav">
@@ -230,20 +243,19 @@
             <a href="index.html" class="btn-nav-link">🏠 ホームへ戻る</a>
         </div>
     </div>
-
     <!-- 100%独立動作するタップ型レベルアップ制御ロジック -->
     <script>
-        // ディスクの色リスト（以前の美しさをそのまま最大8枚まで自動対応）
+        // ディスクの色リスト（最大8枚まで自動対応）
         const colors = [
             '#ff4757', '#ffa502', '#2ed573', '#1e90ff', 
             '#9b59b6', '#34495e', '#1abc9c', '#e67e22'
         ];
 
-        // 3本の柱のデータを二次元配列で完全仮想管理（1=小 〜 8=大）
+        // 3本の柱のデータを二次元配列で仮想管理（1=小 〜 8=大）
         let pegsData = { 1: [], 2: [], 3: [] };
         let currentDiskCount = 3; 
         let movesCount = 0;
-        let selectedPegId = null; // 1回目にタップされた柱のIDを一時保管
+        let selectedPegId = null; 
         let gameOver = false;
 
         const movesDisplay = document.getElementById('moves');
@@ -267,12 +279,12 @@
             btnNext.style.display = 'none';
             btnHome.style.display = 'none';
 
-            // 配列データの初期化
+            // 3本の柱の配列を正しく初期化
             pegsData[1] = [];
             pegsData[2] = [];
             pegsData[3] = [];
 
-            // 指定された枚数のディスク数値を1番目の柱へ大きい順（下から）積む
+            // 1番目の柱へ大きい順（下から）積む
             for (let i = currentDiskCount; i >= 1; i--) {
                 pegsData[1].push(i);
             }
@@ -280,31 +292,29 @@
             renderBoard();
         }
 
-        // 柱のデータを基に画面を美しく同期・再描写する数理アルゴリズム
+        // 画面の同期・再描写アルゴリズム
         function renderBoard() {
-            // 枚数が増えても柱の高さ（140px）を決してはみ出さないよう、皿の厚みを動的計算
             const diskHeight = Math.min(24, Math.floor(130 / currentDiskCount));
 
             for (let p = 1; p <= 3; p++) {
-                const pegElement = document.getElementById(`peg${p}`);
+                const pegElement = document.getElementById('peg' + p);
                 pegElement.innerHTML = '';
 
-                // タップ選択されている柱に、前半新設の「発光ハイライト」を同期
+                // 選択されている柱のハイライト同期
                 if (selectedPegId === p) {
                     pegElement.classList.add('selected');
                 } else {
                     pegElement.classList.remove('selected');
                 }
 
-                // データを基に、スマホに最適化された綺麗な階段状のディスクを物理生成
+                // ディスクの物理生成
                 pegsData[p].forEach(diskSize => {
                     const disk = document.createElement('div');
                     disk.classList.add('disk');
                     
-                    // 奥田様の幅計算比率をレスポンシブ％へ完全最適化
                     const widthPercent = 30 + (diskSize * (60 / currentDiskCount));
-                    disk.style.width = `${widthPercent}%`;
-                    disk.style.height = `${diskHeight}px`;
+                    disk.style.width = widthPercent + '%';
+                    disk.style.height = diskHeight + 'px';
                     disk.style.background = colors[(diskSize - 1) % colors.length];
 
                     pegElement.appendChild(disk);
@@ -312,8 +322,8 @@
             }
         }
 
-        // 柱がタップされた時の高精度コントロールプログラム（ドラッグからの大改修）
-        function selectPeg(pegId) {
+        // 📱 スマホのタッチとPCのクリック両方を確実に拾う高精度制御プログラム
+        function handlePegClick(pegId) {
             if (gameOver) return;
 
             // 【1回目のタップ】移動元の柱を選択
@@ -341,13 +351,13 @@
 
                 const fromPeg = pegsData[selectedPegId];
                 const toPeg = pegsData[pegId];
-                const movingDiskSize = fromPeg[fromPeg.length - 1]; // 動かす皿のサイズ
-                const targetTopDiskSize = toPeg[toPeg.length - 1];   // 移動先の一番上の皿のサイズ
+                const movingDiskSize = fromPeg[fromPeg.length - 1]; 
+                const targetTopDiskSize = toPeg[toPeg.length - 1];   
 
-                // 鉄のハノイルール判定（小さい皿の上に大きい皿は置けない）
+                // 小さい皿の上に大きい皿は置けないルール判定
                 if (toPeg.length > 0 && targetTopDiskSize < movingDiskSize) {
                     alert('⚠️ 小さいディスクの上に大きいディスクは置けません！');
-                    selectedPegId = null; // 選択状態を解除
+                    selectedPegId = null; 
                     renderBoard();
                     return;
                 }
@@ -359,40 +369,53 @@
                 messageDisplay.textContent = '👍 綺麗に移動できました！';
                 messageDisplay.style.color = '#10b981';
 
-                selectedPegId = null; // 選択を解除して再描写
+                selectedPegId = null; 
                 renderBoard();
 
-                // クリア判定（2番目、または3番目の柱の配列数が揃ったら勝利！）
+                // クリア判定（2番目、または3番目の柱にすべて揃ったら勝利！）
                 if (pegsData[2].length === currentDiskCount || pegsData[3].length === currentDiskCount) {
                     checkWin();
                 }
             }
         }
 
-        // クリア判定（お祝いメッセージとステップアップボタン出現の完全再現）
+        // クリア判定
         function checkWin() {
             gameOver = true;
-            // 数学的理論値（2^n - 1）の最小手数をバキバキに計算
             const minMoves = Math.pow(2, currentDiskCount) - 1;
             
             if (movesCount === minMoves) {
-                messageDisplay.innerHTML = `🎉 よくできました！！ (${movesCount}手で最小クリア！数学的センスが抜群です！🐶🐾)`;
+                messageDisplay.innerHTML = '🎉 よくできました！！ (' + movesCount + '手で最小クリア！数学的センスが抜群です！🐶🐾)';
             } else {
-                messageDisplay.innerHTML = `🎉 クリアおめでとう！！ (${movesCount}手でクリア！最小手数は ${minMoves}手 だよ 🐾)`;
+                messageDisplay.innerHTML = '🎉 クリアおめでとう！！ (' + movesCount + '手でクリア！最小手数は ' + minMoves + '手 だよ 🐾)';
             }
             messageDisplay.style.color = '#38bdf8'; 
             
-            // クリア後にボタンを100%バキバキに出現させる仕様をそのまま踏襲
             btnNext.style.display = 'block';
             btnHome.style.display = 'block';
             
-            // 以前と同様の、スマホ視野を助ける親切なアラート誘導
             setTimeout(() => {
-                alert(`🎉 ステージクリア！\n画面の上部に「次に挑戦しますか？」ボタンが出現しました！`);
+                alert('🎉 ステージクリア！\n画面の上部に「次に挑戦しますか？」ボタンが出現しました！');
             }, 150);
         }
 
-        // ボタンのクリックイベント（レベルアップ制御の完全統合）
+        // 📱 イベントリスナーでスマホのタッチとクリックの両方に確実にバインド
+        for (let p = 1; p <= 3; p++) {
+            const pegElement = document.getElementById('peg' + p);
+            
+            // スマホ用タッチイベント（触れた瞬間に判定し、画面ズームを防止）
+            pegElement.addEventListener('touchstart', (e) => {
+                e.preventDefault(); 
+                handlePegClick(p);
+            }, { passive: false });
+
+            // PC用クリックイベント（バックアップ）
+            pegElement.addEventListener('click', (e) => {
+                handlePegClick(p);
+            });
+        }
+
+        // ボタンのクリックイベント
         btnNext.addEventListener('click', () => {
             if (currentDiskCount >= 8) {
                 alert('すごいです！最大レベル（8枚）までクリアしました！最初の3枚に戻ります。');
@@ -409,3 +432,5 @@
         // 最初にゲームを自動起動
         initGame(3);
     </script>
+</body>
+</html>
