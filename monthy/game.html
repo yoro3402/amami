@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>運命の選択！モンティ・ホール・ショー</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            text-align: center;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 40px 20px;
+            margin: 0;
+        }
+        h1 {
+            color: #ffcc00;
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 25px;
+        }
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            background: #2a2a2a;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            border: 2px solid #ffcc00;
+        }
+        .scoreboard {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        .score-box {
+            flex: 1;
+            background: #111;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        .score-box.change { border-left: 5px solid #28a745; }
+        .score-box.total { border-top: 5px solid #ffcc00; }
+        .score-box.keep { border-right: 5px solid #dc3545; }
+        .score-title { font-size: 13px; color: #aaa; margin-bottom: 5px; }
+        .score-count { font-size: 28px; font-weight: bold; color: #fff; }
+        .score-count span { font-size: 16px; font-weight: normal; color: #888; margin-left: 3px; }
+        
+        #message { font-size: 18px; color: #fff; min-height: 54px; line-height: 1.5; margin-bottom: 20px; }
+        .stage {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            background: #111;
+            padding: 20px;
+            border-radius: 10px;
+            border-bottom: 8px solid #555;
+        }
+        .curtain-wrapper { text-align: center; }
+        .curtain-label { font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #aaa; }
+        .curtain {
+            width: 140px; height: 160px; background-color: #b30000; border-radius: 8px 8px 0 0;
+            font-size: 40px; line-height: 150px; cursor: pointer; transition: all 0.3s ease;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 4px 10px rgba(0,0,0,0.3);
+            user-select: none; position: relative; border: 1px solid #800000;
+        }
+        .curtain::before {
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0.15) 50%, rgba(255,255,255,0.1) 50%);
+            background-size: 20px 100%; border-radius: 8px 8px 0 0;
+        }
+        .curtain:hover { transform: scale(1.05); background-color: #cc0000; }
+        .curtain.selected { border: 4px solid #ffcc00; box-shadow: 0 0 20px #ffcc00; }
+        .curtain.opened { background-color: #333; cursor: default; transform: none; border: 2px dashed #666; box-shadow: none; }
+        .curtain.opened::before { display: none; }
+        
+        .choice-area { display: none; justify-content: center; gap: 30px; margin: 25px 0; }
+        .icon-btn {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 160px; padding: 15px; font-size: 18px; font-weight: bold; color: white;
+            border: none; border-radius: 12px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .icon-btn span { font-size: 30px; margin-bottom: 8px; }
+        .btn-change { background-color: #28a745; box-shadow: 0 4px 15px rgba(40,167,69,0.4); }
+        .btn-keep { background-color: #dc3545; box-shadow: 0 4px 15px rgba(220,53,69,0.4); }
+        .icon-btn:hover { transform: scale(1.05); }
+        #result { font-size: 24px; font-weight: bold; margin-top: 20px; min-height: 70px; line-height: 1.4; }
+        .success { color: #ffcc00; text-shadow: 0 0 10px rgba(255,204,0,0.5); }
+        .failure { color: #aaaaaa; }
+        
+        /* 下部のアクションボタンコンテナ */
+        .action-container { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+        #reset-btn, .btn-history {
+            padding: 12px 30px; font-size: 18px; font-weight: bold; border: none; border-radius: 25px;
+            cursor: pointer; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); text-decoration: none;
+        }
+        #reset-btn { background-color: #ffcc00; color: #111; }
+        #reset-btn:hover { background-color: #ffa500; }
+        .btn-history { background-color: #7f8c8d; color: white; line-height: 1.4; }
+        .btn-history:hover { background-color: #95a5a6; }
+
+        /* 🏎️ 【追加】当たりの車が出たときの超豪華エフェクト */
+        .curtain.opened {
+            transition: all 0.5s ease-in-out;
+        }
+        /* 当たりのカーテンの枠線を金色に光らせる */
+        .curtain.opened.selected-win {
+            border: 4px solid #ffd700 !important;
+            box-shadow: 0 0 30px #ffd700, inset 0 0 20px rgba(255, 215, 0, 0.4) !important;
+            background-color: #222 !important;
+        }
+        /* 車のサイズを大きくし、金色のオーラをまとわせて動かす */
+        .car-win {
+            display: inline-block;
+            font-size: 55px; /* ハズレのヤギより大きく */
+            filter: drop-shadow(0 0 8px #ffcc00) contrast(1.2);
+            animation: luxuryGlow 1.2s infinite alternate ease-in-out;
+        }
+        @keyframes luxuryGlow {
+            0% { transform: scale(1); filter: drop-shadow(0 0 8px #ffcc00); }
+            100% { transform: scale(1.15); filter: drop-shadow(0 0 22px #ff3300) saturate(2); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="scoreboard">
+        <div class="score-box change">
+            <div class="score-title">🔄 選択を【変えて】当選</div>
+            <div class="score-count" id="countChange">0<span>回</span></div>
+        </div>
+        <div class="score-box total">
+            <div class="score-title">📊 総挑戦数</div>
+            <div class="score-count" id="countTotal">0<span>回中</span></div>
+        </div>
+        <div class="score-box keep">
+            <div class="score-title">📌 選択を【変えない】で当選</div>
+            <div class="score-count" id="countKeep">0<span>回</span></div>
+        </div>
+    </div>
+
+    <h1>🚗 運命のカーテンゲーム 🐐</h1>
+    <div id="message">3枚のカーテンのうち、1枚の後ろには【豪華新車】が隠されています！<br>好きなカーテンを1枚クリックして選んでください。</div>
+    
+    <div class="stage">
+        <div class="curtain-wrapper">
+            <div class="curtain-label">A</div>
+            <div class="curtain" onclick="firstChoice(0)" id="curtain0">幕</div>
+        </div>
+        <div class="curtain-wrapper">
+            <div class="curtain-label">B</div>
+            <div class="curtain" onclick="firstChoice(1)" id="curtain1">幕</div>
+        </div>
+        <div class="curtain-wrapper">
+            <div class="curtain-label">C</div>
+            <div class="curtain" onclick="firstChoice(2)" id="curtain2">幕</div>
+        </div>
+    </div>
+    
+    <div class="choice-area" id="choiceArea">
+        <button class="icon-btn btn-change" onclick="secondChoice(true)">
+            <span>🔄</span>変える
+        </button>
+        <button class="icon-btn btn-keep" onclick="secondChoice(false)">
+            <span>📌</span>変えない
+        </button>
+    </div>
+    
+    <div id="result"></div>
+    
+    <div class="action-container">
+        <button id="reset-btn" onclick="resetGame()">もう一度ショーに挑戦する</button>
+        <a id="history-btn" href="index.html?screen=2" class="btn-history">📜 全米論争の歴史を見る</a>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

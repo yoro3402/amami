@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>モンティ・ホール問題 | AMAMI WEB CREATIVE</title>
+    <!-- 共通の高級感ある黒ベースデザイン -->
+    <link rel="stylesheet" href="../style.css?v=2026">
+    <style>
+        .under-construction-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 40px 20px;
+            margin-top: 30px;
+            text-align: center;
+            color: #f8fafc;
+        }
+        .jockey-avatar {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+        .construction-text {
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            line-height: 1.8;
+            color: #cbd5e1;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" style="max-width: 500px; margin: 0 auto; padding: 20px; box-sizing: border-box;">
+        <!-- ヘッダー -->
+        <header class="brand-header">
+            <h1 class="brand-logo" style="font-size: 1.5rem;">🚪 モンティ・ホール問題</h1>
+            <p class="brand-sub">Mathematics Challenge Room</p>
+        </header>
+
+        <!-- 制作中案内メッセージ -->
+        <main class="under-construction-container">
+            <span class="jockey-avatar">🐶🐾</span>
+            <p class="construction-text">
+                ただいまプログラムをバキバキに調整中！<br>
+                完成まで楽しみに待っていてね！
+            </p>
+            <p style="font-size: 12px; color: #64748b; margin-top: 15px;">
+                品質管理チーフ：ジョッキー君 🐶
+            </p>
+        </main>
+
+        <!-- 一番下に小さく配置した戻るリンク -->
+        <div style="text-align: center; margin: 50px auto 10px auto; clear: both;">
+            <button onclick="goToMathMenu()" style="background: transparent; border: none; color: #64748b; font-size: 11px; cursor: pointer; text-decoration: underline; letter-spacing: 0.05em;">
+                📐 中学校数学に挑戦に戻る
+            </button>
+        </div>
+
+        <!-- コピーライト -->
+        <footer class="brand-footer" style="margin-top: 40px;">
+            <p>&copy; AMAMI WEB CREATIVE</p>
+        </footer>
+    </div>
+
+    <script>
+        // 中学校数学に挑戦（math.html）に戻るプログラム
+        function goToMathMenu() {
+            window.location.href = "../math.html";
+        }
+    </script>
+</body>
+</html>

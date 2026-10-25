@@ -19,21 +19,24 @@
             <p class="brand-sub">▲ Tap to Creator & Partner Profile ▲</p>
         </header>
 
-        <!-- 子供たちが迷わない極上の5大メニューボタン -->
+        <!-- 子供たちが迷わない極上の6大メニューボタン -->
         <nav class="main-nav">
             <!-- 1. 奄美クイズ -->
-            <a href="kentei.html" class="nav-btn" style="text-decoration: none;">🧠 奄美クイズ</a>
+            <button class="nav-btn" onclick="jumpToQuiz()">🧠 奄美クイズ</button>
             
             <!-- 2. ネイチャーゲーム -->
             <button class="nav-btn" onclick="jumpToGameMenu()">🎮 ネイチャーゲーム</button>
+
+            <!-- 【新設】3. 中学校数学に挑戦 -->
+            <button class="nav-btn" onclick="jumpToMath()">📐 中学校数学に挑戦</button>
             
-            <!-- 3. 公式ブログ -->
+            <!-- 4. 公式ブログ -->
             <button class="nav-btn" onclick="jumpToBlog()">📝 公式ブログ（植物日記）</button>
             
-            <!-- 4. ホームページ作成相談 -->
+            <!-- 5. ホームページ作成相談 -->
             <button class="nav-btn" onclick="openSoudanModal()">💻 ホームページ作成相談</button>
             
-            <!-- 5. ガイドサイト（相互リンク） -->
+            <!-- 6. ガイドサイト（相互リンク） -->
             <button class="nav-btn" onclick="jumpToNatureClub()" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05);">🛶 AMAMI NATURE CLUB (ガイドサイト)</button>
         </nav>
 
@@ -44,7 +47,7 @@
     </div>
 
     <!-- 【機能1】ふわっと飛び出す開発者＆相棒のプロフィールルーム（モーダル） -->
-    <div id="profileModal" class="modal-overlay" onclick="closeModal(event, 'profileModal')">
+    <div id="profileModal" class="modal-overlay" onclick="closeModal(window.event || event, 'profileModal')">
         <div class="modal-card" style="max-height: 85vh; overflow-y: auto;">
             <div class="modal-header">
                 <h2>CREATOR PROFILE</h2>
@@ -64,7 +67,7 @@
                     <span class="label">専属品質管理チーフ / 大切な相棒</span>
                     <p class="name">ジョッキー君 🐶 <span class="en">Jockey</span></p>
                     <p class="text" style="font-size: 12px; color: #cbd5e1; margin-top: 6px;">
-                        奥田の最も信頼するバディ。毎日の散歩タイム（ライフワーク）を通じて、クリエイターの新しいアルゴリズムやデザインのアイデアを刺激・検証する重要な役割を担っています。
+                        奥田の最も信頼するバディ。毎日の散歩タイム（ライフワーク）を通じて、クリエイターの新しいアルゴリズムやデザイン of アイデアを刺激・検証する重要な役割を担っています。
                     </p>
                 </div>
 
@@ -84,7 +87,7 @@
     </div>
 
     <!-- 【機能2】「ホームページ作成のご相談（地域応援プラン）」の専用部屋（モーダル） -->
-    <div id="soudanModal" class="modal-overlay" onclick="closeModal(event, 'soudanModal')">
+    <div id="soudanModal" class="modal-overlay" onclick="closeModal(window.event || event, 'soudanModal')">
         <div class="modal-card" style="max-height: 85vh; overflow-y: auto;">
             <div class="modal-header">
                 <h2>BUSINESS CONSULTING ☕</h2>
@@ -137,8 +140,17 @@
 
     <!-- 安全なURL合体・ジャンププログラム -->
     <script>
+        function jumpToQuiz() {
+            window.location.href = "kentei.html";
+        }
+
         function jumpToGameMenu() {
             window.location.href = "game.html";
+        }
+
+        // 【新設】中学校数学ページへの遷移関数
+        function jumpToMath() {
+            window.location.href = "math.html";
         }
 
         function jumpToNatureClub() {
@@ -166,7 +178,7 @@
         }
 
         function closeModal(event, modalId) {
-            if (event.target.id === modalId) {
+            if (event && event.target.id === modalId) {
                 document.getElementById(modalId).classList.remove('active');
             }
         }

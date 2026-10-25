@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>正負の数・3段階チャレンジゲーム</title>
+    <!-- CSSファイルを読み込む -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 共通の題名ヘッダー（中身は選んだ計算に応じてJavaScriptで書き換わります） -->
+    <h1 id="mainTitle">正負の数の計算</h1>
+    <div class="subtitle">〜 3段階チャレンジゲーム 〜</div>
+
+    <!-- 🌟【新設】① 計算の種類を選ぶ一番最初のトップ画面 -->
+    <div id="operationPage" class="page active-page">
+        <p style="font-size: 18px; color: #444; margin-bottom: 25px;">やりたい計算を選んでね！</p>
+        <div class="menu-container">
+            <button class="class-icon-btn menu-btn btn-blue" onclick="selectOperation('addition', 'かっこのついた加法の計算')">
+                <div style="font-size: 32px; margin-bottom: 5px;">➕</div>
+                加法<br><span style="font-size: 12px; font-weight: normal; color: #555;">たし算に挑戦！</span>
+            </button>
+            <button class="class-icon-btn menu-btn btn-orange" onclick="selectOperation('subtraction', 'かっこのついた減法の計算')">
+                <div style="font-size: 32px; margin-bottom: 5px;">➖</div>
+                減法<br><span style="font-size: 12px; font-weight: normal; color: #555;">ひき算に挑戦！</span>
+            </button>
+            <button class="class-icon-btn menu-btn btn-purple" onclick="selectOperation('multiplication', 'かっこのついた乗法の計算')">
+                <div style="font-size: 32px; margin-bottom: 5px;">✖</div>
+                乗法<br><span style="font-size: 12px; font-weight: normal; color: #555;">かけ算に挑戦！</span>
+            </button>
+            <button class="class-icon-btn menu-btn btn-teal" onclick="selectOperation('division', 'かっこのついた除法の計算')">
+                <div style="font-size: 32px; margin-bottom: 5px;">➗</div>
+                除法<br><span style="font-size: 12px; font-weight: normal; color: #555;">わり算に挑戦！</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ② 級を選択する画面（メニュー画面） -->
+    <div id="menuPage" class="page">
+        <p style="font-size: 18px; color: #444; margin-bottom: 5px;">挑戦する級を選んでね！クリックするとスタートします。</p>
+        <p style="font-size: 14px; color: #e63946; font-weight: bold; margin-top: 0; margin-bottom: 25px;">⚠️ すべての級で 連続10問正解 しないとクリアにならないよ！</p>
+        
+        <div class="menu-container">
+            <button class="class-icon-btn menu-btn" id="btn-easy-menu" onclick="selectClassAndStart('easy')">
+                <div style="font-size: 32px; margin-bottom: 5px;">🌱</div>
+                初級<br><span style="font-size: 12px; font-weight: normal; color: #555;">10秒・手動で次へ</span>
+            </button>
+            <button class="class-icon-btn menu-btn" id="btn-normal-menu" onclick="selectClassAndStart('normal')">
+                <div style="font-size: 32px; margin-bottom: 5px;">🔥</div>
+                中級<br><span style="font-size: 12px; font-weight: normal; color: #555;">10秒・自動で次へ</span>
+            </button>
+            <button class="class-icon-btn menu-btn" id="btn-hard-menu" onclick="selectClassAndStart('hard')">
+                <div style="font-size: 32px; margin-bottom: 5px;">👑</div>
+                上級<br><span style="font-size: 12px; font-weight: normal; color: #555;">5秒・自動で次へ</span>
+            </button>
+        </div>
+        <div style="margin-top: 30px;">
+            <button class="btn choice-btn" style="background-color: #777; box-shadow: 0 4px #555;" onclick="backToOperationSelect()">もどる</button>
+        </div>
+    </div>
+
+    <!-- ③ 実際にクイズを解く問題画面 -->
+    <div id="gamePage" class="page">
+        <!-- タイマーの上に「現在◯問連続正解中」を表示 -->
+        <div class="score-container" id="scoreArea">
+            現在 <span class="score-number" id="streakText">0</span> 問連続正解中！
+            <!-- 応援メッセージを表示する場所 -->
+            <div id="cheerText" style="font-size: 18px; color: #059669; font-weight: bold; margin-top: 5px; min-height: 27px;"></div>
+        </div>
+
+        <!-- カラータイマー -->
+        <div class="timer-container" id="timerBar"></div>
+
+        <!-- 計算問題と答えのエリア -->
+        <div class="question-container">
+            <span id="questionText">問題を読み込んでいます...</span>
+            <div class="answer-box">
+                <span class="judge-mark mark-correct" id="correctMark">〇</span>
+                <span class="judge-mark mark-incorrect" id="incorrectMark">×</span>
+                <span class="answer-text" id="answerDisplay">？</span>
+            </div>
+        </div>
+        
+        <!-- 操作用キーパッドおよびアクションボタン -->
+        <div class="button-container">
+            <!-- 時間切れ（全級共通）や、完全クリア時に表示する2ボタン用パネル -->
+            <div id="timeOverPanel" style="display: none; margin-bottom: 15px;">
+                <button class="btn choice-btn" style="background-color: #ff6b6b; box-shadow: 0 4px #cf4d4d;" onclick="retryGame()">もう一度挑戦</button>
+                <button class="btn choice-btn" style="background-color: #a3e635; box-shadow: 0 4px #7cb325;" onclick="backToMenu()">選択画面に戻る</button>
+            </div>
+
+            <!-- 初級の正解時に表示する手動進行用パネル（横並び2ボタン） -->
+            <div id="nextActionPanel" style="display: none; margin-bottom: 15px;">
+                <button class="btn choice-btn" style="background-color: #4ade80; box-shadow: 0 4px #3bba6c;" onclick="handleActionClick()">次の問題へ</button>
+                <button class="btn choice-btn" style="background-color: #a3e635; box-shadow: 0 4px #7cb325;" onclick="backToMenu()">選択画面に戻る</button>
+            </div>
+            
+            <div id="inputPanel">
+                <div class="keypad">
+                    <button class="btn key" onclick="inputChar('1')">1</button>
+                    <button class="btn key" onclick="inputChar('2')">2</button>
+                    <button class="btn key" onclick="inputChar('3')">3</button>
+                    <button class="btn key" onclick="inputChar('+')">＋</button>
+                    
+                    <button class="btn key" onclick="inputChar('4')">4</button>
+                    <button class="btn key" onclick="inputChar('5')">5</button>
+                    <button class="btn key" onclick="inputChar('6')">6</button>
+                    <button class="btn key" onclick="inputChar('-')">ー</button>
+                    
+                    <button class="btn key" onclick="inputChar('7')">7</button>
+                    <button class="btn key" onclick="inputChar('8')">8</button>
+                    <button class="btn key" onclick="inputChar('9')">9</button>
+                    <button class="btn key clear-key" onclick="clearAnswer()">C</button>
+                    
+                    <button class="btn key" onclick="inputChar('0')">0</button>
+                    <button class="btn key enter-key" onclick="submitAnswer()">決定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ 
+
+   <!-- JavaScriptファイルを順番に読み込む（generatorが先） -->
+    <script src="generator.js"></script>
+    <script src="script.js"></script>
+
+<!-- 中学校数学に挑戦へ戻るボタン -->
+<button class="nav-btn" onclick="goToMathMenu()" style="margin-top: 15px; border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.02); color: #94a3b8;">📐 中学校数学に挑戦に戻る</button>
+
+<script>
+    // 1つ上の階層にある math.html に戻る関数
+    function goToMathMenu() {
+        window.location.href = "../math.html";
+    }
+</script>
+
+
+
+</body>
+</html>
