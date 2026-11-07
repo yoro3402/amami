@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金作原クイズ 完全版</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            text-align: center;
+            color: #2c5e3b;
+            font-size: 24px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e2ebd5;
+            padding-bottom: 15px;
+        }
+        .progress {
+            text-align: right;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        .question-box {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #222;
+        }
+        .options-list {
+            list-style: none;
+            padding: 0;
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            display: none;
+        }
+        .feedback.correct {
+            background-color: #def7ec;
+            color: #03543f;
+        }
+        .feedback.incorrect {
+            background-color: #fde8e8;
+            color: #9b1c1c;
+        }
+        .next-btn {
+            display: block;
+            width: 100%;
+            background: #2c5e3b;
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+        }
+        .next-btn:hover {
+            background: #21472c;
+        }
+        .result-box {
+            text-align: center;
+            display: none;
+        }
+        .result-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2c5e3b;
+            margin: 20px 0;
+        }
+        .retry-btn {
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <h1 id="main-title">金作原クイズ</h1>
+    
+    <!-- メニュー（部選択）画面 -->
+    <div id="select-screen" style="text-align: center;">
+        <p style="font-size: 16px; margin-bottom: 25px; color: #555;">挑戦する部を選択してください</p>
+        <button class="option-btn" style="text-align: center; font-weight: bold;" onclick="startQuiz(1, '第1部')">第1部 を開始する（10問）</button>
+        <button class="option-btn" style="text-align: center; font-weight: bold;" onclick="startQuiz(2, '第2部')">第2部 を開始する（10問）</button>
+        <button class="option-btn" style="text-align: center; font-weight: bold;" onclick="startQuiz(3, '第3部')">第3部 を開始する（10問）</button>
+        <button class="option-btn" style="text-align: center; font-weight: bold;" onclick="startQuiz(4, '第4部')">第4部 を開始する（10問）</button>
+        <button class="option-btn" style="text-align: center; font-weight: bold;" onclick="startQuiz(5, '第5部')">第5部 を開始する（11問）</button>
+    </div>
+    
+    <!-- クイズ進行画面 -->
+    <div id="quiz-screen" style="display: none;">
+        <div class="progress" id="progress-text">第 1 問 / 00 問</div>
+        <div class="question-box" id="question-text">問題文がここに入ります</div>
+        <div class="options-list" id="options-container"></div>
+        <div class="feedback" id="feedback-box"></div>
+        <button class="next-btn" id="next-button" onclick="nextQuestion()">次の問題へ</button>
+    </div>
+
+    <!-- 結果発表画面 -->
+    <div id="result-screen" class="result-box">
+        <h2 id="result-title">お疲れ様でした！</h2>
+        <p>あなたの正解数は...</p>
+        <div class="result-score" id="final-score">0 / 00</div>
+        <p id="result-comment" style="font-size: 16px; color: #4a5568; margin-bottom: 30px;"></p>
+        <button class="retry-btn" onclick="backToSelect()">メニューに戻る</button>
+    </div>
+</div>
+
+<script>
+let quizData = [];
+let currentQuestionIndex = 0;
+let score = 0;
+let currentPartName = "";
+
+// 外部のJSONデータファイルを非同期でスマートに読み込む関数
+async function startQuiz(partNum, partName) {
+    currentPartName = partName;
+    document.getElementById("main-title").innerText = `金作原クイズ（${partName}）`;
+    
+    try {
+        const response = await fetch(`part${partNum}.json`);
+        if (!response.ok) {
+            throw new Error(`ファイルが見つかりません: part${partNum}.json`);
+        }
+        quizData = await response.json();
+        
+        currentQuestionIndex = 0;
+        score = 0;
+        
+        document.getElementById("select-screen").style.display = "none";
+        document.getElementById("quiz-screen").style.display = "block";
+        loadQuestion();
+    } catch (error) {
+        alert(`エラー: データの読み込みに失敗しました。\n${error.message}\n\n【動かすためのヒント】\n外部ファイル(JSON)を読み込むシステムのため、ブラウザで直接HTMLを開くとセキュリティ制限がかかります。VSCodeの「Live Server」などのローカルサーバー環境下で実行してください。`);
+    }
+}
+
+function loadQuestion() {
+    const currentQuiz = quizData[currentQuestionIndex];
+    document.getElementById("progress-text").innerText = `第 ${currentQuestionIndex + 1} 問 / ${quizData.length} 問`;
+    document.getElementById("question-text").innerText = currentQuiz.q;
+
+    const optionsContainer = document.getElementById("options-container");
+    optionsContainer.innerHTML = "";
+
+    currentQuiz.a.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.className = "option-btn";
+        button.innerText = option;
+        button.onclick = () => selectOption(index);
+        optionsContainer.appendChild(button);
+    });
+
+    document.getElementById("feedback-box").style.display = "none";
+    document.getElementById("next-button").style.display = "none";
+}
+
+function selectOption(selectedIndex) {
+    const currentQuiz = quizData[currentQuestionIndex];
+    const feedbackBox = document.getElementById("feedback-box");
+
+    const buttons = document.getElementsByClassName("option-btn");
+    for (let btn of buttons) { btn.disabled = true; }
+
+    let resultHtml = "";
+    if (selectedIndex === currentQuiz.c) {
+        resultHtml = "<div>⭕️ 正解です！</div>";
+        feedbackBox.className = "feedback correct";
+        score++;
+    } else {
+        resultHtml = `<div>❌ 残念！ 正解は「${currentQuiz.a[currentQuiz.c]}」でした。</div>`;
+        feedbackBox.className = "feedback incorrect";
+    }
+
+    // 分離した各JSONファイルから詳細な解説（note）を動的に合体させる
+    resultHtml += `<div style='margin-top:15px; padding-top:12px; border-top:1px dashed rgba(0,0,0,0.1); font-size:14px; font-weight:bold; color:#444; text-align:left;'>💡 詳しい解説</div>`;
+    resultHtml += `<div style='font-size:14.5px; font-weight:normal; color:#555; text-align:justify; margin-top:5px; line-height:1.6;'>${currentQuiz.note}</div>`;
+
+    feedbackBox.innerHTML = resultHtml;
+    feedbackBox.style.display = "block";
+    
+    const nextButton = document.getElementById("next-button");
+    if (currentQuestionIndex < quizData.length - 1) {
+        nextButton.innerText = "次の問題へ";
+    } else {
+        nextButton.innerText = "結果を見る";
+    }
+    nextButton.style.display = "block";
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < quizData.length) {
+        loadQuestion();
+    } else {
+        showResults();
+    }
+}
+
+function showResults() {
+    document.getElementById("quiz-screen").style.display = "none";
+    document.getElementById("result-screen").style.display = "block";
+    document.getElementById("result-title").innerText = `${currentPartName} 終了`;
+    document.getElementById("final-score").innerText = `${score} / ${quizData.length}`;
+
+    const commentBox = document.getElementById("result-comment");
+    const rate = score / quizData.length;
+    if (rate === 1) { 
+        commentBox.innerText = "完璧です！全問正解、本当におめでとうございます！金作原の豊かな自然への深い敬意を感じます。"; 
+    } else if (rate >= 0.7) { 
+        commentBox.innerText = "素晴らしい知識量です！金作原の魅力を十分に理解されています。さらに上の部にも挑戦しましょう！"; 
+    } else { 
+        commentBox.innerText = "ご参加ありがとうございます！美しい自然の物語を、もう一度紐解いて満点を目指してみませんか。"; 
+    }
+}
+
+function backToSelect() {
+    document.getElementById("main-title").innerText = "金作原クイズ";
+    document.getElementById("select-screen").style.display = "block";
+    document.getElementById("result-screen").style.display = "none";
+}
+</script>
+</body>
+</html>
