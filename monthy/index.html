@@ -3,76 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>モンティ・ホール問題 | AMAMI WEB CREATIVE</title>
-    <!-- 共通の高級感ある黒ベースデザイン -->
-    <link rel="stylesheet" href="../style.css?v=2026">
+    <title>モンティ・ホール問題 シミュレーター（解説編）</title>
     <style>
-        .under-construction-container {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 650px;
+            background: #fff;
+            padding: 30px;
             border-radius: 12px;
-            padding: 40px 20px;
-            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h2, h3 {
+            color: #2c3e50;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        ol, ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .experiment-box {
+            background-color: #eaf2f8;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+            border-radius: 6px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        .experiment-box p {
+            margin: 0 0 12px 0;
+        }
+        .experiment-box p:last-child {
+            margin-bottom: 0;
+        }
+        .button-container {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        .btn {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             text-align: center;
-            color: #f8fafc;
+            text-decoration: none;
+            display: inline-block;
         }
-        .jockey-avatar {
-            font-size: 4rem;
-            margin-bottom: 15px;
-            display: block;
-            animation: bounce 2s infinite;
+        .btn-change { background-color: #e67e22; color: white; }
+        .btn-change:hover { background-color: #d35400; transform: translateY(-2px); }
+        .btn-keep { background-color: #3498db; color: white; }
+        .btn-keep:hover { background-color: #2980b9; transform: translateY(-2px); }
+        .btn-next { background-color: #2ecc71; color: white; }
+        .btn-next:hover { background-color: #27ae60; transform: translateY(-2px); }
+        .btn-home { background-color: #7f8c8d; color: white; }
+        .btn-home:hover { background-color: #95a5a6; transform: translateY(-2px); }
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .construction-text {
-            font-size: 1.1rem;
-            letter-spacing: 0.05em;
-            line-height: 1.8;
-            color: #cbd5e1;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+        @media (max-width: 500px) {
+            .button-container {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container" style="max-width: 500px; margin: 0 auto; padding: 20px; box-sizing: border-box;">
-        <!-- ヘッダー -->
-        <header class="brand-header">
-            <h1 class="brand-logo" style="font-size: 1.5rem;">🚪 モンティ・ホール問題</h1>
-            <p class="brand-sub">Mathematics Challenge Room</p>
-        </header>
+<div class="container">
+    <!-- 画面1: ルール説明 -->
+    <div id="screen1" class="screen active">
+        <p>それは、アメリカの超長寿ゲーム番組『Let's Make a Deal』がありました。司会者は、有名なモンティ・ホールです。次のようなゲームのルールでした。</p>
+        <h3>番組でのゲームの流れ</h3>
+        <ol>
+            <li>参加者の前に3つのカーテンが用意される。</li>
+            <li>1つの向こうには「新車（当たり）」、残り2つの向こうにはハズレとして「ヤギ」が置かれている。</li>
+            <li>参加者がどれか1つを選ぶ（この時点ではまだ開けない）。</li>
+            <li>正解を知っている司会者のモンティが、残りの2つのうち「ハズレ（ヤギ）のカーテン」を1つ開けて見せる。</li>
+            <li>そこでモンティが「今なら選択をもう1つのカーテンに変えてもいいですよ？」と、参加者に駆け引きを迫る。</li>
+        </ol>
 
-        <!-- 制作中案内メッセージ -->
-        <main class="under-construction-container">
-            <span class="jockey-avatar">🐶🐾</span>
-            <p class="construction-text">
-                ただいまプログラムをバキバキに調整中！<br>
-                完成まで楽しみに待っていてね！
-            </p>
-            <p style="font-size: 12px; color: #64748b; margin-top: 15px;">
-                品質管理チーフ：ジョッキー君 🐶
-            </p>
-        </main>
-
-        <!-- 一番下に小さく配置した戻るリンク -->
-        <div style="text-align: center; margin: 50px auto 10px auto; clear: both;">
-            <button onclick="goToMathMenu()" style="background: transparent; border: none; color: #64748b; font-size: 11px; cursor: pointer; text-decoration: underline; letter-spacing: 0.05em;">
-                📐 中学校数学に挑戦に戻る
-            </button>
+        <div class="highlight">
+            さて、あなたはどうしますか？
         </div>
 
-        <!-- コピーライト -->
-        <footer class="brand-footer" style="margin-top: 40px;">
-            <p>&copy; AMAMI WEB CREATIVE</p>
-        </footer>
+        <!-- 2つのアイコンボタン -->
+        <div id="firstChoiceButtons" class="button-container">
+            <button class="btn btn-change" onclick="showExperimentGuide('change')">🔄 やはり変えよう</button>
+            <button class="btn btn-keep" onclick="showExperimentGuide('keep')">✊ 最初の勘（カン）を信じて変えない</button>
+        </div>
+
+        <!-- アイコンクリック後に表示される文字 -->
+        <div id="experimentGuide" style="display: none;">
+            <div class="experiment-box">
+                <p id="userChoiceFeedback" style="font-weight: bold; color: #2c3e50;"></p>
+                <p>変えた方がいいのか？変えない方がいいのか？<br>これが、<strong>アメリカ中で大論争</strong>になります。数学者まで入れて大議論になります。</p>
+                <p>では、実際に実験をして確かめてみましょう。<br><strong>「変えた方がいい」を10回</strong>実施してください。そして、<strong>「変えない方がいい」を10回</strong>してください。</p>
+                <p style="font-weight: bold; color: #d35400; font-size: 1.05em;">どっちの勝率がいいか確かめてください。驚きの結果がでますよ！！</p>
+            </div>
+            <div class="button-container">
+                <a href="game.html" class="btn btn-next">🚪 実際に実験（ゲーム）を始める！</a>
+            </div>
+        </div>
+    </div>
+    <!-- 画面2: 大論争の発生 -->
+    <div id="screen2" class="screen">
+        <h3>全米を巻き込んだ大論争</h3>
+        <p>この番組が、なんと全米を巻き込んだ大論争（モンティ・ホール問題）になります。</p>
+        <p>この「選択を変えるべきか、変えないべきか」という問題に対し、直感的に「残った2つの確率は五分五分（2分の1）のはずだ」と考えた多くの一般読者や高名な数学者たちから、<strong>1万通を超える批判の投書が殺到</strong>し、大論争に発展しました。</p>
+        <div class="highlight" style="border-left-color: #2ecc71; background-color: #e8f8f5;">
+            そこである女性が決定的な回答をだされるのです。
+        </div>
+        <div class="button-container">
+            <button class="btn btn-next" style="width: 100%;" onclick="goToScreen(3)">🧠 その女性の決定的な回答を見る ➔</button>
+        </div>
     </div>
 
-    <script>
-        // 中学校数学に挑戦（math.html）に戻るプログラム
-        function goToMathMenu() {
-            window.location.href = "../math.html";
+    <!-- 画面3: マリリン・ボス・サバントの登場 -->
+    <div id="screen3" class="screen">
+        <h3>天才女性マリリン・ボス・サバント</h3>
+        <p>モンティ・ホールの問題に正解した女性は、ギネスブックに「世界一高いIQを持つ人物」として認定されたコラムニストのマリリン・ボス・サバントです。</p>
+        <h3>概要</h3>
+        <ul>
+            <li><strong>氏名：</strong>マリリン・ボス・サバント（Marilyn vos Savant）</li>
+            <li><strong>出来事：</strong>1990年に雑誌『パレード』の自身のコラムにて、モンティ・ホール問題に対して「ドアを変えるべき（当たる確率が1/3から2/3に2倍になるため）」と回答しました。</li>
+            <li><strong>反響：</strong>直感に反する解答であったため、多くの数学者から「間違っている」と猛烈な批判を浴びましたが、後に彼女が数学的に正しいことが証明されました。</li>
+        </ul>
+        <div class="button-container">
+            <button class="btn btn-home" onclick="goToScreen(1)">🏠 最初に戻る</button>
+            <button class="btn btn-next" onclick="goToScreen(4)">📊 次の画面（確率の解説）➔</button>
+        </div>
+    </div>
+
+    <!-- 画面4: 最終的な確率の解説画面 -->
+    <div id="screen4" class="screen">
+        <h3>📊 確率の詳しい解説</h3>
+        <p>なぜドアを変えると確率が「1/3から2/3」に上がるのでしょうか？</p>
+        <div class="highlight" style="border-left-color: #3498db; background-color: #eaf2f8;">
+            💡 直感的な納得のポイント<br>
+            ・最初にアタリ（1/3）を選んでいた場合、変えるとハズレになります。<br>
+            ・最初にハズレ（2/3）を選んでいた場合、司会者がもう1つのハズレを消してくれるため、変えると【必ずアタリ】になります！<br>
+            つまり「最初にハズレを選んでいた確率」がそのまま「変えたら当たる確率」に化けるため、勝率は2倍になります。
+        </div>
+        <div class="button-container">
+            <button class="btn btn-next" style="width: 100%;" onclick="goToScreen(1)">🏠 ホーム（最初の画面）に戻る</button>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    // 最初の画面で2つの選択肢のどちらかを選んだときの処理
+    function showExperimentGuide(choice) {
+        const feedback = document.getElementById('userChoiceFeedback');
+        if (choice === 'change') {
+            feedback.innerText = 'あなたは「🔄 やはり変えよう」を選びましたね！';
+        } else {
+            feedback.innerText = 'あなたは「✊ 最初の勘（カン）を信じて変えない」を選びましたね！';
         }
-    </script>
+
+        // 選択肢ボタンを非表示にし、案内メッセージを表示
+        document.getElementById('firstChoiceButtons').style.display = 'none';
+        document.getElementById('experimentGuide').style.display = 'block';
+    }
+
+    // 画面切り替え処理
+    function goToScreen(screenNumber) {
+        const screens = document.querySelectorAll('.screen');
+        screens.forEach(screen => screen.classList.remove('active'));
+        
+        const targetScreen = document.getElementById('screen' + screenNumber);
+        if (targetScreen) {
+            targetScreen.classList.add('active');
+        }
+
+        // 「最初に戻る」でscreen1に戻ったときは選択肢を初期状態にリセット
+        if (screenNumber === 1) {
+            document.getElementById('firstChoiceButtons').style.display = 'flex';
+            document.getElementById('experimentGuide').style.display = 'none';
+        }
+    }
+
+    // ゲーム画面から戻ってきたときに指定の画面を開く処理
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const screenParam = urlParams.get('screen');
+        if (screenParam) {
+            goToScreen(parseInt(screenParam));
+        }
+    }
+</script>
 </body>
 </html>
